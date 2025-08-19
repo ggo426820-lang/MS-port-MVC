@@ -1,0 +1,44 @@
+﻿@model IEnumerable<MostafaSaidPortfolio.Models.Project>
+
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<h2 class="mb-4 text-center display-5">My Projects</h2>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var project in Model)
+    {
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 hover-shadow">
+                <img src="@project.ThumbnailUrl" class="card-img-top" alt="@project.Title" style="height:220px; object-fit:cover;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold">@project.Title</h5>
+                    <p class="card-text text-truncate">@project.Description</p>
+                    <div class="mt-auto">
+                        <span class="badge bg-info text-dark">@project.Category?.Name</span>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center bg-white border-top-0">
+                    <small class="text-muted"><i class="bi bi-eye"></i> @project.ViewCount • <i class="bi bi-heart"></i> @project.LikeCount</small>
+                    <a asp-action="Details" asp-route-id="@project.Id" class="btn btn-sm btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        transition: 0.3s;
+    }
+
+    .text-truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+    }
+</style>

@@ -1,0 +1,15 @@
+﻿@model MostafaSaidPortfolio.Models.BlogPost
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<section class="container mx-auto px-6 py-16">
+    <h1 class="text-4xl font-bold mb-4">@Model.Title</h1>
+    <p class="text-gray-500 mb-8">Published on @Model.CreatedAt.ToString("MMMM dd, yyyy")</p>
+    <div class="prose max-w-full">
+        @Html.Raw(Model.Content)
+    </div>
+    <div class="mt-8">
+        <a asp-action="Index" class="text-indigo-600 font-semibold hover:underline">← Back to Blog</a>
+    </div>
+</section>

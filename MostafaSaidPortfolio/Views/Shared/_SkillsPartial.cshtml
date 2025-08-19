@@ -1,0 +1,13 @@
+@model IEnumerable<string>
+
+<section class="py-10">
+    <h2 class="text-2xl font-bold mb-6">Skills</h2>
+    <div class="flex flex-wrap gap-3">
+        @foreach (var skill in Model ?? new List<string>())
+        {
+            <span class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium">
+                @skill
+            </span>
+        }
+    </div>
+</section>

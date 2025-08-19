@@ -1,0 +1,10 @@
+<section class="py-10 text-center bg-indigo-600 text-white rounded-xl">
+    <h2 class="text-2xl font-bold mb-4">Subscribe to Newsletter</h2>
+    <form method="post" asp-controller="Newsletter" asp-action="Subscribe" class="flex flex-col md:flex-row justify-center gap-3 max-w-md mx-auto">
+        <input type="email" name="email" placeholder="Enter your email"
+               class="px-4 py-2 rounded-lg text-gray-800 w-full" required />
+        <button type="submit" class="px-6 py-2 bg-white text-indigo-600 rounded-lg font-semibold hover:bg-gray-100">
+            Subscribe
+        </button>
+    </form>
+</section>

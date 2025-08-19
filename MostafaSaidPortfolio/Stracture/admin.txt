@@ -1,0 +1,150 @@
+Areas/
+└── Admin/
+    ├── Controllers/
+    │   ├── DashboardController.cs
+    │   ├── AnalyticsController.cs
+    │   ├── SkillsController.cs
+    │   ├── MediaLibraryController.cs
+    │   ├── RolesController.cs
+    │   ├── PermissionsController.cs
+    │   ├── LocalizationController.cs
+    │   ├── NotificationsController.cs
+    │   ├── BackupController.cs
+    │   ├── SecurityController.cs
+    │   ├── SystemSettingsController.cs
+    │   ├── TemplatesController.cs
+    │   ├── IntegrationsController.cs
+    │   ├── ReportsController.cs
+    │   └── AuditController.cs
+    │
+    ├── Views/
+    │   ├── AdminDashboard/
+    │   │   ├── Index.cshtml
+    │   │   ├── SystemStatus.cshtml
+    │   │   └── QuickActions.cshtml
+    │   │
+    │   ├── Analytics/
+    │   │   ├── Index.cshtml
+    │   │   ├── RealTime.cshtml
+    │   │   ├── Reports.cshtml
+    │   │   └── Export.cshtml
+    │   │
+    │   ├── Skills/
+    │   │   ├── Index.cshtml
+    │   │   ├── Create.cshtml
+    │   │   ├── Edit.cshtml
+    │   │   ├── Delete.cshtml
+    │   │   └── Categories.cshtml
+    │   │
+    │   ├── MediaLibrary/
+    │   │   ├── Index.cshtml
+    │   │   ├── Upload.cshtml
+    │   │   ├── Details.cshtml
+    │   │   ├── Gallery.cshtml
+    │   │   └── Storage.cshtml
+    │   │
+    │   ├── Roles/
+    │   │   ├── Index.cshtml
+    │   │   ├── Create.cshtml
+    │   │   └── Edit.cshtml
+    │   │
+    │   ├── Permissions/
+    │   │   ├── Index.cshtml
+    │   │   ├── Assign.cshtml
+    │   │   └── Edit.cshtml
+    │   │
+    │   ├── Localization/
+    │   │   ├── Index.cshtml
+    │   │   ├── Edit.cshtml
+    │   │   └── AddLanguage.cshtml
+    │   │
+    │   ├── Notifications/
+    │   │   ├── Index.cshtml
+    │   │   ├── Create.cshtml
+    │   │   ├── Templates.cshtml
+    │   │   └── History.cshtml
+    │   │
+    │   ├── Backup/
+    │   │   ├── Index.cshtml
+    │   │   ├── Create.cshtml
+    │   │   ├── Restore.cshtml
+    │   │   └── Schedule.cshtml
+    │   │
+    │   ├── Security/
+    │   │   ├── Index.cshtml
+    │   │   ├── TwoFactor.cshtml
+    │   │   ├── IpWhitelist.cshtml
+    │   │   └── LoginAttempts.cshtml
+    │   │
+    │   ├── SystemSettings/
+    │   │   ├── Index.cshtml
+    │   │   ├── Email.cshtml
+    │   │   ├── Cache.cshtml
+    │   │   └── Performance.cshtml
+    │   │
+    │   ├── Templates/
+    │   │   ├── Index.cshtml
+    │   │   ├── Email.cshtml
+    │   │   ├── Pdf.cshtml
+    │   │   └── Notifications.cshtml
+    │   │
+    │   ├── Integrations/
+    │   │   ├── Index.cshtml
+    │   │   ├── Social.cshtml
+    │   │   ├── Analytics.cshtml
+    │   │   └── Webhooks.cshtml
+    │   │
+    │   ├── Reports/
+    │   │   ├── Index.cshtml
+    │   │   ├── Custom.cshtml
+    │   │   ├── Scheduled.cshtml
+    │   │   └── Export.cshtml
+    │   │
+    │   ├── Audit/
+    │   │   ├── Index.cshtml
+    │   │   ├── Details.cshtml
+    │   │   └── Search.cshtml
+    │   │
+    │   └── Shared/
+    │       ├── _AdminLayout.cshtml
+    │       ├── _AdminNavbar.cshtml
+    │       ├── _AdminSidebar.cshtml
+    │       └── _AdminFooter.cshtml
+    │
+    ├── Components/
+    │   ├── ViewComponents/
+    │   │   ├── AdminMenuViewComponent.cs
+    │   │   ├── AdminStatsViewComponent.cs
+    │   │   ├── NotificationsWidgetViewComponent.cs
+    │   │   └── SystemStatusViewComponent.cs
+    │   │
+    │   └── TagHelpers/
+    │       ├── AdminCardTagHelper.cs
+    │       ├── AdminTableTagHelper.cs
+    │       └── AdminBadgeTagHelper.cs
+    │
+    ├── Models/
+    │   ├── AdminUser.cs
+    │   ├── Role.cs
+    │   ├── Permission.cs
+    │   ├── AuditLog.cs
+    │   ├── Notification.cs
+    │   ├── BackupJob.cs
+    │   └── SystemSetting.cs
+    │
+    └── Services/
+        ├── Interfaces/
+        │   ├── IRoleService.cs
+        │   ├── IPermissionService.cs
+        │   ├── IBackupService.cs
+        │   ├── IAuditService.cs
+        │   ├── ISystemSettingsService.cs
+        │   └── INotificationService.cs
+        │
+        └── Implementations/
+            ├── RoleService.cs
+            ├── PermissionService.cs
+            ├── BackupService.cs
+            ├── AuditService.cs
+            ├── SystemSettingsService.cs
+            └── NotificationService.cs

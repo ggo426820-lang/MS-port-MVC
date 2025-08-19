@@ -1,0 +1,14 @@
+@model IEnumerable<(string Author, string Text)>
+
+<section class="py-10 bg-gray-50 rounded-xl">
+    <h2 class="text-2xl font-bold mb-6">Testimonials</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+        @foreach (var testimonial in Model ?? new List<(string, string)>())
+        {
+            <div class="p-6 border rounded-lg shadow-sm bg-white">
+                <p class="text-gray-700 italic">"@testimonial.Text"</p>
+                <p class="mt-4 text-sm font-semibold text-indigo-600">- @testimonial.Author</p>
+            </div>
+        }
+    </div>
+</section>

@@ -1,0 +1,15 @@
+@model (int CurrentPage, int TotalPages, string BaseUrl)
+
+<nav class="flex justify-center mt-6">
+    <ul class="flex space-x-2">
+        @for (var i = 1; i <= Model.TotalPages; i++)
+        {
+            <li>
+                <a href="@($"{Model.BaseUrl}?page={i}")"
+                   class="px-3 py-1 border rounded @((i == Model.CurrentPage) ? "bg-indigo-600 text-white" : "bg-white text-gray-700 hover:bg-gray-100")">
+                    @i
+                </a>
+            </li>
+        }
+    </ul>
+</nav>

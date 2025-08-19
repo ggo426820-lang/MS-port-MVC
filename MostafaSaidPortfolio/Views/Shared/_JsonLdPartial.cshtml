@@ -1,0 +1,23 @@
+@{
+    // Example JSON-LD for SEO (Portfolio schema)
+    var jsonLd = @"
+    {
+        ""@context"": ""https://schema.org"",
+        ""@type"": ""Person"",
+        ""name"": ""Mostafa Said"",
+        ""url"": ""https://yourdomain.com"",
+        ""sameAs"": [
+            ""https://twitter.com/yourprofile"",
+            ""https://github.com/yourprofile"",
+            ""https://linkedin.com/in/yourprofile""
+        ],
+        ""jobTitle"": ""Software Engineer"",
+        ""worksFor"": {
+            ""@type"": ""Organization"",
+            ""name"": ""Freelancer""
+        }
+    }";
+}
+<script type="application/ld+json">
+    @Html.Raw(jsonLd)
+</script>

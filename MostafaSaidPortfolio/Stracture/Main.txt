@@ -1,0 +1,178 @@
+MyPortfolioApp/
+│
+├── Controllers/
+│   ├── HomeController.cs
+│   ├── ProjectsController.cs
+│   ├── BlogController.cs
+│   ├── ContactController.cs
+│   ├── AccountController.cs
+│   ├── EventsController.cs
+│   ├── NewsletterController.cs
+│   ├── DownloadsController.cs
+│   ├── SearchController.cs
+│   └── TestimonialsController.cs
+│
+│   └── Api/
+│       ├── BlogApiController.cs
+│       ├── ProjectsApiController.cs
+│       ├── NewsletterApiController.cs
+│       └── AccountApiController.cs
+│
+├── Views/
+│   ├── Home/
+│   │   ├── Index.cshtml
+│   │   ├── About.cshtml
+│   │   ├── Services.cshtml
+│   │   ├── Portfolio.cshtml
+│   │   ├── Resume.cshtml
+│   │   └── Privacy.cshtml
+│   │
+│   ├── Projects/
+│   │   ├── Index.cshtml
+│   │   ├── Details.cshtml
+│   │   ├── Category.cshtml
+│   │   ├── Search.cshtml
+│   │   └── Archive.cshtml
+│   │
+│   ├── Blog/
+│   │   ├── Index.cshtml
+│   │   ├── Details.cshtml
+│   │   ├── Category.cshtml
+│   │   ├── Archive.cshtml
+│   │   ├── Search.cshtml
+│   │   └── Tags.cshtml
+│   │
+│   ├── Contact/
+│   │   ├── Index.cshtml
+│   │   ├── Success.cshtml
+│   │   └── Error.cshtml
+│   │
+│   ├── Account/
+│   │   ├── Login.cshtml
+│   │   ├── Register.cshtml
+│   │   ├── Profile.cshtml
+│   │   ├── Settings.cshtml
+│   │   ├── ForgotPassword.cshtml
+│   │   ├── ResetPassword.cshtml
+│   │   └── TwoFactor.cshtml
+│   │
+│   ├── Testimonials/
+│   │   ├── Index.cshtml
+│   │   └── Submit.cshtml
+│   │
+│   ├── Events/
+│   │   ├── Index.cshtml
+│   │   ├── Details.cshtml
+│   │   └── Register.cshtml
+│   │
+│   ├── Newsletter/
+│   │   ├── Subscribe.cshtml
+│   │   ├── Unsubscribe.cshtml
+│   │   └── Preferences.cshtml
+│   │
+│   ├── Downloads/
+│   │   ├── Index.cshtml
+│   │   └── Category.cshtml
+│   │
+│   ├── Search/
+│   │   ├── Index.cshtml
+│   │   └── Results.cshtml
+│   │
+│   ├── Error/
+│   │   ├── 404.cshtml
+│   │   ├── 500.cshtml
+│   │   └── Maintenance.cshtml
+│   │
+│   └── Shared/
+│       ├── _Layout.cshtml
+│       ├── _Navbar.cshtml
+│       ├── _Footer.cshtml
+│       │
+│       └── Partials/
+│           ├── _SkillsPartial.cshtml
+│           ├── _TestimonialsPartial.cshtml
+│           ├── _SubscribePartial.cshtml
+│           ├── _LocalizationPartial.cshtml
+│           ├── _BreadcrumbPartial.cshtml
+│           ├── _PaginationPartial.cshtml
+│           ├── _SocialLinksPartial.cshtml
+│           ├── _ContactInfoPartial.cshtml
+│           ├── _SearchPartial.cshtml
+│           ├── _LoadingPartial.cshtml
+│           ├── _ErrorPartial.cshtml
+│           ├── _CookieConsentPartial.cshtml
+│           └── _JsonLdPartial.cshtml
+│
+├── Components/
+│   ├── ViewComponents/
+│   │   ├── RecentProjectsViewComponent.cs
+│   │   ├── BlogCategoriesViewComponent.cs
+│   │   ├── LocalizationSelectorViewComponent.cs
+│   │   ├── NavigationViewComponent.cs
+│   │   ├── FooterViewComponent.cs
+│   │   ├── SidebarViewComponent.cs
+│   │   ├── SearchViewComponent.cs
+│   │   ├── TestimonialsViewComponent.cs
+│   │   ├── SkillsViewComponent.cs
+│   │   ├── RecentBlogPostsViewComponent.cs
+│   │   ├── PopularProjectsViewComponent.cs
+│   │   ├── SocialLinksViewComponent.cs
+│   │   ├── NewsletterViewComponent.cs
+│   │   ├── WeatherViewComponent.cs
+│   │   ├── QuickStatsViewComponent.cs
+│   │   └── RelatedContentViewComponent.cs
+│   │
+│   ├── TagHelpers/
+│   │   ├── ImageTagHelper.cs
+│   │   ├── CacheTagHelper.cs
+│   │   ├── MarkdownTagHelper.cs
+│   │   ├── PaginationTagHelper.cs
+│   │   ├── BreadcrumbTagHelper.cs
+│   │   ├── ModalTagHelper.cs
+│   │   ├── TooltipTagHelper.cs
+│   │   └── IconTagHelper.cs
+│   │
+│   └── Razor/
+│       ├── BasePageModel.cs
+│       ├── BaseViewComponent.cs
+│       └── ComponentHelper.cs
+│
+├── Services/
+│   ├── Interfaces/
+│   │   ├── IProjectService.cs
+│   │   ├── IBlogService.cs
+│   │   ├── IEmailService.cs
+│   │   ├── IAccountService.cs
+│   │   ├── ILocalizationService.cs
+│   │   ├── INewsletterService.cs
+│   │   ├── IEventsService.cs
+│   │   └── ITestimonialService.cs
+│   │
+│   └── Implementations/
+│       ├── ProjectService.cs
+│       ├── BlogService.cs
+│       ├── EmailService.cs
+│       ├── AccountService.cs
+│       ├── LocalizationService.cs
+│       ├── NewsletterService.cs
+│       ├── EventsService.cs
+│       └── TestimonialService.cs
+Extensions/
+│   ├── ServiceCollectionExtensions.cs
+│   ├── DbContextExtensions.cs
+│   ├── IdentityExtensions.cs
+│   ├── EmailExtensions.cs
+│   ├── LocalizationExtensions.cs
+│   ├── NewsletterExtensions.cs
+│   └── EventsExtensions.cs
+│
+└── Models/
+    ├── Project.cs
+    ├── BlogPost.cs
+    ├── Category.cs
+    ├── Tag.cs
+    ├── Account.cs
+    ├── Event.cs
+    ├── NewsletterSubscriber.cs
+    ├── Testimonial.cs
+    └── ContactMessage.cs

@@ -1,0 +1,24 @@
+﻿@model MostafaSaidPortfolio.Models.Project
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="container mt-4">
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <img src="@Model.ImageUrl" class="img-fluid rounded shadow" alt="@Model.Title" />
+        </div>
+        <div class="col-lg-6">
+            <h2 class="fw-bold">@Model.Title</h2>
+            <span class="badge bg-primary mb-2">@Model.Category?.Name</span>
+            <p class="lead">@Model.LongDescription</p>
+            <p><strong>Technology Stack:</strong> <span class="text-muted">@Model.TechnologyStack</span></p>
+            <div class="mb-3">
+                <a href="@Model.GitHubUrl" class="btn btn-dark me-2" target="_blank"><i class="bi bi-github"></i> GitHub</a>
+                <a href="@Model.LiveUrl" class="btn btn-success" target="_blank"><i class="bi bi-box-arrow-up-right"></i> Live Demo</a>
+            </div>
+            <p class="text-muted"><i class="bi bi-eye"></i> @Model.ViewCount views • <i class="bi bi-heart"></i> @Model.LikeCount likes</p>
+        </div>
+    </div>
+</div>

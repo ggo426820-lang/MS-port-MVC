@@ -1,0 +1,20 @@
+@model IEnumerable<(string Label, string Url)>
+
+<nav class="text-sm text-gray-600 mb-4">
+    <ol class="flex space-x-2">
+        @foreach (var (label, url) in Model ?? new List<(string, string)>())
+        {
+            <li>
+                @if (!string.IsNullOrEmpty(url))
+                {
+                    <a href="@url" class="text-indigo-600 hover:underline">@label</a>
+                }
+                else
+                {
+                    <span>@label</span>
+                }
+                <span class="mx-2">/</span>
+            </li>
+        }
+    </ol>
+</nav>

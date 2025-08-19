@@ -1,0 +1,23 @@
+﻿@model IEnumerable<MostafaSaidPortfolio.Models.Project>
+
+@{
+    ViewData["Title"] = "Projects by Category";
+}
+
+<h2 class="mb-4 text-center display-6">Projects in this Category</h2>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var project in Model)
+    {
+        <div class="col">
+            <div class="card h-100 shadow-sm hover-shadow">
+                <img src="@project.ThumbnailUrl" class="card-img-top" style="height:180px; object-fit:cover;">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">@project.Title</h5>
+                    <p class="text-truncate">@project.Description</p>
+                    <a asp-action="Details" asp-route-id="@project.Id" class="btn btn-sm btn-primary mt-2">View</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
