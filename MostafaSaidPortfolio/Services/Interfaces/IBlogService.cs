@@ -9,8 +9,10 @@ namespace MostafaSaidPortfolio.Services.Interfaces
         Task<IEnumerable<BlogPost>> GetRecentAsync(int count = 5);
         Task<BlogPost?> GetByIdAsync(Guid id);
         Task<BlogPost?> GetBySlugAsync(string slug);
-        Task<IEnumerable<BlogPost>> GetByCategoryAsync(int categoryId);
+        Task<IEnumerable<BlogPost>> GetByCategoryAsync(Guid categoryId);
         Task<IEnumerable<BlogPost>> SearchAsync(string query);
+        Task<(IEnumerable<BlogPost> Items, int TotalCount)> GetPagedAsync(
+            string? search, Guid? categoryId, string sort, int page, int pageSize);
         Task IncrementViewCountAsync(Guid id);
 
         Task<BlogPost> AddAsync(BlogPost entity);

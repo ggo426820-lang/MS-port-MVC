@@ -67,7 +67,7 @@
                             <p class="text-sm text-slate-200 font-medium truncate">@post.Title</p>
                             <p class="text-xs text-slate-500">@post.CreatedAt.ToString("MMM d, yyyy") · @post.ViewCount views</p>
                         </div>
-                        <span class="badge @(post.Status == MostafaSaidPortfolio.Domain.Enums.PostStatus.Published ? "badge-green" : "badge-yellow") flex-shrink-0">
+                        <span class="badge @(post.Status == MostafaSaidPortfolio.Domain.Enums.BlogPostStatus.Published ? "badge-green" : "badge-yellow") flex-shrink-0">
                             @post.Status
                         </span>
                     </div>

@@ -23,7 +23,7 @@ namespace MostafaSaidPortfolio.Areas.Admin.Controllers
             return View("~/Areas/Admin/Views/Security/Index.cshtml");
         }
 
-        public async Task<IActionResult> LoginAttempts()
+        public IActionResult LoginAttempts()
         {
             ViewData["Title"]      = "Login Attempts";
             ViewData["Breadcrumb"] = "Admin / Security / Login Attempts";

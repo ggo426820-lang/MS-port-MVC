@@ -75,18 +75,63 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
                 new { slug }, _transaction);
         }
 
-        public async Task<IEnumerable<BlogPost>> GetByCategoryAsync(int categoryId)
+        public async Task<IEnumerable<BlogPost>> GetByCategoryAsync(Guid categoryId)
         {
             return await _connection.QueryAsync<BlogPost>(
                 $"SELECT {Columns} {Joins} WHERE b.\"CategoryId\" = @categoryId AND b.\"Status\" = 1 AND b.\"IsDeleted\" = FALSE ORDER BY b.\"CreatedAt\" DESC",
                 new { categoryId }, _transaction);
         }
 
-        public async Task<IEnumerable<BlogPost>> SearchAsync(string query, int limit = 50)
+        public async Task<IEnumerable<BlogPost>> SearchAsync(string query)
         {
             return await _connection.QueryAsync<BlogPost>(
-                $"SELECT {Columns} {Joins} WHERE b.\"Status\" = 1 AND b.\"IsDeleted\" = FALSE AND (b.\"Title\" ILIKE @q OR b.\"Summary\" ILIKE @q OR b.\"Content\" ILIKE @q) ORDER BY b.\"CreatedAt\" DESC LIMIT @limit",
-                new { q = $"%{query}%", limit }, _transaction);
+                $"SELECT {Columns} {Joins} WHERE b.\"Status\" = 1 AND b.\"IsDeleted\" = FALSE AND (b.\"Title\" ILIKE @q OR b.\"Summary\" ILIKE @q OR b.\"Content\" ILIKE @q) ORDER BY b.\"CreatedAt\" DESC",
+                new { q = $"%{query}%" }, _transaction);
+        }
+
+        public async Task<(IEnumerable<BlogPost> Items, int TotalCount)> GetPagedAsync(
+            string? search, Guid? categoryId, string sort, int page, int pageSize)
+        {
+            var conditions = new List<string>
+            {
+                "b.\"IsDeleted\" = FALSE",
+                "b.\"Status\" = 1"
+            };
+
+            if (!string.IsNullOrWhiteSpace(search))
+                conditions.Add("(b.\"Title\" ILIKE @search OR b.\"Summary\" ILIKE @search OR b.\"Content\" ILIKE @search)");
+
+            if (categoryId.HasValue)
+                conditions.Add("b.\"CategoryId\" = @categoryId");
+
+            var where = "WHERE " + string.Join(" AND ", conditions);
+
+            var sortClause = sort switch
+            {
+                "oldest"  => "b.\"CreatedAt\" ASC",
+                "popular" => "b.\"ViewCount\" DESC, b.\"CreatedAt\" DESC",
+                "title"   => "b.\"Title\" ASC",
+                _         => "b.\"CreatedAt\" DESC"
+            };
+
+            var searchParam = string.IsNullOrWhiteSpace(search) ? null : $"%{search}%";
+            var parameters = new
+            {
+                search   = searchParam,
+                categoryId,
+                pageSize,
+                offset   = (page - 1) * pageSize
+            };
+
+            var totalCount = await _connection.ExecuteScalarAsync<int>(
+                $"SELECT COUNT(*) FROM \"BlogPosts\" b {where}",
+                parameters, _transaction);
+
+            var items = await _connection.QueryAsync<BlogPost>(
+                $"SELECT {Columns} {Joins} {where} ORDER BY {sortClause} LIMIT @pageSize OFFSET @offset",
+                parameters, _transaction);
+
+            return (items, totalCount);
         }
 
         public async Task<bool> IncrementViewCountAsync(Guid id)

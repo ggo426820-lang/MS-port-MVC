@@ -1,0 +1,91 @@
+@model MostafaSaidPortfolio.Domain.Entities.BlogPost
+@using MostafaSaidPortfolio.Domain.Enums
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Edit Post";
+    var categories = ViewData["Categories"] as IEnumerable<MostafaSaidPortfolio.Domain.Entities.Category>
+                     ?? Enumerable.Empty<MostafaSaidPortfolio.Domain.Entities.Category>();
+}
+
+<div class="flex items-center justify-between mb-6">
+    <h2 class="text-xl font-bold text-white">Edit Post</h2>
+    <div class="flex gap-2">
+        <a href="/Blog/@Model.Slug" target="_blank" class="btn-ghost text-xs">View →</a>
+        <a href="/Admin/Blog" class="btn-ghost">← Back</a>
+    </div>
+</div>
+
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post" class="space-y-6">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id"/>
+
+    <div class="stat-card space-y-4">
+        <div>
+            <label class="form-label">Title *</label>
+            <input asp-for="Title" class="form-input" required/>
+            <span asp-validation-for="Title" class="text-red-400 text-xs mt-1 block"></span>
+        </div>
+        <div>
+            <label class="form-label">Slug</label>
+            <input asp-for="Slug" class="form-input font-mono text-sm"/>
+        </div>
+        <div>
+            <label class="form-label">Summary *</label>
+            <textarea asp-for="Summary" class="form-input" rows="2" required></textarea>
+        </div>
+        <div>
+            <label class="form-label">Content</label>
+            <textarea asp-for="Content" class="form-input" rows="12"></textarea>
+        </div>
+    </div>
+
+    <div class="stat-card space-y-4">
+        <h3 class="font-semibold text-white">Metadata</h3>
+        <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+                <label class="form-label">Category</label>
+                <select asp-for="CategoryId" class="form-input">
+                    <option value="">— None —</option>
+                    @foreach (var cat in categories)
+                    {
+                        <option value="@cat.Id" selected="@(Model.CategoryId == cat.Id ? "selected" : null)">@cat.Name</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <label class="form-label">Status</label>
+                <select asp-for="Status" class="form-input">
+                    <option value="0" selected="@(Model.Status == BlogPostStatus.Draft ? "selected" : null)">Draft</option>
+                    <option value="1" selected="@(Model.Status == BlogPostStatus.Published ? "selected" : null)">Published</option>
+                    <option value="2" selected="@(Model.Status == BlogPostStatus.Archived ? "selected" : null)">Archived</option>
+                </select>
+            </div>
+            <div>
+                <label class="form-label">Reading Time (minutes)</label>
+                <input asp-for="ReadingTime" type="number" min="1" class="form-input"/>
+            </div>
+            <div>
+                <label class="form-label">Featured Image URL</label>
+                <input asp-for="FeaturedImageUrl" class="form-input"/>
+            </div>
+            <div>
+                <label class="form-label">Meta Title</label>
+                <input asp-for="MetaTitle" class="form-input"/>
+            </div>
+            <div>
+                <label class="form-label">Meta Description</label>
+                <input asp-for="MetaDescription" class="form-input"/>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <input asp-for="IsFeatured" type="checkbox" id="IsFeatured" class="rounded" @(Model.IsFeatured ? "checked" : "")/>
+            <label for="IsFeatured" class="text-sm text-slate-300">Featured post</label>
+        </div>
+    </div>
+
+    <div class="flex gap-3">
+        <button type="submit" class="btn-primary">Save Changes</button>
+        <a href="/Admin/Blog/Delete/@Model.Id" class="btn-danger">Delete</a>
+        <a href="/Admin/Blog" class="btn-ghost">Cancel</a>
+    </div>
+</form>

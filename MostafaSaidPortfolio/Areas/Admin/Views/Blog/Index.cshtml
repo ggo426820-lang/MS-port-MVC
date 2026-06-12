@@ -1,0 +1,76 @@
+@model IEnumerable<MostafaSaidPortfolio.Domain.Entities.BlogPost>
+@using MostafaSaidPortfolio.Domain.Enums
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Blog Posts";
+}
+
+<div class="flex items-center justify-between mb-6">
+    <div>
+        <h2 class="text-xl font-bold text-white">Blog Posts</h2>
+        <p class="text-slate-400 text-sm mt-1">@Model.Count() posts total</p>
+    </div>
+    <a href="/Admin/Blog/Create" class="btn-primary">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+        New Post
+    </a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert-success mb-4">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert-error mb-4">@TempData["Error"]</div>
+}
+
+@if (!Model.Any())
+{
+    <div class="stat-card text-center py-16">
+        <p class="text-slate-400 text-sm">No blog posts yet. <a href="/Admin/Blog/Create" class="text-indigo-400 hover:underline">Write your first post</a>.</p>
+    </div>
+}
+else
+{
+    <div class="stat-card overflow-hidden">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Views</th>
+                    <th>Date</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var post in Model.OrderByDescending(p => p.CreatedAt))
+                {
+                    <tr>
+                        <td>
+                            <div class="font-medium text-slate-200 truncate max-w-xs">@post.Title</div>
+                            <div class="text-xs text-slate-500 mt-0.5 font-mono truncate">/@post.Slug</div>
+                        </td>
+                        <td class="text-slate-400">@(post.CategoryName ?? post.Category?.Name ?? "—")</td>
+                        <td>
+                            <span class="badge @(post.Status == BlogPostStatus.Published ? "badge-green" : post.Status == BlogPostStatus.Draft ? "badge-yellow" : "badge-red")">
+                                @post.Status
+                            </span>
+                        </td>
+                        <td class="text-slate-400">@post.ViewCount</td>
+                        <td class="text-slate-400 text-sm">@post.CreatedAt.ToString("MMM d, yyyy")</td>
+                        <td class="text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <a href="/Blog/@post.Slug" target="_blank" class="btn-ghost py-1.5 px-3 text-xs">View</a>
+                                <a href="/Admin/Blog/Edit/@post.Id" class="btn-ghost py-1.5 px-3 text-xs">Edit</a>
+                                <a href="/Admin/Blog/Delete/@post.Id" class="btn-danger py-1.5 px-3 text-xs">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

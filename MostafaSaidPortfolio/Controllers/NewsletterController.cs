@@ -18,8 +18,14 @@ namespace MostafaSaidPortfolio.Controllers
                 await _newsletterService.SubscribeAsync(email.Trim());
 
             TempData["SubscribeSuccess"] = "Thank you for subscribing!";
+            // Only redirect to local paths — never follow external Referer URLs
             string referer = Request.Headers["Referer"].ToString();
-            return Redirect(string.IsNullOrEmpty(referer) ? "/" : referer);
+            if (!string.IsNullOrEmpty(referer) && Uri.TryCreate(referer, UriKind.Absolute, out var refUri)
+                && string.Equals(refUri.Authority, Request.Host.Value, StringComparison.OrdinalIgnoreCase))
+            {
+                return Redirect(refUri.PathAndQuery);
+            }
+            return Redirect("/");
         }
     }
 }

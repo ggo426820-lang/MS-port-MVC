@@ -8,9 +8,11 @@ namespace MostafaSaidPortfolio.Data.Repositories.Interfaces
         Task<IEnumerable<BlogPost>> GetFeaturedAsync(int count = 3);
         Task<IEnumerable<BlogPost>> GetRecentAsync(int count = 5);
         Task<BlogPost?> GetBySlugAsync(string slug);
-        Task<IEnumerable<BlogPost>> GetByCategoryAsync(int categoryId);
+        Task<IEnumerable<BlogPost>> GetByCategoryAsync(Guid categoryId);
         Task<IEnumerable<BlogPost>> SearchAsync(string query);
         Task<bool> IncrementViewCountAsync(Guid id);
         Task<int> CountPublishedAsync();
+        Task<(IEnumerable<BlogPost> Items, int TotalCount)> GetPagedAsync(
+            string? search, Guid? categoryId, string sort, int page, int pageSize);
     }
 }

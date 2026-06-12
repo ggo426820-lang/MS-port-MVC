@@ -1,0 +1,78 @@
+@model IEnumerable<MostafaSaidPortfolio.Domain.Entities.NewsletterSubscriber>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Newsletter Subscribers";
+    var activeCount = (int)(ViewData["ActiveCount"] ?? 0);
+}
+
+<div class="flex items-center justify-between mb-6">
+    <div>
+        <h2 class="text-xl font-bold text-white">Newsletter Subscribers</h2>
+        <p class="text-slate-400 text-sm mt-1">@Model.Count() total — <span class="text-emerald-400">@activeCount active</span></p>
+    </div>
+</div>
+
+@if (TempData["Success"] != null) { <div class="alert-success mb-4">@TempData["Success"]</div> }
+@if (TempData["Error"]   != null) { <div class="alert-error mb-4">@TempData["Error"]</div>   }
+
+@if (!Model.Any())
+{
+    <div class="stat-card text-center py-16">
+        <p class="text-slate-500 text-sm">No subscribers yet.</p>
+    </div>
+}
+else
+{
+    <div class="stat-card overflow-hidden">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Confirmed</th>
+                    <th>Joined</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var sub in Model.OrderByDescending(s => s.CreatedAt))
+                {
+                    <tr>
+                        <td class="font-mono text-sm text-slate-300">@sub.Email</td>
+                        <td class="text-slate-400">@(sub.Name ?? "—")</td>
+                        <td>
+                            <span class="badge @(sub.IsActive ? "badge-green" : "badge-red")">
+                                @(sub.IsActive ? "Active" : "Unsubscribed")
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge @(sub.IsConfirmed ? "badge-green" : "badge-yellow")">
+                                @(sub.IsConfirmed ? "Confirmed" : "Pending")
+                            </span>
+                        </td>
+                        <td class="text-slate-400 text-sm">@sub.CreatedAt.ToString("MMM d, yyyy")</td>
+                        <td class="text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                @if (sub.IsActive)
+                                {
+                                    <form asp-action="Unsubscribe" method="post" class="inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="email" value="@sub.Email"/>
+                                        <button type="submit" class="btn-ghost py-1.5 px-3 text-xs">Unsub</button>
+                                    </form>
+                                }
+                                <form asp-action="Delete" method="post" class="inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@sub.Id"/>
+                                    <button type="submit" class="btn-danger py-1.5 px-3 text-xs"
+                                            onclick="return confirm('Delete this subscriber?')">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

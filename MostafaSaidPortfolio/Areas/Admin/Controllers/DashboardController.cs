@@ -37,7 +37,7 @@ namespace MostafaSaidPortfolio.Areas.Admin.Controllers
             ViewData["SkillCount"]       = skillCount;
 
             var recentPosts    = await _uow.Blogs.GetRecentAsync(5);
-            var recentMessages = (await _uow.ContactMessages.GetAllAsync()).Take(5);
+            var recentMessages = await _uow.ContactMessages.GetRecentAsync(5);
 
             ViewData["RecentPosts"]    = recentPosts;
             ViewData["RecentMessages"] = recentMessages;

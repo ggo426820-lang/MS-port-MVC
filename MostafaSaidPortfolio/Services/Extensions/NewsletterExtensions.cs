@@ -1,12 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
 namespace MostafaSaidPortfolio.Extensions
 {
     public static class NewsletterExtensions
     {
         public static IServiceCollection AddCustomNewsletter(this IServiceCollection services)
         {
-            // TODO: Configure your newsletter services here
+            // Configure newsletter background jobs, queue providers, or MailChimp / SendGrid
+            // integration settings here.
+            // Example:
+            //   services.AddHostedService<NewsletterDispatchService>();
             return services;
         }
     }

@@ -12,7 +12,7 @@ namespace MostafaSaidPortfolio.Areas.Admin.Controllers
             ViewData["Title"]      = "Backup & Restore";
             ViewData["Breadcrumb"] = "Admin / Backup";
             ViewData["LastBackup"] = "Not configured";
-            return View("~/Areas/Admin/Views/AuditMediaLibrary/Index.cshtml");
+            return View("~/Areas/Admin/Views/Backup/Index.cshtml");
         }
     }
 }

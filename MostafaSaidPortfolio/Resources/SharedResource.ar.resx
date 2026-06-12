@@ -51,22 +51,32 @@
   <data name="Home_NoArticles"        xml:space="preserve"><value>لا توجد مقالات بعد. قريباً!</value></data>
 
   <!-- Blog page -->
-  <data name="Blog_Label"       xml:space="preserve"><value>كتابة وأفكار</value></data>
-  <data name="Blog_Title"       xml:space="preserve"><value>المدونة</value></data>
-  <data name="Blog_Description" xml:space="preserve"><value>مقالات حول .NET وقواعد البيانات وتطوير الويب وأفضل ممارسات هندسة البرمجيات.</value></data>
-  <data name="Blog_MinRead"     xml:space="preserve"><value>دقيقة للقراءة</value></data>
-  <data name="Blog_Empty"       xml:space="preserve"><value>لا توجد مقالات بعد</value></data>
-  <data name="Blog_EmptySub"    xml:space="preserve"><value>تابعنا — المقالات قادمة قريباً!</value></data>
+  <data name="Blog_Label"            xml:space="preserve"><value>كتابة وأفكار</value></data>
+  <data name="Blog_Title"            xml:space="preserve"><value>المدونة</value></data>
+  <data name="Blog_Description"      xml:space="preserve"><value>مقالات حول .NET وقواعد البيانات وتطوير الويب وأفضل ممارسات هندسة البرمجيات.</value></data>
+  <data name="Blog_MinRead"          xml:space="preserve"><value>دقيقة للقراءة</value></data>
+  <data name="Blog_Empty"            xml:space="preserve"><value>لا توجد مقالات بعد</value></data>
+  <data name="Blog_EmptySub"         xml:space="preserve"><value>تابعنا — المقالات قادمة قريباً!</value></data>
+  <data name="Blog_SearchPlaceholder" xml:space="preserve"><value>ابحث في المقالات...</value></data>
+  <data name="Blog_Posts"            xml:space="preserve"><value>مقالة</value></data>
+  <data name="Blog_NoPosts"          xml:space="preserve"><value>لا توجد مقالات</value></data>
+  <data name="Blog_NoResults"        xml:space="preserve"><value>لا توجد نتائج</value></data>
+  <data name="Blog_NoResultsSub"     xml:space="preserve"><value>جرّب كلمة بحث مختلفة أو امسح الفلاتر.</value></data>
 
   <!-- Projects page -->
-  <data name="Projects_Label"       xml:space="preserve"><value>محفظة الأعمال</value></data>
-  <data name="Projects_Title"       xml:space="preserve"><value>المشاريع</value></data>
-  <data name="Projects_Description" xml:space="preserve"><value>مجموعة من التطبيقات التي بنيتها — من تطبيقات الويب الكاملة إلى تكاملات API.</value></data>
-  <data name="Projects_Featured"    xml:space="preserve"><value>مميز</value></data>
-  <data name="Projects_Details"     xml:space="preserve"><value>التفاصيل</value></data>
-  <data name="Projects_LiveDemo"    xml:space="preserve"><value>عرض حي</value></data>
-  <data name="Projects_Empty"       xml:space="preserve"><value>لا توجد مشاريع بعد</value></data>
-  <data name="Projects_EmptySub"    xml:space="preserve"><value>تابعنا قريباً!</value></data>
+  <data name="Projects_Label"              xml:space="preserve"><value>محفظة الأعمال</value></data>
+  <data name="Projects_Title"              xml:space="preserve"><value>المشاريع</value></data>
+  <data name="Projects_Description"        xml:space="preserve"><value>مجموعة من التطبيقات التي بنيتها — من تطبيقات الويب الكاملة إلى تكاملات API.</value></data>
+  <data name="Projects_Featured"           xml:space="preserve"><value>مميز</value></data>
+  <data name="Projects_Details"            xml:space="preserve"><value>التفاصيل</value></data>
+  <data name="Projects_LiveDemo"           xml:space="preserve"><value>عرض حي</value></data>
+  <data name="Projects_Empty"              xml:space="preserve"><value>لا توجد مشاريع بعد</value></data>
+  <data name="Projects_EmptySub"           xml:space="preserve"><value>تابعنا قريباً!</value></data>
+  <data name="Projects_SearchPlaceholder"  xml:space="preserve"><value>ابحث في المشاريع...</value></data>
+  <data name="Projects_Projects"           xml:space="preserve"><value>مشروع</value></data>
+  <data name="Projects_NoProjects"         xml:space="preserve"><value>لا توجد مشاريع</value></data>
+  <data name="Projects_NoResults"          xml:space="preserve"><value>لا توجد نتائج</value></data>
+  <data name="Projects_NoResultsSub"       xml:space="preserve"><value>جرّب كلمة بحث مختلفة أو امسح الفلاتر.</value></data>
 
   <!-- Contact page -->
   <data name="Contact_Label"           xml:space="preserve"><value>تواصل معي</value></data>
@@ -96,9 +106,20 @@
   <data name="Contact_Error_TryAgain"  xml:space="preserve"><value>حاول مجدداً</value></data>
 
   <!-- Common -->
-  <data name="Common_Featured" xml:space="preserve"><value>★ مميز</value></data>
-  <data name="Common_GitHub"   xml:space="preserve"><value>GitHub</value></data>
-  <data name="Common_LiveDemo" xml:space="preserve"><value>عرض حي</value></data>
+  <data name="Common_Featured"      xml:space="preserve"><value>★ مميز</value></data>
+  <data name="Common_GitHub"        xml:space="preserve"><value>GitHub</value></data>
+  <data name="Common_LiveDemo"      xml:space="preserve"><value>عرض حي</value></data>
+  <data name="Common_All"           xml:space="preserve"><value>الكل</value></data>
+  <data name="Common_Of"            xml:space="preserve"><value>من</value></data>
+  <data name="Common_SortBy"        xml:space="preserve"><value>ترتيب حسب</value></data>
+  <data name="Common_Search"        xml:space="preserve"><value>بحث</value></data>
+  <data name="Common_ClearFilters"  xml:space="preserve"><value>مسح الفلاتر</value></data>
+
+  <!-- Sort options -->
+  <data name="Sort_Newest"  xml:space="preserve"><value>الأحدث أولاً</value></data>
+  <data name="Sort_Oldest"  xml:space="preserve"><value>الأقدم أولاً</value></data>
+  <data name="Sort_Popular" xml:space="preserve"><value>الأكثر شعبية</value></data>
+  <data name="Sort_Title"   xml:space="preserve"><value>العنوان أ–ي</value></data>
 
   <!-- Events page -->
   <data name="Nav_Events"                  xml:space="preserve"><value>الفعاليات</value></data>

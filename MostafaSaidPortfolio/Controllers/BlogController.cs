@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using MostafaSaidPortfolio.Domain.Entities;
-using MostafaSaidPortfolio.Domain.Enums;
+using MostafaSaidPortfolio.Domain.ViewModels.Blog;
+using MostafaSaidPortfolio.Domain.ViewModels.Common;
 using MostafaSaidPortfolio.Services.Interfaces;
 
 namespace MostafaSaidPortfolio.Controllers
@@ -8,38 +8,57 @@ namespace MostafaSaidPortfolio.Controllers
     public class BlogController : Controller
     {
         private readonly IBlogService _blogService;
+        private readonly ICategoryService _categoryService;
+        private const int PageSize = 9;
 
-        public BlogController(IBlogService blogService) => _blogService = blogService;
-
-        public async Task<IActionResult> Index()
+        public BlogController(IBlogService blogService, ICategoryService categoryService)
         {
-            var posts = await _blogService.GetAllPublishedAsync();
-            return View(posts);
+            _blogService = blogService;
+            _categoryService = categoryService;
         }
 
-        public async Task<IActionResult> Details(Guid id)
+        public async Task<IActionResult> Index(string? q, string? categorySlug, string sort = "newest", int page = 1)
         {
-            var post = await _blogService.GetByIdAsync(id);
+            page = Math.Max(1, page);
+
+            Guid? categoryId = null;
+            if (!string.IsNullOrWhiteSpace(categorySlug))
+            {
+                var cat = await _categoryService.GetBySlugAsync(categorySlug);
+                categoryId = cat?.Id;
+            }
+
+            var (items, totalCount) = await _blogService.GetPagedAsync(q, categoryId, sort, page, PageSize);
+            var categories = await _categoryService.GetActiveAsync();
+
+            var vm = new BlogListViewModel
+            {
+                Posts = new PagedResult<Domain.Entities.BlogPost>
+                {
+                    Items      = items,
+                    TotalCount = totalCount,
+                    PageNumber = page,
+                    PageSize   = PageSize
+                },
+                Categories   = categories,
+                Search       = q,
+                CategorySlug = categorySlug,
+                CategoryId   = categoryId,
+                Sort         = sort,
+                Page         = page
+            };
+
+            return View(vm);
+        }
+
+        public async Task<IActionResult> Details(string id)
+        {
+            Domain.Entities.BlogPost? post = await _blogService.GetBySlugAsync(id);
+            if (post == null && Guid.TryParse(id, out var guid))
+                post = await _blogService.GetByIdAsync(guid);
             if (post == null) return NotFound();
-            await _blogService.IncrementViewCountAsync(id);
+            await _blogService.IncrementViewCountAsync(post.Id);
             return View(post);
-        }
-
-        public async Task<IActionResult> Category(int categoryId)
-        {
-            var posts = await _blogService.GetByCategoryAsync(categoryId);
-            return View("Index", posts);
-        }
-
-        public async Task<IActionResult> Search(string q)
-        {
-            if (string.IsNullOrWhiteSpace(q))
-                return View("Index", new List<BlogPost>());
-
-            var posts = await _blogService.SearchAsync(q);
-            ViewBag.Query = q;
-            return View("Index", posts);
         }
     }
 }
-

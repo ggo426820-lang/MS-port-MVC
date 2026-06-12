@@ -5,7 +5,7 @@ using MostafaSaidPortfolio.Data.Seeders.Interfaces;
 namespace MostafaSaidPortfolio.Data.Seeders.Implementations;
 
 /// <summary>
-/// Seeder for BlogPost entities
+/// Seeder for BlogPost entities and their tag associations
 /// </summary>
 public class BlogPostSeeder : ISeeder
 {
@@ -13,7 +13,7 @@ public class BlogPostSeeder : ISeeder
     {
         var existingCount = await connection.ExecuteScalarAsync<int>(
             "SELECT COUNT(*) FROM \"BlogPosts\"");
-        
+
         if (existingCount > 0)
             return;
 
@@ -63,12 +63,63 @@ public class BlogPostSeeder : ISeeder
             "to match your C# property names for seamless Dapper mapping without extra configuration.</p>";
 
         await connection.ExecuteAsync(@"
-            INSERT INTO ""BlogPosts"" 
+            INSERT INTO ""BlogPosts""
             (""Id"", ""Title"", ""Content"", ""Summary"", ""Slug"", ""MetaTitle"", ""MetaDescription"", ""FeaturedImageUrl"", ""Status"", ""PublishedAt"", ""ViewCount"", ""ReadingTime"", ""IsFeatured"", ""CategoryId"", ""IsDeleted"", ""CreatedAt"", ""UpdatedAt"", ""CreatedBy"")
             VALUES
-                (gen_random_uuid(), 'Getting Started with ASP.NET Core', @content1, 'An introduction to building web apps with ASP.NET Core — setup, structure, and your first endpoint.', 'getting-started-with-aspnet-core', 'Getting Started with ASP.NET Core', 'Learn the basics of ASP.NET Core, a cross-platform framework for building modern web applications.', '', 1, NOW(), 245, 5, TRUE, @devCategoryId, FALSE, NOW(), NOW(), 'system'),
-                (gen_random_uuid(), 'UI/UX Design Principles Every Developer Should Know', @content2, 'Core principles of UI/UX design that help developers create better user experiences.', 'ui-ux-design-principles', 'UI/UX Design Principles', 'Explore the fundamental principles of UI/UX design for better, more usable interfaces.', '', 1, NOW(), 186, 4, FALSE, @designCategoryId, FALSE, NOW(), NOW(), 'system'),
-                (gen_random_uuid(), 'PostgreSQL + Dapper: A Powerful Combination', @content3, 'Why PostgreSQL and Dapper make an excellent pairing for .NET applications that need performance and control.', 'postgresql-dapper-powerful-combination', 'PostgreSQL + Dapper: A Powerful Combination', 'Explore how to use PostgreSQL and Dapper together for high-performance .NET data access.', '', 1, NOW(), 312, 8, FALSE, @devCategoryId, FALSE, NOW(), NOW(), 'system')
+                (gen_random_uuid(), 'Getting Started with ASP.NET Core', @content1, 'An introduction to building web apps with ASP.NET Core — setup, structure, and your first endpoint.', 'getting-started-with-aspnet-core', 'Getting Started with ASP.NET Core', 'Learn the basics of ASP.NET Core, a cross-platform framework for building modern web applications.', '', 1, NOW() - interval '30 days', 245, 5, TRUE,  @devCategoryId,    FALSE, NOW() - interval '30 days', NOW() - interval '30 days', 'system'),
+                (gen_random_uuid(), 'UI/UX Design Principles Every Developer Should Know', @content2, 'Core principles of UI/UX design that help developers create better user experiences.',                  'ui-ux-design-principles',              'UI/UX Design Principles',              'Explore the fundamental principles of UI/UX design for better, more usable interfaces.',                     '', 1, NOW() - interval '20 days', 186, 4, FALSE, @designCategoryId, FALSE, NOW() - interval '20 days', NOW() - interval '20 days', 'system'),
+                (gen_random_uuid(), 'PostgreSQL + Dapper: A Powerful Combination',         @content3, 'Why PostgreSQL and Dapper make an excellent pairing for .NET applications that need performance and control.', 'postgresql-dapper-powerful-combination', 'PostgreSQL + Dapper: A Powerful Combination', 'Explore how to use PostgreSQL and Dapper together for high-performance .NET data access.',                '', 1, NOW() - interval '10 days', 312, 8, FALSE, @devCategoryId,    FALSE, NOW() - interval '10 days', NOW() - interval '10 days', 'system')
         ", new { content1, content2, content3, devCategoryId, designCategoryId });
+
+        await SeedBlogPostTagsAsync(connection);
+    }
+
+    private static async Task SeedBlogPostTagsAsync(NpgsqlConnection connection)
+    {
+        var existingCount = await connection.ExecuteScalarAsync<int>(
+            "SELECT COUNT(*) FROM \"BlogPostTags\"");
+        if (existingCount > 0)
+            return;
+
+        var post1Id = await connection.ExecuteScalarAsync<Guid>(
+            "SELECT \"Id\" FROM \"BlogPosts\" WHERE \"Slug\" = 'getting-started-with-aspnet-core' LIMIT 1");
+        var post2Id = await connection.ExecuteScalarAsync<Guid>(
+            "SELECT \"Id\" FROM \"BlogPosts\" WHERE \"Slug\" = 'ui-ux-design-principles' LIMIT 1");
+        var post3Id = await connection.ExecuteScalarAsync<Guid>(
+            "SELECT \"Id\" FROM \"BlogPosts\" WHERE \"Slug\" = 'postgresql-dapper-powerful-combination' LIMIT 1");
+
+        if (post1Id == Guid.Empty || post2Id == Guid.Empty || post3Id == Guid.Empty)
+            return;
+
+        var tagIds = (await connection.QueryAsync<(Guid Id, string Slug)>(
+            "SELECT \"Id\", \"Slug\" FROM \"Tags\" WHERE \"IsDeleted\" = FALSE"))
+            .ToDictionary(t => t.Slug, t => t.Id);
+
+        var links = new List<(Guid PostId, Guid TagId)>();
+
+        void Link(Guid postId, string tagSlug)
+        {
+            if (tagIds.TryGetValue(tagSlug, out var tagId))
+                links.Add((postId, tagId));
+        }
+
+        Link(post1Id, "aspnet-core");
+        Link(post1Id, "csharp");
+        Link(post1Id, "web-development");
+
+        Link(post2Id, "tailwind-css");
+        Link(post2Id, "javascript");
+        Link(post2Id, "web-development");
+
+        Link(post3Id, "postgresql");
+        Link(post3Id, "dapper");
+        Link(post3Id, "csharp");
+
+        foreach (var (postId, tagId) in links)
+        {
+            await connection.ExecuteAsync(
+                "INSERT INTO \"BlogPostTags\" (\"BlogPostsId\", \"TagsId\") VALUES (@postId, @tagId) ON CONFLICT DO NOTHING",
+                new { postId, tagId });
+        }
     }
 }

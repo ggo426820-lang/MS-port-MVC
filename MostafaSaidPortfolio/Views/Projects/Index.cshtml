@@ -1,5 +1,21 @@
-@model IEnumerable<Project>
-@{ ViewData["Title"] = L["Projects_Title"].ToString(); }
+@model MostafaSaidPortfolio.Domain.ViewModels.Projects.ProjectListViewModel
+@using MostafaSaidPortfolio.Domain.Entities
+@{
+    ViewData["Title"] = L["Projects_Title"].ToString();
+
+    string Q(string? overrideQ = null, string? overrideCat = null, string? overrideSort = null, int overridePage = 1)
+    {
+        var q    = overrideQ    ?? Model.Search;
+        var cat  = overrideCat  ?? Model.CategorySlug;
+        var sort = overrideSort ?? Model.Sort;
+        var parts = new System.Collections.Generic.List<string>();
+        if (!string.IsNullOrWhiteSpace(q))    parts.Add($"q={Uri.EscapeDataString(q)}");
+        if (!string.IsNullOrWhiteSpace(cat))  parts.Add($"categorySlug={Uri.EscapeDataString(cat)}");
+        if (sort != "newest")                 parts.Add($"sort={sort}");
+        if (overridePage > 1)                 parts.Add($"page={overridePage}");
+        return parts.Count > 0 ? "?" + string.Join("&", parts) : "?";
+    }
+}
 
 <!-- Page Header -->
 <section class="page-header">
@@ -10,12 +26,83 @@
     </div>
 </section>
 
-<!-- Projects Grid -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-    @if (Model != null && Model.Any())
+<!-- Filter + Grid -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+
+    <!-- ── Search + Sort bar ── -->
+    <form method="get" action="" class="flex flex-col sm:flex-row gap-3 mb-6">
+        <div class="relative flex-1">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style="color:var(--text-muted)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <input type="text" name="q" value="@Model.Search" placeholder="@L["Projects_SearchPlaceholder"]"
+                   class="w-full pl-10 pr-4 py-2.5 rounded-xl border text-sm outline-none transition-all"
+                   style="background:var(--bg-surface);border-color:var(--border-subtle);color:var(--text-primary)"/>
+        </div>
+        @if (!string.IsNullOrWhiteSpace(Model.CategorySlug))
+        {
+            <input type="hidden" name="categorySlug" value="@Model.CategorySlug"/>
+        }
+        <input type="hidden" name="sort" value="@Model.Sort"/>
+        <button type="submit"
+                class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-xl transition-colors shrink-0">
+            @L["Common_Search"]
+        </button>
+    </form>
+
+    <!-- ── Category filter pills ── -->
+    @if (Model.Categories.Any())
+    {
+        <div class="flex flex-wrap gap-2 mb-6">
+            <a href="@Q(overrideCat: "", overridePage: 1)"
+               class="px-4 py-1.5 rounded-full text-sm font-medium border transition-colors @(Model.CategoryId == null ? "bg-indigo-600 text-white border-indigo-600" : "border-current hover:border-indigo-500 hover:text-indigo-500")"
+               style="@(Model.CategoryId == null ? "" : "color:var(--text-secondary);border-color:var(--border-subtle)")">
+                @L["Common_All"]
+            </a>
+            @foreach (var cat in Model.Categories)
+            {
+                var isActive = Model.CategorySlug == cat.Slug;
+                <a href="@Q(overrideCat: cat.Slug, overridePage: 1)"
+                   class="px-4 py-1.5 rounded-full text-sm font-medium border transition-colors @(isActive ? "bg-indigo-600 text-white border-indigo-600" : "hover:border-indigo-500 hover:text-indigo-500")"
+                   style="@(isActive ? "" : "color:var(--text-secondary);border-color:var(--border-subtle)")">
+                    @cat.Name
+                </a>
+            }
+        </div>
+    }
+
+    <!-- ── Sort + count row ── -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-8">
+        <p class="text-sm" style="color:var(--text-muted)">
+            @if (Model.Projects.TotalCount > 0)
+            {
+                <span>@Model.Projects.FirstItem–@Model.Projects.LastItem @L["Common_Of"] @Model.Projects.TotalCount @L["Projects_Projects"]</span>
+            }
+            else
+            {
+                <span>@L["Projects_NoProjects"]</span>
+            }
+        </p>
+        <form method="get" action="" class="flex items-center gap-2">
+            @if (!string.IsNullOrWhiteSpace(Model.Search))      { <input type="hidden" name="q"            value="@Model.Search"/> }
+            @if (!string.IsNullOrWhiteSpace(Model.CategorySlug)){ <input type="hidden" name="categorySlug" value="@Model.CategorySlug"/> }
+            <label class="text-sm shrink-0" style="color:var(--text-muted)">@L["Common_SortBy"]</label>
+            <select name="sort" onchange="this.form.submit()"
+                    class="text-sm rounded-lg border px-3 py-1.5 outline-none transition-all"
+                    style="background:var(--bg-surface);border-color:var(--border-subtle);color:var(--text-primary)">
+                <option value="newest"  selected="@(Model.Sort == "newest"  ? "selected" : null)">@L["Sort_Newest"]</option>
+                <option value="oldest"  selected="@(Model.Sort == "oldest"  ? "selected" : null)">@L["Sort_Oldest"]</option>
+                <option value="popular" selected="@(Model.Sort == "popular" ? "selected" : null)">@L["Sort_Popular"]</option>
+                <option value="title"   selected="@(Model.Sort == "title"   ? "selected" : null)">@L["Sort_Title"]</option>
+            </select>
+        </form>
+    </div>
+
+    <!-- ── Projects Grid ── -->
+    @if (Model.Projects.Items.Any())
     {
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach (var project in Model)
+            @foreach (var project in Model.Projects.Items)
             {
                 <div class="content-card group flex flex-col observe-fade">
 
@@ -94,7 +181,7 @@
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                                     </a>
                                 }
-                                <a asp-action="Details" asp-route-id="@project.Id"
+                                <a href="@Url.Action("Details", "Projects", new { id = project.Slug })"
                                    class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg transition-colors">
                                     @L["Projects_Details"]
                                 </a>
@@ -104,6 +191,39 @@
                 </div>
             }
         </div>
+
+        <!-- ── Pagination ── -->
+        @if (Model.Projects.TotalPages > 1)
+        {
+            <nav class="flex justify-center items-center gap-1.5 mt-12" aria-label="Pagination">
+                @if (Model.Projects.HasPreviousPage)
+                {
+                    <a href="@Q(overridePage: Model.Page - 1)"
+                       class="px-3.5 py-2 rounded-lg border text-sm font-medium transition-colors hover:border-indigo-500 hover:text-indigo-500"
+                       style="border-color:var(--border-subtle);color:var(--text-secondary)">
+                        ←
+                    </a>
+                }
+                @for (int i = 1; i <= Model.Projects.TotalPages; i++)
+                {
+                    var isCurrentPage = i == Model.Page;
+                    <a href="@Q(overridePage: i)"
+                       class="px-3.5 py-2 rounded-lg border text-sm font-medium transition-colors @(isCurrentPage ? "bg-indigo-600 text-white border-indigo-600" : "hover:border-indigo-500 hover:text-indigo-500")"
+                       style="@(isCurrentPage ? "" : "border-color:var(--border-subtle);color:var(--text-secondary)")"
+                       aria-current="@(isCurrentPage ? "page" : null)">
+                        @i
+                    </a>
+                }
+                @if (Model.Projects.HasNextPage)
+                {
+                    <a href="@Q(overridePage: Model.Page + 1)"
+                       class="px-3.5 py-2 rounded-lg border text-sm font-medium transition-colors hover:border-indigo-500 hover:text-indigo-500"
+                       style="border-color:var(--border-subtle);color:var(--text-secondary)">
+                        →
+                    </a>
+                }
+            </nav>
+        }
     }
     else
     {
@@ -113,8 +233,18 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
                 </svg>
             </div>
-            <h3 class="font-heading font-bold text-xl mb-2" style="color:var(--text-primary)">@L["Projects_Empty"]</h3>
-            <p style="color:var(--text-muted)">@L["Projects_EmptySub"]</p>
+            <h3 class="font-heading font-bold text-xl mb-2" style="color:var(--text-primary)">
+                @(Model.HasFilters ? L["Projects_NoResults"] : L["Projects_Empty"])
+            </h3>
+            <p class="mb-4" style="color:var(--text-muted)">
+                @(Model.HasFilters ? L["Projects_NoResultsSub"] : L["Projects_EmptySub"])
+            </p>
+            @if (Model.HasFilters)
+            {
+                <a href="?" class="inline-flex items-center gap-1.5 text-sm font-semibold" style="color:var(--accent)">
+                    @L["Common_ClearFilters"] →
+                </a>
+            }
         </div>
     }
 </section>

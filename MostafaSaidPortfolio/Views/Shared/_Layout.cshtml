@@ -64,6 +64,9 @@
 <body class="font-sans antialiased flex flex-col min-h-screen transition-colors duration-300"
       style="background:var(--bg-base);color:var(--text-primary)">
 
+    <!-- Page-transition cover — fades out on load, fades in on lang switch -->
+    <div id="page-cover" aria-hidden="true"></div>
+
     <!-- ===================== HEADER ===================== -->
     <header id="site-header" class="sticky top-0 z-50 backdrop-blur-md border-b transition-all duration-300"
             style="background:var(--header-bg);border-color:var(--header-border)">
@@ -172,7 +175,7 @@
     </main>
 
     <!-- ===================== FOOTER ===================== -->
-    <footer class="text-slate-300 pt-16 pb-8 mt-24" style="background:var(--footer-bg)">
+    <footer class="text-slate-300 pt-16 pb-8" style="background:var(--footer-bg)">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-3 gap-12 mb-12">
 

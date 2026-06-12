@@ -1,0 +1,87 @@
+@model MostafaSaidPortfolio.Domain.Entities.BlogPost
+@using MostafaSaidPortfolio.Domain.Enums
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "New Post";
+    var categories = ViewData["Categories"] as IEnumerable<MostafaSaidPortfolio.Domain.Entities.Category>
+                     ?? Enumerable.Empty<MostafaSaidPortfolio.Domain.Entities.Category>();
+}
+
+<div class="flex items-center justify-between mb-6">
+    <h2 class="text-xl font-bold text-white">New Blog Post</h2>
+    <a href="/Admin/Blog" class="btn-ghost">← Back</a>
+</div>
+
+<form asp-action="Create" method="post" class="space-y-6">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id"/>
+
+    <div class="stat-card space-y-4">
+        <div>
+            <label class="form-label">Title *</label>
+            <input asp-for="Title" class="form-input" placeholder="Post title" required/>
+            <span asp-validation-for="Title" class="text-red-400 text-xs mt-1 block"></span>
+        </div>
+        <div>
+            <label class="form-label">Slug (auto-generated if blank)</label>
+            <input asp-for="Slug" class="form-input font-mono text-sm" placeholder="my-post-slug"/>
+        </div>
+        <div>
+            <label class="form-label">Summary *</label>
+            <textarea asp-for="Summary" class="form-input" rows="2" placeholder="Brief description shown in listings" required></textarea>
+        </div>
+        <div>
+            <label class="form-label">Content *</label>
+            <textarea asp-for="Content" class="form-input" rows="12" placeholder="Full post content (HTML supported)"></textarea>
+        </div>
+    </div>
+
+    <div class="stat-card space-y-4">
+        <h3 class="font-semibold text-white">Metadata</h3>
+        <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+                <label class="form-label">Category</label>
+                <select asp-for="CategoryId" class="form-input">
+                    <option value="">— None —</option>
+                    @foreach (var cat in categories)
+                    {
+                        <option value="@cat.Id">@cat.Name</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <label class="form-label">Status</label>
+                <select asp-for="Status" class="form-input">
+                    <option value="0">Draft</option>
+                    <option value="1">Published</option>
+                    <option value="2">Archived</option>
+                </select>
+            </div>
+            <div>
+                <label class="form-label">Reading Time (minutes)</label>
+                <input asp-for="ReadingTime" type="number" min="1" class="form-input" placeholder="5"/>
+            </div>
+            <div>
+                <label class="form-label">Featured Image URL</label>
+                <input asp-for="FeaturedImageUrl" class="form-input" placeholder="https://..."/>
+            </div>
+            <div>
+                <label class="form-label">Meta Title</label>
+                <input asp-for="MetaTitle" class="form-input" placeholder="SEO title (defaults to post title)"/>
+            </div>
+            <div>
+                <label class="form-label">Meta Description</label>
+                <input asp-for="MetaDescription" class="form-input" placeholder="SEO description"/>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <input asp-for="IsFeatured" type="checkbox" id="IsFeatured" class="rounded"/>
+            <label for="IsFeatured" class="text-sm text-slate-300">Featured post</label>
+        </div>
+    </div>
+
+    <div class="flex gap-3">
+        <button type="submit" class="btn-primary">Create Post</button>
+        <a href="/Admin/Blog" class="btn-ghost">Cancel</a>
+    </div>
+</form>
