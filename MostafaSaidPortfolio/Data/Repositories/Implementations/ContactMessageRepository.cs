@@ -42,11 +42,26 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
             return rows > 0;
         }
 
+        public async Task<IEnumerable<ContactMessage>> GetRecentAsync(int count)
+        {
+            return await _connection.QueryAsync<ContactMessage>(
+                $@"SELECT {Columns} FROM ""ContactMessages"" ORDER BY ""CreatedAt"" DESC LIMIT @count",
+                new { count }, _transaction);
+        }
+
         public async Task<int> CountUnreadAsync()
         {
             return await _connection.ExecuteScalarAsync<int>(
                 @"SELECT COUNT(*) FROM ""ContactMessages"" WHERE ""IsRead"" = FALSE",
                 transaction: _transaction);
+        }
+
+        public new async Task<bool> DeleteAsync(Guid id)
+        {
+            var rows = await _connection.ExecuteAsync(
+                @"DELETE FROM ""ContactMessages"" WHERE ""Id"" = @id",
+                new { id }, _transaction);
+            return rows > 0;
         }
 
         public override async Task AddAsync(ContactMessage entity)

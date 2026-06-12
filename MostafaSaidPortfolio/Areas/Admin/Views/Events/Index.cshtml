@@ -1,0 +1,68 @@
+@model IEnumerable<MostafaSaidPortfolio.Domain.Entities.Event>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Events";
+}
+
+<div class="flex items-center justify-between mb-6">
+    <div>
+        <h2 class="text-xl font-bold text-white">Events</h2>
+        <p class="text-slate-400 text-sm mt-1">@Model.Count() total — @Model.Count(e => e.IsUpcoming) upcoming</p>
+    </div>
+    <a href="/Admin/Events/Create" class="btn-primary">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+        New Event
+    </a>
+</div>
+
+@if (TempData["Success"] != null) { <div class="alert-success mb-4">@TempData["Success"]</div> }
+@if (TempData["Error"]   != null) { <div class="alert-error mb-4">@TempData["Error"]</div>   }
+
+@if (!Model.Any())
+{
+    <div class="stat-card text-center py-16">
+        <p class="text-slate-500 text-sm">No events yet. <a href="/Admin/Events/Create" class="text-indigo-400 hover:underline">Create one</a>.</p>
+    </div>
+}
+else
+{
+    <div class="stat-card overflow-hidden">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Registered</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var evt in Model.OrderByDescending(e => e.EventDate))
+                {
+                    <tr>
+                        <td>
+                            <div class="font-medium text-slate-200">@evt.Title</div>
+                            @if (evt.IsFeatured) { <span class="badge badge-blue text-xs">Featured</span> }
+                        </td>
+                        <td class="text-slate-400 text-sm">@evt.EventDate.ToString("MMM d, yyyy HH:mm")</td>
+                        <td class="text-slate-400 text-sm">@evt.Location</td>
+                        <td>
+                            <span class="badge @(evt.IsUpcoming ? "badge-green" : "badge-yellow")">
+                                @(evt.IsUpcoming ? "Upcoming" : "Past")
+                            </span>
+                        </td>
+                        <td class="text-slate-400">@evt.RegisteredCount@(evt.MaxAttendees.HasValue ? $"/{evt.MaxAttendees}" : "")</td>
+                        <td class="text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <a href="/Admin/Events/Edit/@evt.Id"   class="btn-ghost py-1.5 px-3 text-xs">Edit</a>
+                                <a href="/Admin/Events/Delete/@evt.Id" class="btn-danger py-1.5 px-3 text-xs">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

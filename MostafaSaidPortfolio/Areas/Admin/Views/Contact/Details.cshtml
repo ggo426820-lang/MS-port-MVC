@@ -1,0 +1,42 @@
+@model MostafaSaidPortfolio.Domain.Entities.ContactMessage
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Message Details";
+}
+
+<div class="flex items-center justify-between mb-6">
+    <h2 class="text-xl font-bold text-white">Message Details</h2>
+    <a href="/Admin/Contact" class="btn-ghost">← Back</a>
+</div>
+
+<div class="max-w-2xl space-y-4">
+    <div class="stat-card space-y-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs text-slate-500 uppercase tracking-widest mb-1">From</p>
+                <p class="font-semibold text-white">@Model.Name</p>
+                <a href="mailto:@Model.Email" class="text-indigo-400 text-sm hover:underline">@Model.Email</a>
+            </div>
+            <div class="text-right">
+                <p class="text-xs text-slate-500">@Model.CreatedAt.ToString("dddd, MMM d, yyyy HH:mm") UTC</p>
+                <span class="badge @(Model.IsRead ? "badge-green" : "badge-yellow") mt-1">@(Model.IsRead ? "Read" : "Unread")</span>
+            </div>
+        </div>
+
+        <div class="border-t border-slate-700 pt-4">
+            <p class="text-xs text-slate-500 uppercase tracking-widest mb-1">Subject</p>
+            <p class="font-medium text-slate-200">@Model.Subject</p>
+        </div>
+
+        <div class="border-t border-slate-700 pt-4">
+            <p class="text-xs text-slate-500 uppercase tracking-widest mb-2">Message</p>
+            <div class="text-slate-300 leading-relaxed whitespace-pre-wrap">@Model.Message</div>
+        </div>
+    </div>
+
+    <div class="flex gap-3">
+        <a href="mailto:@Model.Email?subject=Re: @Model.Subject" class="btn-primary">Reply via Email</a>
+        <a href="/Admin/Contact/Delete/@Model.Id" class="btn-danger">Delete</a>
+        <a href="/Admin/Contact" class="btn-ghost">← Back</a>
+    </div>
+</div>

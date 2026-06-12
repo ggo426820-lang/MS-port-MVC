@@ -1,0 +1,73 @@
+@model IEnumerable<MostafaSaidPortfolio.Domain.Entities.ContactMessage>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Contact Messages";
+    var unread = Model.Count(m => !m.IsRead);
+}
+
+<div class="flex items-center justify-between mb-6">
+    <div>
+        <h2 class="text-xl font-bold text-white">Contact Messages</h2>
+        <p class="text-slate-400 text-sm mt-1">@Model.Count() messages — <span class="text-amber-400">@unread unread</span></p>
+    </div>
+    @if (unread > 0)
+    {
+        <form asp-action="MarkAllRead" method="post">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn-ghost text-xs">Mark all read</button>
+        </form>
+    }
+</div>
+
+@if (TempData["Success"] != null) { <div class="alert-success mb-4">@TempData["Success"]</div> }
+@if (TempData["Error"]   != null) { <div class="alert-error mb-4">@TempData["Error"]</div>   }
+
+@if (!Model.Any())
+{
+    <div class="stat-card text-center py-16">
+        <p class="text-slate-500 text-sm">No messages yet.</p>
+    </div>
+}
+else
+{
+    <div class="stat-card overflow-hidden">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>From</th>
+                    <th>Subject</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var msg in Model)
+                {
+                    <tr class="@(!msg.IsRead ? "bg-indigo-900/10" : "")">
+                        <td>
+                            <div class="font-medium text-slate-200">@msg.Name</div>
+                            <div class="text-xs text-slate-500">@msg.Email</div>
+                        </td>
+                        <td class="text-slate-300 truncate max-w-xs">
+                            @if (!msg.IsRead) { <span class="inline-block w-2 h-2 bg-indigo-400 rounded-full mr-1.5 mb-0.5"></span> }
+                            @(msg.Subject.Length > 60 ? msg.Subject[..60] + "…" : msg.Subject)
+                        </td>
+                        <td class="text-slate-400 text-sm">@msg.CreatedAt.ToString("MMM d, yyyy HH:mm")</td>
+                        <td>
+                            <span class="badge @(msg.IsRead ? "badge-green" : "badge-yellow")">
+                                @(msg.IsRead ? "Read" : "Unread")
+                            </span>
+                        </td>
+                        <td class="text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <a href="/Admin/Contact/Details/@msg.Id" class="btn-ghost py-1.5 px-3 text-xs">View</a>
+                                <a href="/Admin/Contact/Delete/@msg.Id"  class="btn-danger py-1.5 px-3 text-xs">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

@@ -1,0 +1,69 @@
+@model MostafaSaidPortfolio.Domain.Entities.Event
+@using MostafaSaidPortfolio.Domain.Enums
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "New Event";
+}
+
+<div class="flex items-center justify-between mb-6">
+    <h2 class="text-xl font-bold text-white">New Event</h2>
+    <a href="/Admin/Events" class="btn-ghost">← Back</a>
+</div>
+
+<div class="max-w-2xl">
+    <form asp-action="Create" method="post" class="space-y-4">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id"/>
+
+        <div class="stat-card space-y-4">
+            <div>
+                <label class="form-label">Title *</label>
+                <input asp-for="Title" class="form-input" required/>
+            </div>
+            <div>
+                <label class="form-label">Description *</label>
+                <textarea asp-for="Description" class="form-input" rows="4" required></textarea>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="form-label">Event Date *</label>
+                    <input asp-for="EventDate" type="datetime-local" class="form-input" required/>
+                </div>
+                <div>
+                    <label class="form-label">End Date</label>
+                    <input asp-for="EventEndDate" type="datetime-local" class="form-input"/>
+                </div>
+                <div>
+                    <label class="form-label">Location *</label>
+                    <input asp-for="Location" class="form-input" placeholder="City, Country / Online" required/>
+                </div>
+                <div>
+                    <label class="form-label">Event URL</label>
+                    <input asp-for="EventUrl" class="form-input" placeholder="https://..."/>
+                </div>
+                <div>
+                    <label class="form-label">Max Attendees</label>
+                    <input asp-for="MaxAttendees" type="number" min="1" class="form-input" placeholder="Leave blank for unlimited"/>
+                </div>
+                <div>
+                    <label class="form-label">Status</label>
+                    <select asp-for="Status" class="form-input">
+                        <option value="0">Upcoming</option>
+                        <option value="1">Ongoing</option>
+                        <option value="2">Completed</option>
+                        <option value="3">Cancelled</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <input asp-for="IsFeatured" type="checkbox" id="IsFeatured" class="rounded"/>
+                <label for="IsFeatured" class="text-sm text-slate-300">Featured event</label>
+            </div>
+        </div>
+
+        <div class="flex gap-3">
+            <button type="submit" class="btn-primary">Create Event</button>
+            <a href="/Admin/Events" class="btn-ghost">Cancel</a>
+        </div>
+    </form>
+</div>

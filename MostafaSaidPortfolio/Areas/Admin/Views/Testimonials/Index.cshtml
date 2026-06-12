@@ -1,0 +1,87 @@
+@model IEnumerable<MostafaSaidPortfolio.Domain.Entities.Testimonial>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Testimonials";
+    var pending = Model.Count(t => !t.IsApproved);
+}
+
+<div class="flex items-center justify-between mb-6">
+    <div>
+        <h2 class="text-xl font-bold text-white">Testimonials</h2>
+        <p class="text-slate-400 text-sm mt-1">@Model.Count() reviews — <span class="text-amber-400">@pending pending approval</span></p>
+    </div>
+</div>
+
+@if (TempData["Success"] != null) { <div class="alert-success mb-4">@TempData["Success"]</div> }
+@if (TempData["Error"]   != null) { <div class="alert-error mb-4">@TempData["Error"]</div>   }
+
+@if (!Model.Any())
+{
+    <div class="stat-card text-center py-16">
+        <p class="text-slate-500 text-sm">No testimonials yet.</p>
+    </div>
+}
+else
+{
+    <div class="stat-card overflow-hidden">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Author</th>
+                    <th>Content</th>
+                    <th>Rating</th>
+                    <th>Status</th>
+                    <th>Featured</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var t in Model.OrderByDescending(x => x.CreatedAt))
+                {
+                    <tr>
+                        <td>
+                            <div class="font-medium text-slate-200">@t.AuthorName</div>
+                            <div class="text-xs text-slate-500">@t.Position@(string.IsNullOrEmpty(t.Company) ? "" : $" · {t.Company}")</div>
+                        </td>
+                        <td class="text-slate-400 max-w-xs truncate text-sm">@(t.Content.Length > 80 ? t.Content[..80] + "…" : t.Content)</td>
+                        <td>
+                            <div class="flex gap-0.5">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <span class="@(i <= t.Rating ? "text-amber-400" : "text-slate-600") text-sm">★</span>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge @(t.IsApproved ? "badge-green" : "badge-yellow")">
+                                @(t.IsApproved ? "Approved" : "Pending")
+                            </span>
+                        </td>
+                        <td>
+                            @if (t.IsFeatured) { <span class="badge badge-blue">★ Featured</span> }
+                        </td>
+                        <td class="text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                @if (!t.IsApproved)
+                                {
+                                    <form asp-action="Approve" method="post" class="inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@t.Id"/>
+                                        <button type="submit" class="btn-ghost py-1.5 px-3 text-xs text-emerald-400">Approve</button>
+                                    </form>
+                                    <form asp-action="Reject" method="post" class="inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@t.Id"/>
+                                        <button type="submit" class="btn-ghost py-1.5 px-3 text-xs text-red-400">Reject</button>
+                                    </form>
+                                }
+                                <a href="/Admin/Testimonials/Edit/@t.Id" class="btn-ghost py-1.5 px-3 text-xs">Edit</a>
+                                <a href="/Admin/Testimonials/Delete/@t.Id" class="btn-danger py-1.5 px-3 text-xs">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

@@ -1,0 +1,89 @@
+@model MostafaSaidPortfolio.Domain.Entities.Project
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Edit Project";
+    var categories = ViewData["Categories"] as IEnumerable<MostafaSaidPortfolio.Domain.Entities.Category>
+                     ?? Enumerable.Empty<MostafaSaidPortfolio.Domain.Entities.Category>();
+}
+
+<div class="flex items-center justify-between mb-6">
+    <h2 class="text-xl font-bold text-white">Edit Project</h2>
+    <div class="flex gap-2">
+        <a href="/Projects/@Model.Slug" target="_blank" class="btn-ghost text-xs">View →</a>
+        <a href="/Admin/Projects" class="btn-ghost">← Back</a>
+    </div>
+</div>
+
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post" class="space-y-6">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id"/>
+
+    <div class="stat-card space-y-4">
+        <div>
+            <label class="form-label">Title *</label>
+            <input asp-for="Title" class="form-input" required/>
+        </div>
+        <div>
+            <label class="form-label">Slug</label>
+            <input asp-for="Slug" class="form-input font-mono text-sm"/>
+        </div>
+        <div>
+            <label class="form-label">Short Description *</label>
+            <input asp-for="Description" class="form-input" required/>
+        </div>
+        <div>
+            <label class="form-label">Long Description</label>
+            <textarea asp-for="LongDescription" class="form-input" rows="4"></textarea>
+        </div>
+        <div>
+            <label class="form-label">Technology Stack *</label>
+            <input asp-for="TechnologyStack" class="form-input" required/>
+        </div>
+    </div>
+
+    <div class="stat-card space-y-4">
+        <h3 class="font-semibold text-white">Links & Media</h3>
+        <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+                <label class="form-label">Category</label>
+                <select asp-for="CategoryId" class="form-input">
+                    <option value="">— None —</option>
+                    @foreach (var cat in categories)
+                    {
+                        <option value="@cat.Id" selected="@(Model.CategoryId == cat.Id ? "selected" : null)">@cat.Name</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <label class="form-label">Display Order</label>
+                <input asp-for="DisplayOrder" type="number" min="0" class="form-input"/>
+            </div>
+            <div>
+                <label class="form-label">GitHub URL</label>
+                <input asp-for="GitHubUrl" class="form-input"/>
+            </div>
+            <div>
+                <label class="form-label">Live URL</label>
+                <input asp-for="LiveUrl" class="form-input"/>
+            </div>
+            <div>
+                <label class="form-label">Image URL</label>
+                <input asp-for="ImageUrl" class="form-input"/>
+            </div>
+            <div>
+                <label class="form-label">Thumbnail URL</label>
+                <input asp-for="ThumbnailUrl" class="form-input"/>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <input asp-for="IsFeatured" type="checkbox" id="IsFeatured" class="rounded" @(Model.IsFeatured ? "checked" : "")/>
+            <label for="IsFeatured" class="text-sm text-slate-300">Featured project</label>
+        </div>
+    </div>
+
+    <div class="flex gap-3">
+        <button type="submit" class="btn-primary">Save Changes</button>
+        <a href="/Admin/Projects/Delete/@Model.Id" class="btn-danger">Delete</a>
+        <a href="/Admin/Projects" class="btn-ghost">Cancel</a>
+    </div>
+</form>

@@ -1,0 +1,65 @@
+@model IEnumerable<MostafaSaidPortfolio.Domain.Entities.Project>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Projects";
+}
+
+<div class="flex items-center justify-between mb-6">
+    <div>
+        <h2 class="text-xl font-bold text-white">Projects</h2>
+        <p class="text-slate-400 text-sm mt-1">@Model.Count() projects</p>
+    </div>
+    <a href="/Admin/Projects/Create" class="btn-primary">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+        New Project
+    </a>
+</div>
+
+@if (TempData["Success"] != null) { <div class="alert-success mb-4">@TempData["Success"]</div> }
+@if (TempData["Error"]   != null) { <div class="alert-error mb-4">@TempData["Error"]</div>   }
+
+@if (!Model.Any())
+{
+    <div class="stat-card text-center py-16">
+        <p class="text-slate-400 text-sm">No projects yet. <a href="/Admin/Projects/Create" class="text-indigo-400 hover:underline">Add your first project</a>.</p>
+    </div>
+}
+else
+{
+    <div class="stat-card overflow-hidden">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Tech Stack</th>
+                    <th>Views</th>
+                    <th>Featured</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model.OrderBy(x => x.DisplayOrder).ThenByDescending(x => x.CreatedAt))
+                {
+                    <tr>
+                        <td>
+                            <div class="font-medium text-slate-200">@p.Title</div>
+                            <div class="text-xs text-slate-500 font-mono">/@p.Slug</div>
+                        </td>
+                        <td class="text-slate-400">@(p.CategoryName ?? p.Category?.Name ?? "—")</td>
+                        <td class="text-slate-400 text-sm truncate max-w-[180px]">@p.TechnologyStack</td>
+                        <td class="text-slate-400">@p.ViewCount</td>
+                        <td>@if (p.IsFeatured) { <span class="badge badge-blue">★ Featured</span> }</td>
+                        <td class="text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <a href="/Projects/@p.Slug" target="_blank" class="btn-ghost py-1.5 px-3 text-xs">View</a>
+                                <a href="/Admin/Projects/Edit/@p.Id"   class="btn-ghost py-1.5 px-3 text-xs">Edit</a>
+                                <a href="/Admin/Projects/Delete/@p.Id" class="btn-danger py-1.5 px-3 text-xs">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
