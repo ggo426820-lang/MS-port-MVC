@@ -1,25 +1,34 @@
 @{
-    ViewData["Title"] = "Message Sent";
+    ViewData["Title"] = L["Contact_Success_Title"].ToString();
 }
 
-<section class="max-w-2xl mx-auto px-4 py-32 text-center">
-    <div class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center">
-        <svg class="w-10 h-10 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-        </svg>
-    </div>
-    <h1 class="font-heading text-3xl font-bold text-slate-900 mb-4">Message Received!</h1>
-    <p class="text-slate-600 text-lg mb-8">
-        Thank you for reaching out. I'll review your message and get back to you within 24 hours.
-    </p>
-    <div class="flex flex-wrap justify-center gap-4">
-        <a asp-controller="Home" asp-action="Index"
-           class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-colors">
-            Back to Home
-        </a>
-        <a asp-controller="Projects" asp-action="Index"
-           class="px-6 py-3 border border-slate-200 hover:border-slate-300 text-slate-700 font-semibold rounded-xl transition-colors">
-            View Projects
-        </a>
+<section class="min-h-[60vh] flex items-center justify-center px-4 py-24">
+    <div class="max-w-md text-center">
+
+        <div class="w-20 h-20 mx-auto mb-6 rounded-2xl flex items-center justify-center"
+             style="background:#f0fdf4;border:1px solid #bbf7d0">
+            <svg class="w-10 h-10 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+        </div>
+
+        <h1 class="font-heading text-2xl sm:text-3xl font-bold mb-3" style="color:var(--text-primary)">
+            @L["Contact_Success_Title"]
+        </h1>
+        <p class="text-base leading-relaxed mb-8" style="color:var(--text-secondary)">
+            @L["Contact_Success_Desc"]
+        </p>
+
+        <div class="flex flex-wrap justify-center gap-4">
+            <a asp-controller="Home" asp-action="Index"
+               class="inline-flex items-center gap-2 px-7 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-all duration-200 hover:-translate-y-0.5 shadow-lg shadow-indigo-500/25">
+                @L["Contact_Success_BackHome"]
+            </a>
+            <a asp-controller="Projects" asp-action="Index"
+               class="inline-flex items-center gap-2 px-7 py-3.5 font-semibold rounded-xl border transition-all duration-200 hover:-translate-y-0.5"
+               style="border-color:var(--border);color:var(--text-secondary)">
+                @L["Nav_Projects"]
+            </a>
+        </div>
     </div>
 </section>

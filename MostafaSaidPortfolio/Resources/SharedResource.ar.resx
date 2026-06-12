@@ -87,6 +87,14 @@
   <data name="Contact_Send"            xml:space="preserve"><value>إرسال الرسالة</value></data>
   <data name="Contact_Error"           xml:space="preserve"><value>يرجى تصحيح الأخطاء أدناه.</value></data>
 
+  <!-- Contact success / error pages -->
+  <data name="Contact_Success_Title"   xml:space="preserve"><value>تم استلام رسالتك!</value></data>
+  <data name="Contact_Success_Desc"    xml:space="preserve"><value>شكراً على تواصلك. سأراجع رسالتك وأرد عليك خلال 24 ساعة.</value></data>
+  <data name="Contact_Success_BackHome" xml:space="preserve"><value>العودة إلى الرئيسية</value></data>
+  <data name="Contact_Error_Title"     xml:space="preserve"><value>حدث خطأ ما</value></data>
+  <data name="Contact_Error_Desc"      xml:space="preserve"><value>تعذّر إرسال رسالتك. يرجى المحاولة مرة أخرى أو مراسلتي مباشرةً على mostafa@example.com.</value></data>
+  <data name="Contact_Error_TryAgain"  xml:space="preserve"><value>حاول مجدداً</value></data>
+
   <!-- Common -->
   <data name="Common_Featured" xml:space="preserve"><value>★ مميز</value></data>
   <data name="Common_GitHub"   xml:space="preserve"><value>GitHub</value></data>

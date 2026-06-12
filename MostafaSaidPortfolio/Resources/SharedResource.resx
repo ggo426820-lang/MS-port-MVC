@@ -87,6 +87,14 @@
   <data name="Contact_Send"            xml:space="preserve"><value>Send Message</value></data>
   <data name="Contact_Error"           xml:space="preserve"><value>Please correct the errors below.</value></data>
 
+  <!-- Contact success / error pages -->
+  <data name="Contact_Success_Title"   xml:space="preserve"><value>Message Received!</value></data>
+  <data name="Contact_Success_Desc"    xml:space="preserve"><value>Thank you for reaching out. I'll review your message and get back to you within 24 hours.</value></data>
+  <data name="Contact_Success_BackHome" xml:space="preserve"><value>Back to Home</value></data>
+  <data name="Contact_Error_Title"     xml:space="preserve"><value>Something Went Wrong</value></data>
+  <data name="Contact_Error_Desc"      xml:space="preserve"><value>Your message could not be sent. Please try again or email me directly at mostafa@example.com.</value></data>
+  <data name="Contact_Error_TryAgain"  xml:space="preserve"><value>Try Again</value></data>
+
   <!-- Common -->
   <data name="Common_Featured" xml:space="preserve"><value>★ Featured</value></data>
   <data name="Common_GitHub"   xml:space="preserve"><value>GitHub</value></data>

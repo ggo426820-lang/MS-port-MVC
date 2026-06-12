@@ -1,7 +1,38 @@
-﻿@{
-    ViewData["Title"] = "Error";
+@{
+    ViewData["Title"] = L["Contact_Error_Title"].ToString();
 }
-<div class="max-w-4xl mx-auto mt-10">
-    <h1 class="text-4xl font-bold text-gray-800">@ViewData["Title"]</h1>
-    <p class="mt-4 text-gray-600">This is the Error page inside Contact.</p>
-</div>
+
+<section class="min-h-[60vh] flex items-center justify-center px-4 py-24">
+    <div class="max-w-md text-center">
+
+        <div class="w-20 h-20 mx-auto mb-6 rounded-2xl flex items-center justify-center"
+             style="background:#fef2f2;border:1px solid #fecaca">
+            <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                      d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </div>
+
+        <h1 class="font-heading text-2xl sm:text-3xl font-bold mb-3" style="color:var(--text-primary)">
+            @L["Contact_Error_Title"]
+        </h1>
+        <p class="text-base leading-relaxed mb-8" style="color:var(--text-secondary)">
+            @L["Contact_Error_Desc"]
+        </p>
+
+        <div class="flex flex-wrap justify-center gap-4">
+            <a asp-controller="Contact" asp-action="Index"
+               class="inline-flex items-center gap-2 px-7 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-all duration-200 hover:-translate-y-0.5 shadow-lg shadow-indigo-500/25">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                @L["Contact_Error_TryAgain"]
+            </a>
+            <a asp-controller="Home" asp-action="Index"
+               class="inline-flex items-center gap-2 px-7 py-3.5 font-semibold rounded-xl border transition-all duration-200 hover:-translate-y-0.5"
+               style="border-color:var(--border);color:var(--text-secondary)">
+                @L["Nav_Home"]
+            </a>
+        </div>
+    </div>
+</section>
