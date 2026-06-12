@@ -65,11 +65,11 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
                 new { categoryId }, _transaction);
         }
 
-        public async Task<IEnumerable<Project>> SearchAsync(string query, int limit = 50)
+        public async Task<IEnumerable<Project>> SearchAsync(string query)
         {
             return await _connection.QueryAsync<Project>(
-                $"SELECT {Columns} {Joins} WHERE p.\"IsDeleted\" = FALSE AND (p.\"Title\" ILIKE @q OR p.\"Description\" ILIKE @q OR p.\"TechnologyStack\" ILIKE @q) ORDER BY p.\"DisplayOrder\", p.\"CreatedAt\" DESC LIMIT @limit",
-                new { q = $"%{query}%", limit }, _transaction);
+                $"SELECT {Columns} {Joins} WHERE p.\"IsDeleted\" = FALSE AND (p.\"Title\" ILIKE @q OR p.\"Description\" ILIKE @q OR p.\"TechnologyStack\" ILIKE @q) ORDER BY p.\"DisplayOrder\", p.\"CreatedAt\" DESC",
+                new { q = $"%{query}%" }, _transaction);
         }
 
         public async Task<int> CountActiveAsync()

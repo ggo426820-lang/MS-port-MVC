@@ -82,11 +82,11 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
                 new { categoryId }, _transaction);
         }
 
-        public async Task<IEnumerable<BlogPost>> SearchAsync(string query, int limit = 50)
+        public async Task<IEnumerable<BlogPost>> SearchAsync(string query)
         {
             return await _connection.QueryAsync<BlogPost>(
-                $"SELECT {Columns} {Joins} WHERE b.\"Status\" = 1 AND b.\"IsDeleted\" = FALSE AND (b.\"Title\" ILIKE @q OR b.\"Summary\" ILIKE @q OR b.\"Content\" ILIKE @q) ORDER BY b.\"CreatedAt\" DESC LIMIT @limit",
-                new { q = $"%{query}%", limit }, _transaction);
+                $"SELECT {Columns} {Joins} WHERE b.\"Status\" = 1 AND b.\"IsDeleted\" = FALSE AND (b.\"Title\" ILIKE @q OR b.\"Summary\" ILIKE @q OR b.\"Content\" ILIKE @q) ORDER BY b.\"CreatedAt\" DESC",
+                new { q = $"%{query}%" }, _transaction);
         }
 
         public async Task<bool> IncrementViewCountAsync(Guid id)
