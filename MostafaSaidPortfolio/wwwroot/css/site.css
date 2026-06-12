@@ -382,8 +382,6 @@ body {
    ========================================================= */
 .skills-section {
   background: var(--bg-surface);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
 }
 .skill-pill {
   padding: 0.5rem 1rem;
@@ -749,3 +747,132 @@ body {
    Scrollbar color for content areas
    ========================================================= */
 .overflow-x-auto { scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb) transparent; }
+
+/* =========================================================
+   Page-Transition Cover (lang switch smooth animation)
+   ========================================================= */
+#page-cover {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--bg-base);
+  pointer-events: none;
+  animation: pageCoverOut 0.35s ease-out 0.05s both;
+}
+@keyframes pageCoverOut {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+html.lang-switching #page-cover {
+  animation: pageCoverIn 0.22s ease-in both;
+  pointer-events: all;
+}
+@keyframes pageCoverIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* =========================================================
+   RTL Page Entrance — gentle slide-in when dir flips
+   ========================================================= */
+@keyframes rtlPageIn {
+  from { opacity: 0.6; transform: translateX(-10px); }
+  to   { opacity: 1;   transform: translateX(0); }
+}
+@keyframes ltrPageIn {
+  from { opacity: 0.6; transform: translateX(10px); }
+  to   { opacity: 1;   transform: translateX(0); }
+}
+html[dir="rtl"] body { animation: rtlPageIn 0.32s ease-out both; }
+html[dir="ltr"] body { animation: ltrPageIn 0.32s ease-out both; }
+
+/* =========================================================
+   Testimonial Cards
+   ========================================================= */
+.testimonial-card {
+  position: relative;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+.testimonial-card:hover {
+  border-color: var(--accent-border);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-5px);
+}
+.testimonial-quote {
+  position: absolute;
+  top: 0.75rem;
+  right: 1.25rem;
+  font-size: 5rem;
+  line-height: 1;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--accent-border);
+  opacity: 0.45;
+  user-select: none;
+  pointer-events: none;
+  z-index: 0;
+}
+[dir="rtl"] .testimonial-quote {
+  right: auto;
+  left: 1.25rem;
+}
+.testimonial-text {
+  font-size: 0.9375rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  font-style: italic;
+  flex: 1;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+[dir="rtl"] .testimonial-text {
+  font-style: normal;
+  text-align: right;
+}
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+[dir="rtl"] .testimonial-author {
+  flex-direction: row-reverse;
+}
+.testimonial-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #818cf8, #a78bfa);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgb(99 102 241 / 0.3);
+}
+.testimonial-name {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.testimonial-company {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.125rem;
+}
+[dir="rtl"] .testimonial-name,
+[dir="rtl"] .testimonial-company { text-align: right; }

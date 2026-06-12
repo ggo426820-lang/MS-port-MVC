@@ -64,6 +64,9 @@
 <body class="font-sans antialiased flex flex-col min-h-screen transition-colors duration-300"
       style="background:var(--bg-base);color:var(--text-primary)">
 
+    <!-- Page-transition cover — fades out on load, fades in on lang switch -->
+    <div id="page-cover" aria-hidden="true"></div>
+
     <!-- ===================== HEADER ===================== -->
     <header id="site-header" class="sticky top-0 z-50 backdrop-blur-md border-b transition-all duration-300"
             style="background:var(--header-bg);border-color:var(--header-border)">

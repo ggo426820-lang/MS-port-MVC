@@ -221,6 +221,25 @@ var ThemeManager = (function () {
 }());
 
 /* =========================================================
+   Language Switch — smooth fade transition before navigation
+   ========================================================= */
+(function () {
+    document.querySelectorAll('.lang-btn').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+            var href = btn.getAttribute('href');
+            if (!href) return;
+            // Don't animate if already on that language
+            if (btn.classList.contains('active')) return;
+            e.preventDefault();
+            document.documentElement.classList.add('lang-switching');
+            setTimeout(function () {
+                window.location.href = href;
+            }, 230);
+        });
+    });
+}());
+
+/* =========================================================
    Bootstrap — run theme init first to avoid FOUC
    ========================================================= */
 ThemeManager.init();

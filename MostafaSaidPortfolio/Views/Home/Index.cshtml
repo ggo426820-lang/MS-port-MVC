@@ -257,30 +257,35 @@
 {
     <section class="py-24" style="background:var(--bg-base)">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12 section-head">
-                <p class="section-label mb-2">@L["Home_TestimonialsLabel"]</p>
+            <div class="text-center mb-16 section-head">
+                <p class="section-label mb-3">@L["Home_TestimonialsLabel"]</p>
                 <h2 class="section-title font-heading">@L["Home_WhatClientsSay"]</h2>
+                <div class="mx-auto mt-4 w-12 h-1 rounded-full" style="background:var(--accent); opacity:0.6"></div>
             </div>
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" data-stagger>
                 @foreach (var t in testimonials)
                 {
-                    <div class="card p-6 observe-fade">
-                        <div class="flex items-center gap-1 mb-4">
+                    <div class="testimonial-card observe-fade">
+                        <div class="testimonial-quote">&ldquo;</div>
+
+                        <div class="flex gap-0.5 mb-4 relative z-10">
                             @for (int i = 0; i < Math.Min(t.Rating, 5); i++)
                             {
                                 <svg class="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                             }
                         </div>
-                        <p class="text-sm leading-relaxed mb-5 italic" style="color:var(--text-secondary)">"@t.Content"</p>
-                        <div class="flex items-center gap-3 pt-4 border-t card-divider">
-                            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-400 to-purple-400 flex items-center justify-center text-white font-bold text-sm shrink-0">
+
+                        <p class="testimonial-text">@t.Content</p>
+
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">
                                 @(t.AuthorName.Length > 0 ? t.AuthorName.Substring(0, 1).ToUpper() : "?")
                             </div>
-                            <div>
-                                <div class="font-semibold text-sm" style="color:var(--text-primary)">@t.AuthorName</div>
+                            <div class="min-w-0">
+                                <div class="testimonial-name">@t.AuthorName</div>
                                 @if (!string.IsNullOrEmpty(t.Company))
                                 {
-                                    <div class="text-xs" style="color:var(--text-muted)">@t.Company</div>
+                                    <div class="testimonial-company">@t.Company</div>
                                 }
                             </div>
                         </div>
