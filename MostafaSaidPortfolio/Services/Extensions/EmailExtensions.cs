@@ -1,15 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
 namespace MostafaSaidPortfolio.Extensions
 {
     public static class EmailExtensions
     {
         public static IServiceCollection AddCustomEmail(this IServiceCollection services)
         {
-            // TODO: Configure your email services here
+            // Configure SMTP / SendGrid / SES settings here when email sending is needed.
             // Example:
-            // services.AddTransient<IEmailService, EmailService>();
-
+            //   services.Configure<SmtpSettings>(config.GetSection("Smtp"));
+            //   services.AddTransient<IEmailSender, SmtpEmailSender>();
             return services;
         }
     }
