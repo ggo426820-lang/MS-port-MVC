@@ -25,8 +25,12 @@ namespace MostafaSaidPortfolio.Services.Implementations
         public Task<BlogPost?> GetBySlugAsync(string slug) =>
             _uow.Blogs.GetBySlugAsync(slug);
 
-        public Task<IEnumerable<BlogPost>> GetByCategoryAsync(int categoryId) =>
+        public Task<IEnumerable<BlogPost>> GetByCategoryAsync(Guid categoryId) =>
             _uow.Blogs.GetByCategoryAsync(categoryId);
+
+        public Task<(IEnumerable<BlogPost> Items, int TotalCount)> GetPagedAsync(
+            string? search, Guid? categoryId, string sort, int page, int pageSize) =>
+            _uow.Blogs.GetPagedAsync(search, categoryId, sort, page, pageSize);
 
         public Task<IEnumerable<BlogPost>> SearchAsync(string query) =>
             _uow.Blogs.SearchAsync(query);

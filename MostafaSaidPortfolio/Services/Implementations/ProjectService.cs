@@ -19,11 +19,18 @@ namespace MostafaSaidPortfolio.Services.Implementations
         public Task<Project?> GetByIdAsync(Guid id) =>
             _uow.Projects.GetByIdAsync(id);
 
-        public Task<IEnumerable<Project>> GetByCategoryAsync(int categoryId) =>
+        public Task<Project?> GetBySlugAsync(string slug) =>
+            _uow.Projects.GetBySlugAsync(slug);
+
+        public Task<IEnumerable<Project>> GetByCategoryAsync(Guid categoryId) =>
             _uow.Projects.GetByCategoryAsync(categoryId);
 
         public Task<IEnumerable<Project>> SearchAsync(string query) =>
             _uow.Projects.SearchAsync(query);
+
+        public Task<(IEnumerable<Project> Items, int TotalCount)> GetPagedAsync(
+            string? search, Guid? categoryId, string sort, int page, int pageSize) =>
+            _uow.Projects.GetPagedAsync(search, categoryId, sort, page, pageSize);
 
         public async Task<Project> AddAsync(Project entity)
         {

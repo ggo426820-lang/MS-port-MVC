@@ -32,6 +32,7 @@ namespace MostafaSaidPortfolio.Data
             {
                 new CategorySeeder(),
                 new TagSeeder(),
+                new SkillSeeder(),
                 new ProjectSeeder(),
                 new BlogPostSeeder(),
                 new CommentSeeder(),

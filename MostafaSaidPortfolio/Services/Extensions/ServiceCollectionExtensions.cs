@@ -14,6 +14,7 @@ namespace MostafaSaidPortfolio.Extensions
             // Application services — delegate to UoW / repositories
             services.AddScoped<IBlogService, BlogService>();
             services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<INewsletterService, NewsletterService>();
             services.AddScoped<IEventsService, EventsService>();
             services.AddScoped<ITestimonialService, TestimonialService>();

@@ -212,7 +212,7 @@
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" data-stagger>
                 @foreach (var post in blogs)
                 {
-                    <a asp-controller="Blog" asp-action="Details" asp-route-id="@post.Id"
+                    <a asp-controller="Blog" asp-action="Details" asp-route-id="@post.Slug"
                        class="content-card group p-6 flex flex-col observe-fade" style="display:flex">
                         <div class="flex items-center justify-between mb-4">
                             @if (!string.IsNullOrEmpty(post.CategoryName))

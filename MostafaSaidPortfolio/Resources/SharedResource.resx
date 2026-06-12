@@ -51,22 +51,32 @@
   <data name="Home_NoArticles"       xml:space="preserve"><value>No articles yet. Coming soon!</value></data>
 
   <!-- Blog page -->
-  <data name="Blog_Label"       xml:space="preserve"><value>Writing &amp; Thoughts</value></data>
-  <data name="Blog_Title"       xml:space="preserve"><value>Blog</value></data>
-  <data name="Blog_Description" xml:space="preserve"><value>Articles on .NET, PostgreSQL, web development, and software engineering best practices.</value></data>
-  <data name="Blog_MinRead"     xml:space="preserve"><value>min read</value></data>
-  <data name="Blog_Empty"       xml:space="preserve"><value>No articles yet</value></data>
-  <data name="Blog_EmptySub"    xml:space="preserve"><value>Check back soon — articles are coming!</value></data>
+  <data name="Blog_Label"            xml:space="preserve"><value>Writing &amp; Thoughts</value></data>
+  <data name="Blog_Title"            xml:space="preserve"><value>Blog</value></data>
+  <data name="Blog_Description"      xml:space="preserve"><value>Articles on .NET, PostgreSQL, web development, and software engineering best practices.</value></data>
+  <data name="Blog_MinRead"          xml:space="preserve"><value>min read</value></data>
+  <data name="Blog_Empty"            xml:space="preserve"><value>No articles yet</value></data>
+  <data name="Blog_EmptySub"         xml:space="preserve"><value>Check back soon — articles are coming!</value></data>
+  <data name="Blog_SearchPlaceholder" xml:space="preserve"><value>Search articles...</value></data>
+  <data name="Blog_Posts"            xml:space="preserve"><value>articles</value></data>
+  <data name="Blog_NoPosts"          xml:space="preserve"><value>No articles found</value></data>
+  <data name="Blog_NoResults"        xml:space="preserve"><value>No results found</value></data>
+  <data name="Blog_NoResultsSub"     xml:space="preserve"><value>Try a different search term or clear the filters.</value></data>
 
   <!-- Projects page -->
-  <data name="Projects_Label"       xml:space="preserve"><value>Portfolio</value></data>
-  <data name="Projects_Title"       xml:space="preserve"><value>Projects</value></data>
-  <data name="Projects_Description" xml:space="preserve"><value>A collection of applications I've built — from full-stack web apps to API integrations.</value></data>
-  <data name="Projects_Featured"    xml:space="preserve"><value>Featured</value></data>
-  <data name="Projects_Details"     xml:space="preserve"><value>Details</value></data>
-  <data name="Projects_LiveDemo"    xml:space="preserve"><value>Live Demo</value></data>
-  <data name="Projects_Empty"       xml:space="preserve"><value>No projects yet</value></data>
-  <data name="Projects_EmptySub"    xml:space="preserve"><value>Check back soon!</value></data>
+  <data name="Projects_Label"              xml:space="preserve"><value>Portfolio</value></data>
+  <data name="Projects_Title"              xml:space="preserve"><value>Projects</value></data>
+  <data name="Projects_Description"        xml:space="preserve"><value>A collection of applications I've built — from full-stack web apps to API integrations.</value></data>
+  <data name="Projects_Featured"           xml:space="preserve"><value>Featured</value></data>
+  <data name="Projects_Details"            xml:space="preserve"><value>Details</value></data>
+  <data name="Projects_LiveDemo"           xml:space="preserve"><value>Live Demo</value></data>
+  <data name="Projects_Empty"              xml:space="preserve"><value>No projects yet</value></data>
+  <data name="Projects_EmptySub"           xml:space="preserve"><value>Check back soon!</value></data>
+  <data name="Projects_SearchPlaceholder"  xml:space="preserve"><value>Search projects...</value></data>
+  <data name="Projects_Projects"           xml:space="preserve"><value>projects</value></data>
+  <data name="Projects_NoProjects"         xml:space="preserve"><value>No projects found</value></data>
+  <data name="Projects_NoResults"          xml:space="preserve"><value>No results found</value></data>
+  <data name="Projects_NoResultsSub"       xml:space="preserve"><value>Try a different search term or clear the filters.</value></data>
 
   <!-- Contact page -->
   <data name="Contact_Label"           xml:space="preserve"><value>Get In Touch</value></data>
@@ -96,9 +106,20 @@
   <data name="Contact_Error_TryAgain"  xml:space="preserve"><value>Try Again</value></data>
 
   <!-- Common -->
-  <data name="Common_Featured" xml:space="preserve"><value>★ Featured</value></data>
-  <data name="Common_GitHub"   xml:space="preserve"><value>GitHub</value></data>
-  <data name="Common_LiveDemo" xml:space="preserve"><value>Live Demo</value></data>
+  <data name="Common_Featured"      xml:space="preserve"><value>★ Featured</value></data>
+  <data name="Common_GitHub"        xml:space="preserve"><value>GitHub</value></data>
+  <data name="Common_LiveDemo"      xml:space="preserve"><value>Live Demo</value></data>
+  <data name="Common_All"           xml:space="preserve"><value>All</value></data>
+  <data name="Common_Of"            xml:space="preserve"><value>of</value></data>
+  <data name="Common_SortBy"        xml:space="preserve"><value>Sort by</value></data>
+  <data name="Common_Search"        xml:space="preserve"><value>Search</value></data>
+  <data name="Common_ClearFilters"  xml:space="preserve"><value>Clear filters</value></data>
+
+  <!-- Sort options -->
+  <data name="Sort_Newest"  xml:space="preserve"><value>Newest first</value></data>
+  <data name="Sort_Oldest"  xml:space="preserve"><value>Oldest first</value></data>
+  <data name="Sort_Popular" xml:space="preserve"><value>Most popular</value></data>
+  <data name="Sort_Title"   xml:space="preserve"><value>Title A–Z</value></data>
 
   <!-- Events page -->
   <data name="Nav_Events"                  xml:space="preserve"><value>Events</value></data>
