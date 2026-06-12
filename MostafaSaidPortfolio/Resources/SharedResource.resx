@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+
+  <!-- Navigation -->
+  <data name="Nav_Home"     xml:space="preserve"><value>Home</value></data>
+  <data name="Nav_Projects" xml:space="preserve"><value>Projects</value></data>
+  <data name="Nav_Blog"     xml:space="preserve"><value>Blog</value></data>
+  <data name="Nav_Contact"  xml:space="preserve"><value>Contact</value></data>
+  <data name="Nav_HireMe"   xml:space="preserve"><value>Hire Me</value></data>
+
+  <!-- Footer -->
+  <data name="Footer_QuickLinks"  xml:space="preserve"><value>Quick Links</value></data>
+  <data name="Footer_GetInTouch"  xml:space="preserve"><value>Get In Touch</value></data>
+  <data name="Footer_Available"   xml:space="preserve"><value>Available for freelance</value></data>
+  <data name="Footer_Rights"      xml:space="preserve"><value>All rights reserved.</value></data>
+  <data name="Footer_BuiltWith"   xml:space="preserve"><value>Built with ASP.NET Core + PostgreSQL + Dapper</value></data>
+  <data name="Footer_Bio"         xml:space="preserve"><value>Full Stack Developer passionate about building elegant web applications with clean, maintainable code.</value></data>
+
+  <!-- Hero -->
+  <data name="Hero_Badge"       xml:space="preserve"><value>Available for new projects</value></data>
+  <data name="Hero_Hello"       xml:space="preserve"><value>Hi, I'm</value></data>
+  <data name="Hero_Description" xml:space="preserve"><value>Full Stack Developer specializing in ASP.NET Core, PostgreSQL, and modern web technologies. I build fast, clean, and scalable applications.</value></data>
+  <data name="Hero_ViewWork"    xml:space="preserve"><value>View My Work</value></data>
+  <data name="Hero_Contact"     xml:space="preserve"><value>Get In Touch</value></data>
+
+  <!-- Stats -->
+  <data name="Stats_Projects"     xml:space="preserve"><value>Projects Built</value></data>
+  <data name="Stats_Years"        xml:space="preserve"><value>Years Experience</value></data>
+  <data name="Stats_Tech"         xml:space="preserve"><value>Technologies</value></data>
+  <data name="Stats_Satisfaction" xml:space="preserve"><value>Client Satisfaction</value></data>
+
+  <!-- Home sections -->
+  <data name="Home_PortfolioLabel"   xml:space="preserve"><value>Portfolio</value></data>
+  <data name="Home_FeaturedProjects" xml:space="preserve"><value>Featured Projects</value></data>
+  <data name="Home_WritingLabel"     xml:space="preserve"><value>Writing</value></data>
+  <data name="Home_LatestArticles"   xml:space="preserve"><value>Latest Articles</value></data>
+  <data name="Home_ViewAll"          xml:space="preserve"><value>View all</value></data>
+  <data name="Home_TechTitle"        xml:space="preserve"><value>Technologies I Work With</value></data>
+  <data name="Home_TestimonialsLabel" xml:space="preserve"><value>Testimonials</value></data>
+  <data name="Home_WhatClientsSay"   xml:space="preserve"><value>What Clients Say</value></data>
+  <data name="Home_NewsletterTitle"  xml:space="preserve"><value>Stay in the Loop</value></data>
+  <data name="Home_NewsletterDesc"   xml:space="preserve"><value>Get articles on .NET, PostgreSQL, and modern web development delivered to your inbox.</value></data>
+  <data name="Home_Subscribe"        xml:space="preserve"><value>Subscribe</value></data>
+  <data name="Home_EmailPlaceholder" xml:space="preserve"><value>Enter your email address</value></data>
+  <data name="Home_ReadMore"         xml:space="preserve"><value>Read more</value></data>
+  <data name="Home_NoProjects"       xml:space="preserve"><value>No projects yet. Stay tuned!</value></data>
+  <data name="Home_NoArticles"       xml:space="preserve"><value>No articles yet. Coming soon!</value></data>
+
+  <!-- Blog page -->
+  <data name="Blog_Label"       xml:space="preserve"><value>Writing &amp; Thoughts</value></data>
+  <data name="Blog_Title"       xml:space="preserve"><value>Blog</value></data>
+  <data name="Blog_Description" xml:space="preserve"><value>Articles on .NET, PostgreSQL, web development, and software engineering best practices.</value></data>
+  <data name="Blog_MinRead"     xml:space="preserve"><value>min read</value></data>
+  <data name="Blog_Empty"       xml:space="preserve"><value>No articles yet</value></data>
+  <data name="Blog_EmptySub"    xml:space="preserve"><value>Check back soon — articles are coming!</value></data>
+
+  <!-- Projects page -->
+  <data name="Projects_Label"       xml:space="preserve"><value>Portfolio</value></data>
+  <data name="Projects_Title"       xml:space="preserve"><value>Projects</value></data>
+  <data name="Projects_Description" xml:space="preserve"><value>A collection of applications I've built — from full-stack web apps to API integrations.</value></data>
+  <data name="Projects_Featured"    xml:space="preserve"><value>Featured</value></data>
+  <data name="Projects_Details"     xml:space="preserve"><value>Details</value></data>
+  <data name="Projects_LiveDemo"    xml:space="preserve"><value>Live Demo</value></data>
+  <data name="Projects_Empty"       xml:space="preserve"><value>No projects yet</value></data>
+  <data name="Projects_EmptySub"    xml:space="preserve"><value>Check back soon!</value></data>
+
+  <!-- Contact page -->
+  <data name="Contact_Label"           xml:space="preserve"><value>Get In Touch</value></data>
+  <data name="Contact_Title"           xml:space="preserve"><value>Contact Me</value></data>
+  <data name="Contact_Description"     xml:space="preserve"><value>Have a project in mind or want to collaborate? I'd love to hear from you.</value></data>
+  <data name="Contact_WorkTogether"    xml:space="preserve"><value>Let's work together</value></data>
+  <data name="Contact_BodyText"        xml:space="preserve"><value>I'm available for freelance projects, full-time opportunities, and consulting. Feel free to reach out — I usually respond within 24 hours.</value></data>
+  <data name="Contact_EmailLabel"      xml:space="preserve"><value>Email</value></data>
+  <data name="Contact_LocationLabel"   xml:space="preserve"><value>Location</value></data>
+  <data name="Contact_AvailLabel"      xml:space="preserve"><value>Availability</value></data>
+  <data name="Contact_AvailValue"      xml:space="preserve"><value>Available for freelance projects</value></data>
+  <data name="Contact_FormTitle"       xml:space="preserve"><value>Send a Message</value></data>
+  <data name="Contact_FullName"        xml:space="preserve"><value>Full Name</value></data>
+  <data name="Contact_EmailAddress"    xml:space="preserve"><value>Email Address</value></data>
+  <data name="Contact_Subject"         xml:space="preserve"><value>Subject</value></data>
+  <data name="Contact_SubjectOptional" xml:space="preserve"><value>optional</value></data>
+  <data name="Contact_Message"         xml:space="preserve"><value>Message</value></data>
+  <data name="Contact_Send"            xml:space="preserve"><value>Send Message</value></data>
+  <data name="Contact_Error"           xml:space="preserve"><value>Please correct the errors below.</value></data>
+
+  <!-- Common -->
+  <data name="Common_Featured" xml:space="preserve"><value>★ Featured</value></data>
+  <data name="Common_GitHub"   xml:space="preserve"><value>GitHub</value></data>
+  <data name="Common_LiveDemo" xml:space="preserve"><value>Live Demo</value></data>
+</root>

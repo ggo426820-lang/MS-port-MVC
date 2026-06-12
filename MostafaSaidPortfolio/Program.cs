@@ -1,8 +1,11 @@
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using MostafaSaidPortfolio.Data;
 using MostafaSaidPortfolio.Extensions;
 using MostafaSaidPortfolio.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,10 +21,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    options.Password.RequireDigit = false;
-    options.Password.RequireUppercase = false;
+    options.Password.RequireDigit           = false;
+    options.Password.RequireUppercase       = false;
     options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequiredLength = 6;
+    options.Password.RequiredLength         = 6;
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
@@ -29,11 +32,30 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 // Dapper connection factory (singleton)
 builder.Services.AddSingleton<DbConnectionFactory>();
 
-// Register app services (Dapper-based)
+// Register app services (Dapper-based via UoW)
 builder.Services.AddCustomServices();
 
+// Localization — resource files live in Resources/
+builder.Services.AddLocalization(opts => opts.ResourcesPath = "Resources");
+
+// Supported cultures
+var supportedCultures = new[] { new CultureInfo("en"), new CultureInfo("ar") };
+builder.Services.Configure<RequestLocalizationOptions>(opts =>
+{
+    opts.DefaultRequestCulture = new RequestCulture("en");
+    opts.SupportedCultures     = supportedCultures;
+    opts.SupportedUICultures   = supportedCultures;
+    opts.FallBackToParentCultures   = true;
+    opts.FallBackToParentUICultures = true;
+
+    // Cookie is the primary provider (set by CultureController)
+    opts.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
+});
+
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization()
+    .AddDataAnnotationsLocalization();
 
 var app = builder.Build();
 
@@ -54,6 +76,11 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseStaticFiles();
+
+// Localization middleware BEFORE routing
+app.UseRequestLocalization(
+    app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
+
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

@@ -1,15 +1,13 @@
 @using MostafaSaidPortfolio.Models
-@model IEnumerable<MostafaSaidPortfolio.Models.Project>
-@{
-    ViewData["Title"] = "Projects";
-}
+@model IEnumerable<Project>
+@{ ViewData["Title"] = L["Projects_Title"].ToString(); }
 
 <!-- Page Header -->
 <section class="page-header">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <p class="text-indigo-400 font-semibold text-sm uppercase tracking-wider mb-3">Portfolio</p>
-        <h1 class="font-heading text-4xl sm:text-5xl font-bold text-white mb-4">Projects</h1>
-        <p class="text-slate-400 text-lg max-w-xl">A collection of applications I've built — from full-stack web apps to API integrations.</p>
+        <p class="text-indigo-400 font-semibold text-xs uppercase tracking-widest mb-3">@L["Projects_Label"]</p>
+        <h1 class="font-heading text-4xl sm:text-5xl font-bold text-white mb-4">@L["Projects_Title"]</h1>
+        <p class="text-slate-400 text-lg max-w-xl">@L["Projects_Description"]</p>
     </div>
 </section>
 
@@ -20,19 +18,19 @@
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach (var project in Model)
             {
-                <div class="group bg-white rounded-2xl border border-slate-200 hover:border-indigo-200 overflow-hidden shadow-sm hover:shadow-xl hover:shadow-indigo-100/60 transition-all duration-300 hover:-translate-y-1.5 flex flex-col">
+                <div class="content-card group flex flex-col observe-fade">
 
                     <!-- Image / Placeholder -->
-                    <div class="relative h-44 bg-gradient-to-br from-indigo-50 to-purple-50 overflow-hidden">
+                    <div class="relative h-44 overflow-hidden" style="background:linear-gradient(135deg,var(--accent-bg),#f3e8ff)">
                         @if (!string.IsNullOrEmpty(project.ImageUrl))
                         {
-                            <img src="@project.ImageUrl" alt="@project.Title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+                            <img src="@project.ImageUrl" alt="@project.Title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
                         }
                         else
                         {
                             <div class="absolute inset-0 flex items-center justify-center">
-                                <div class="w-16 h-16 rounded-2xl bg-white shadow-md flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-16 h-16 rounded-2xl shadow-md flex items-center justify-center" style="background:var(--bg-surface)">
+                                    <svg class="w-8 h-8" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
                                     </svg>
                                 </div>
@@ -40,7 +38,7 @@
                         }
                         @if (project.IsFeatured)
                         {
-                            <span class="absolute top-3 left-3 px-2.5 py-1 bg-amber-400 text-amber-900 text-xs font-bold rounded-full">★ Featured</span>
+                            <span class="absolute top-3 left-3 px-2.5 py-1 bg-amber-400 text-amber-900 text-xs font-bold rounded-full">@L["Common_Featured"]</span>
                         }
                         @if (!string.IsNullOrEmpty(project.CategoryName ?? project.Category?.Name))
                         {
@@ -51,11 +49,9 @@
                     </div>
 
                     <div class="p-6 flex flex-col flex-1">
-                        <h3 class="font-heading font-bold text-slate-900 text-lg leading-tight mb-2 group-hover:text-indigo-600 transition-colors">
-                            @project.Title
-                        </h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-4 flex-1">
-                            @(project.Description.Length > 130 ? project.Description.Substring(0, 130) + "…" : project.Description)
+                        <h3 class="card-title font-heading font-bold text-lg leading-tight mb-2 group-hover:text-indigo-500 transition-colors">@project.Title</h3>
+                        <p class="card-text text-sm leading-relaxed mb-4 flex-1">
+                            @(project.Description.Length > 130 ? project.Description[..130] + "…" : project.Description)
                         </p>
 
                         @if (project.TechStackList.Any())
@@ -63,18 +59,18 @@
                             <div class="flex flex-wrap gap-1.5 mb-4">
                                 @foreach (var tech in project.TechStackList.Take(4))
                                 {
-                                    <span class="px-2 py-0.5 bg-slate-100 text-slate-600 text-xs rounded-md font-medium">@tech</span>
+                                    <span class="tech-chip">@tech</span>
                                 }
                                 @if (project.TechStackList.Length > 4)
                                 {
-                                    <span class="px-2 py-0.5 bg-slate-100 text-slate-500 text-xs rounded-md">+@(project.TechStackList.Length - 4)</span>
+                                    <span class="tech-chip">+@(project.TechStackList.Length - 4)</span>
                                 }
                             </div>
                         }
 
-                        <!-- Stats + Actions -->
-                        <div class="flex items-center justify-between pt-4 border-t border-slate-100">
-                            <div class="flex items-center gap-3 text-slate-400 text-xs">
+                        <!-- Actions row -->
+                        <div class="flex items-center justify-between pt-4 border-t card-divider">
+                            <div class="flex items-center gap-3 text-xs" style="color:var(--text-muted)">
                                 <span class="flex items-center gap-1">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                                     @project.ViewCount
@@ -88,20 +84,20 @@
                                 @if (!string.IsNullOrEmpty(project.GitHubUrl))
                                 {
                                     <a href="@project.GitHubUrl" target="_blank" rel="noopener"
-                                       class="p-1.5 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors" title="GitHub">
+                                       class="p-1.5 rounded-lg transition-colors hover:bg-opacity-10" style="color:var(--text-secondary)" title="GitHub">
                                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
                                     </a>
                                 }
                                 @if (!string.IsNullOrEmpty(project.LiveUrl))
                                 {
                                     <a href="@project.LiveUrl" target="_blank" rel="noopener"
-                                       class="p-1.5 text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition-colors" title="Live Demo">
+                                       class="p-1.5 rounded-lg transition-colors" style="color:var(--accent)" title="Live Demo">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                                     </a>
                                 }
                                 <a asp-action="Details" asp-route-id="@project.Id"
-                                   class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-lg transition-colors">
-                                    Details
+                                   class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg transition-colors">
+                                    @L["Projects_Details"]
                                 </a>
                             </div>
                         </div>
@@ -113,13 +109,13 @@
     else
     {
         <div class="text-center py-24">
-            <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-indigo-50 flex items-center justify-center">
-                <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center" style="background:var(--accent-bg)">
+                <svg class="w-8 h-8" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
                 </svg>
             </div>
-            <h3 class="font-heading font-bold text-slate-900 text-xl mb-2">No projects yet</h3>
-            <p class="text-slate-500">Check back soon!</p>
+            <h3 class="font-heading font-bold text-xl mb-2" style="color:var(--text-primary)">@L["Projects_Empty"]</h3>
+            <p style="color:var(--text-muted)">@L["Projects_EmptySub"]</p>
         </div>
     }
 </section>
