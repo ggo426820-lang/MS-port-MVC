@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using MostafaSaidPortfolio.Data.UnitOfWork;
-using MostafaSaidPortfolio.Models;
-using MostafaSaidPortfolio.ViewModels;
+using MostafaSaidPortfolio.Domain.Entities;
+using MostafaSaidPortfolio.Domain.Enums;
+using MostafaSaidPortfolio.Domain.ViewModels.Contact;
 
 namespace MostafaSaidPortfolio.Controllers
 {
@@ -36,3 +37,4 @@ namespace MostafaSaidPortfolio.Controllers
         public IActionResult Success() => View();
     }
 }
+

@@ -1,4 +1,4 @@
-namespace MostafaSaidPortfolio.ViewModels.Project;
+namespace MostafaSaidPortfolio.Domain.ViewModels.Project;
 
 /// <summary>
 /// Project view model

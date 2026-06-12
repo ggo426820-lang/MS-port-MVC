@@ -3,7 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MostafaSaidPortfolio.Data;
 using MostafaSaidPortfolio.Extensions;
-using MostafaSaidPortfolio.Models;
+using MostafaSaidPortfolio.Domain.Entities;
+using MostafaSaidPortfolio.Domain.Enums;
 using Microsoft.AspNetCore.Identity;
 using System.Globalization;
 
@@ -106,3 +107,4 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+

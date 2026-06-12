@@ -1,4 +1,4 @@
-namespace MostafaSaidPortfolio.ViewModels.Blog;
+namespace MostafaSaidPortfolio.Domain.ViewModels.Blog;
 
 /// <summary>
 /// Blog post view model

@@ -1,6 +1,7 @@
 using Dapper;
 using MostafaSaidPortfolio.Data.Repositories.Interfaces;
-using MostafaSaidPortfolio.Models;
+using MostafaSaidPortfolio.Domain.Entities;
+using MostafaSaidPortfolio.Domain.Enums;
 using Npgsql;
 
 namespace MostafaSaidPortfolio.Data.Repositories.Implementations
@@ -53,3 +54,4 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
         }
     }
 }
+

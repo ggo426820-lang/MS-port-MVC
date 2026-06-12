@@ -1,4 +1,4 @@
-namespace MostafaSaidPortfolio.ViewModels.Common;
+namespace MostafaSaidPortfolio.Domain.ViewModels.Common;
 
 /// <summary>
 /// Generic pagination view model

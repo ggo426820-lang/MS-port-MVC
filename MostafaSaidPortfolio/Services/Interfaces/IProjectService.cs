@@ -1,4 +1,5 @@
-using MostafaSaidPortfolio.Models;
+using MostafaSaidPortfolio.Domain.Entities;
+using MostafaSaidPortfolio.Domain.Enums;
 
 namespace MostafaSaidPortfolio.Services.Interfaces
 {
@@ -15,3 +16,4 @@ namespace MostafaSaidPortfolio.Services.Interfaces
         Task<bool> DeleteAsync(int id);
     }
 }
+

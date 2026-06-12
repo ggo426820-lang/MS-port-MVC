@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MostafaSaidPortfolio.Models;
+using MostafaSaidPortfolio.Domain.Entities;
+using MostafaSaidPortfolio.Domain.Enums;
 
 namespace MostafaSaidPortfolio.Data
 {
@@ -17,3 +18,4 @@ namespace MostafaSaidPortfolio.Data
         }
     }
 }
+

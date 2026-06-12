@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using MostafaSaidPortfolio.Models;
+using MostafaSaidPortfolio.Domain.Entities;
+using MostafaSaidPortfolio.Domain.Enums;
 using MostafaSaidPortfolio.Services.Interfaces;
 
 namespace MostafaSaidPortfolio.Controllers
@@ -41,3 +42,4 @@ namespace MostafaSaidPortfolio.Controllers
         }
     }
 }
+

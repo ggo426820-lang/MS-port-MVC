@@ -1,4 +1,5 @@
-using MostafaSaidPortfolio.Models;
+using MostafaSaidPortfolio.Domain.Entities;
+using MostafaSaidPortfolio.Domain.Enums;
 
 namespace MostafaSaidPortfolio.Data.Repositories.Interfaces
 {
@@ -9,3 +10,4 @@ namespace MostafaSaidPortfolio.Data.Repositories.Interfaces
         Task<bool> RejectAsync(int id);
     }
 }
+

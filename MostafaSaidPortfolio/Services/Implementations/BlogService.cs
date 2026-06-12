@@ -1,5 +1,6 @@
 using MostafaSaidPortfolio.Data.UnitOfWork;
-using MostafaSaidPortfolio.Models;
+using MostafaSaidPortfolio.Domain.Entities;
+using MostafaSaidPortfolio.Domain.Enums;
 using MostafaSaidPortfolio.Services.Interfaces;
 
 namespace MostafaSaidPortfolio.Services.Implementations
@@ -50,3 +51,4 @@ namespace MostafaSaidPortfolio.Services.Implementations
             _uow.Blogs.DeleteAsync(id);
     }
 }
+
