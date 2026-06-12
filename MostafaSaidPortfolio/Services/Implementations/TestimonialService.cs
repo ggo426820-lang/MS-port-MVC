@@ -1,5 +1,4 @@
-using Dapper;
-using MostafaSaidPortfolio.Data;
+using MostafaSaidPortfolio.Data.UnitOfWork;
 using MostafaSaidPortfolio.Models;
 using MostafaSaidPortfolio.Services.Interfaces;
 
@@ -7,49 +6,26 @@ namespace MostafaSaidPortfolio.Services.Implementations
 {
     public class TestimonialService : ITestimonialService
     {
-        private readonly DbConnectionFactory _factory;
+        private readonly IUnitOfWork _uow;
 
-        public TestimonialService(DbConnectionFactory factory) => _factory = factory;
+        public TestimonialService(IUnitOfWork uow) => _uow = uow;
 
-        public async Task<IEnumerable<Testimonial>> GetApprovedAsync()
-        {
-            using var conn = _factory.CreateConnection();
-            return await conn.QueryAsync<Testimonial>(@"
-                SELECT * FROM ""Testimonials""
-                WHERE ""IsApproved"" = TRUE
-                ORDER BY ""CreatedAt"" DESC");
-        }
+        public Task<IEnumerable<Testimonial>> GetApprovedAsync() =>
+            _uow.Testimonials.GetApprovedAsync();
 
-        public async Task<IEnumerable<Testimonial>> GetAllAsync()
-        {
-            using var conn = _factory.CreateConnection();
-            return await conn.QueryAsync<Testimonial>(@"
-                SELECT * FROM ""Testimonials"" ORDER BY ""CreatedAt"" DESC");
-        }
+        public Task<IEnumerable<Testimonial>> GetAllAsync() =>
+            _uow.Testimonials.GetAllAsync();
 
-        public async Task<Testimonial?> GetByIdAsync(int id)
-        {
-            using var conn = _factory.CreateConnection();
-            return await conn.QueryFirstOrDefaultAsync<Testimonial>(
-                @"SELECT * FROM ""Testimonials"" WHERE ""Id"" = @id", new { id });
-        }
+        public Task<Testimonial?> GetByIdAsync(int id) =>
+            _uow.Testimonials.GetByIdAsync(id);
 
         public async Task<Testimonial> AddAsync(Testimonial entity)
         {
-            using var conn = _factory.CreateConnection();
-            entity.Id = await conn.ExecuteScalarAsync<int>(@"
-                INSERT INTO ""Testimonials"" (""Author"", ""Content"", ""Company"", ""Rating"", ""ImageUrl"", ""IsApproved"")
-                VALUES (@Author, @Content, @Company, @Rating, @ImageUrl, FALSE)
-                RETURNING ""Id""", entity);
+            entity.Id = await _uow.Testimonials.AddAsync(entity);
             return entity;
         }
 
-        public async Task<bool> DeleteAsync(int id)
-        {
-            using var conn = _factory.CreateConnection();
-            var rows = await conn.ExecuteAsync(
-                @"DELETE FROM ""Testimonials"" WHERE ""Id"" = @id", new { id });
-            return rows > 0;
-        }
+        public Task<bool> DeleteAsync(int id) =>
+            _uow.Testimonials.DeleteAsync(id);
     }
 }

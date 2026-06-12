@@ -1,15 +1,15 @@
-using Dapper;
 using Microsoft.AspNetCore.Mvc;
-using MostafaSaidPortfolio.Data;
+using MostafaSaidPortfolio.Data.UnitOfWork;
+using MostafaSaidPortfolio.Models;
 using MostafaSaidPortfolio.ViewModels;
 
 namespace MostafaSaidPortfolio.Controllers
 {
     public class ContactController : Controller
     {
-        private readonly DbConnectionFactory _factory;
+        private readonly IUnitOfWork _uow;
 
-        public ContactController(DbConnectionFactory factory) => _factory = factory;
+        public ContactController(IUnitOfWork uow) => _uow = uow;
 
         [HttpGet]
         public IActionResult Index() => View();
@@ -21,11 +21,15 @@ namespace MostafaSaidPortfolio.Controllers
             if (!ModelState.IsValid)
                 return View("Index", model);
 
-            using var conn = _factory.CreateConnection();
-            await conn.ExecuteAsync(@"
-                INSERT INTO ""ContactMessages"" (""Name"", ""Email"", ""Subject"", ""Message"")
-                VALUES (@Name, @Email, @Subject, @Message)", model);
+            var message = new ContactMessage
+            {
+                Name  = model.Name,
+                Email = model.Email,
+                Subject = model.Subject,
+                Message = model.Message
+            };
 
+            await _uow.ContactMessages.AddAsync(message);
             return RedirectToAction("Success");
         }
 

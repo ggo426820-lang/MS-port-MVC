@@ -1,5 +1,4 @@
-using Dapper;
-using MostafaSaidPortfolio.Data;
+using MostafaSaidPortfolio.Data.UnitOfWork;
 using MostafaSaidPortfolio.Models;
 using MostafaSaidPortfolio.Services.Interfaces;
 
@@ -7,49 +6,26 @@ namespace MostafaSaidPortfolio.Services.Implementations
 {
     public class EventsService : IEventsService
     {
-        private readonly DbConnectionFactory _factory;
+        private readonly IUnitOfWork _uow;
 
-        public EventsService(DbConnectionFactory factory) => _factory = factory;
+        public EventsService(IUnitOfWork uow) => _uow = uow;
 
-        public async Task<IEnumerable<Event>> GetUpcomingAsync()
-        {
-            using var conn = _factory.CreateConnection();
-            return await conn.QueryAsync<Event>(@"
-                SELECT * FROM ""Events""
-                WHERE ""Date"" >= NOW()
-                ORDER BY ""Date"" ASC");
-        }
+        public Task<IEnumerable<Event>> GetUpcomingAsync() =>
+            _uow.Events.GetUpcomingAsync();
 
-        public async Task<IEnumerable<Event>> GetAllAsync()
-        {
-            using var conn = _factory.CreateConnection();
-            return await conn.QueryAsync<Event>(@"
-                SELECT * FROM ""Events"" ORDER BY ""Date"" DESC");
-        }
+        public Task<IEnumerable<Event>> GetAllAsync() =>
+            _uow.Events.GetAllAsync();
 
-        public async Task<Event?> GetByIdAsync(int id)
-        {
-            using var conn = _factory.CreateConnection();
-            return await conn.QueryFirstOrDefaultAsync<Event>(
-                @"SELECT * FROM ""Events"" WHERE ""Id"" = @id", new { id });
-        }
+        public Task<Event?> GetByIdAsync(int id) =>
+            _uow.Events.GetByIdAsync(id);
 
         public async Task<Event> AddAsync(Event entity)
         {
-            using var conn = _factory.CreateConnection();
-            entity.Id = await conn.ExecuteScalarAsync<int>(@"
-                INSERT INTO ""Events"" (""Title"", ""Description"", ""Date"", ""EndDate"", ""Location"", ""IsOnline"", ""MaxAttendees"")
-                VALUES (@Title, @Description, @Date, @EndDate, @Location, @IsOnline, @MaxAttendees)
-                RETURNING ""Id""", entity);
+            entity.Id = await _uow.Events.AddAsync(entity);
             return entity;
         }
 
-        public async Task<bool> DeleteAsync(int id)
-        {
-            using var conn = _factory.CreateConnection();
-            var rows = await conn.ExecuteAsync(
-                @"DELETE FROM ""Events"" WHERE ""Id"" = @id", new { id });
-            return rows > 0;
-        }
+        public Task<bool> DeleteAsync(int id) =>
+            _uow.Events.DeleteAsync(id);
     }
 }
