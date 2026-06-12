@@ -229,16 +229,52 @@ body {
 }
 
 /* =========================================================
-   Page Header (gradient banner)
+   Page Header (gradient banner) with wave bottom
    ========================================================= */
 .page-header {
   background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
-  padding: 5rem 0 4rem;
+  padding: 5rem 0 0;
   color: white;
+  position: relative;
+  overflow: hidden;
 }
 .dark .page-header {
   background: linear-gradient(135deg, #020617 0%, #1e1b4b 50%, #020617 100%);
 }
+.page-header-content {
+  padding-bottom: 4rem;
+}
+
+/* =========================================================
+   Wave Dividers — fills adapt to light/dark via CSS vars
+   ========================================================= */
+.wave-divider {
+  line-height: 0;
+  overflow: hidden;
+  display: block;
+}
+.wave-divider svg {
+  display: block;
+  width: 100%;
+  height: 70px;
+}
+
+/* Fill classes — SVG paths use these */
+.wave-fill-base    { fill: var(--bg-base); }
+.wave-fill-surface { fill: var(--bg-surface); }
+.wave-fill-subtle  { fill: var(--bg-subtle); }
+.wave-fill-footer  { fill: #020617; }
+
+/* Inside-section wave (absolute at bottom, inherits section bg) */
+.section-wave-bottom {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  line-height: 0;
+  overflow: hidden;
+}
+.section-wave-bottom svg { display: block; width: 100%; height: 70px; }
 
 /* =========================================================
    Form Inputs
@@ -357,13 +393,14 @@ body {
   font-size: 0.875rem;
   font-weight: 500;
   border-radius: 9999px;
-  transition: border-color 0.2s, color 0.2s, background-color 0.2s;
+  transition: border-color 0.2s, color 0.2s, background-color 0.2s, transform 0.2s;
   cursor: default;
 }
 .skill-pill:hover {
   border-color: var(--accent-border);
   color: var(--accent);
   background-color: var(--accent-bg);
+  transform: translateY(-2px);
 }
 
 /* =========================================================
@@ -424,6 +461,77 @@ body {
 .card-divider { border-color: var(--border-subtle); }
 
 /* =========================================================
+   Detail Page Sidebar Cards (theme-aware)
+   ========================================================= */
+.detail-sidebar-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  transition: box-shadow 0.3s ease;
+}
+.detail-sidebar-card:hover {
+  box-shadow: var(--shadow-hover);
+}
+.detail-sidebar-title {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+.detail-sidebar-label { color: var(--text-muted); font-size: 0.75rem; }
+.detail-sidebar-value { color: var(--text-secondary); font-size: 0.875rem; font-weight: 500; }
+
+.detail-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: gap 0.2s ease, color 0.2s ease;
+}
+.detail-back-link:hover { color: var(--accent-hover); gap: 0.75rem; }
+
+.detail-border { border-color: var(--border); }
+
+.detail-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: 0.75rem;
+  text-decoration: none;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+.detail-action-btn:hover {
+  border-color: var(--accent-border);
+  color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.detail-tech-chip {
+  padding: 0.375rem 0.875rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: border-color 0.2s, color 0.2s, transform 0.2s;
+}
+.detail-tech-chip:hover {
+  border-color: var(--accent-border);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+/* =========================================================
    Contact Form Card
    ========================================================= */
 .form-card {
@@ -472,6 +580,17 @@ body {
 }
 [dir="rtl"] .prose blockquote { border-left: none; border-right: 4px solid var(--accent); padding-left: 0; padding-right: 1rem; }
 
+/* Blog summary highlight block */
+.blog-summary-block {
+  background: var(--accent-bg);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 0.75rem 0.75rem 0;
+  padding: 1rem 1.5rem;
+  margin-bottom: 2rem;
+}
+.blog-summary-block p { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; font-weight: 500; margin: 0; }
+[dir="rtl"] .blog-summary-block { border-left: none; border-right: 4px solid var(--accent); border-radius: 0.75rem 0 0 0.75rem; }
+
 /* =========================================================
    Mobile Menu
    ========================================================= */
@@ -483,23 +602,102 @@ body {
 /* =========================================================
    Animations
    ========================================================= */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.fade-in { animation: fadeIn 0.5s ease-out both; }
-
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.slide-up { animation: slideUp 0.45s ease-out both; }
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(99 102 241 / 0.3); }
+  50%       { box-shadow: 0 0 0 12px rgb(99 102 241 / 0); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.fade-in     { animation: fadeIn     0.55s ease-out both; }
+.slide-up    { animation: slideUp    0.5s  ease-out both; }
+.scale-in    { animation: scaleIn    0.45s ease-out both; }
+.fade-left   { animation: fadeInLeft  0.55s ease-out both; }
+.fade-right  { animation: fadeInRight 0.55s ease-out both; }
+.float-anim  { animation: float      4s ease-in-out infinite; }
 
 /* Staggered delay helpers */
-.delay-100 { animation-delay: 0.1s; }
-.delay-200 { animation-delay: 0.2s; }
-.delay-300 { animation-delay: 0.3s; }
-.delay-400 { animation-delay: 0.4s; }
+.delay-100 { animation-delay: 0.10s; }
+.delay-150 { animation-delay: 0.15s; }
+.delay-200 { animation-delay: 0.20s; }
+.delay-250 { animation-delay: 0.25s; }
+.delay-300 { animation-delay: 0.30s; }
+.delay-350 { animation-delay: 0.35s; }
+.delay-400 { animation-delay: 0.40s; }
+.delay-500 { animation-delay: 0.50s; }
+.delay-600 { animation-delay: 0.60s; }
+
+/* =========================================================
+   Scroll Reveal — elements start hidden, animate in
+   ========================================================= */
+.observe-fade {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: none;
+}
+.observe-fade.visible {
+  animation: fadeInUp 0.6s ease-out both;
+}
+.observe-fade.visible.stagger-1 { animation-delay: 0.05s; }
+.observe-fade.visible.stagger-2 { animation-delay: 0.12s; }
+.observe-fade.visible.stagger-3 { animation-delay: 0.19s; }
+.observe-fade.visible.stagger-4 { animation-delay: 0.26s; }
+.observe-fade.visible.stagger-5 { animation-delay: 0.33s; }
+.observe-fade.visible.stagger-6 { animation-delay: 0.40s; }
+
+.observe-left {
+  opacity: 0;
+  transform: translateX(-24px);
+}
+.observe-left.visible  { animation: fadeInLeft 0.6s ease-out both; }
+
+.observe-right {
+  opacity: 0;
+  transform: translateX(24px);
+}
+.observe-right.visible { animation: fadeInRight 0.6s ease-out both; }
+
+.observe-scale {
+  opacity: 0;
+  transform: scale(0.92);
+}
+.observe-scale.visible { animation: scaleIn 0.5s ease-out both; }
+
+/* =========================================================
+   Section heading animation
+   ========================================================= */
+.section-head { opacity: 0; }
+.section-head.visible { animation: fadeInUp 0.6s ease-out both; }
 
 /* =========================================================
    RTL Layout Fixes
@@ -528,6 +726,10 @@ body {
 [dir="rtl"] .footer-grid { direction: rtl; }
 [dir="rtl"] #site-header .flex { flex-direction: row-reverse; }
 [dir="rtl"] nav.hidden { flex-direction: row-reverse; }
+
+/* RTL detail-back-link */
+[dir="rtl"] .detail-back-link { flex-direction: row-reverse; }
+[dir="rtl"] .blog-summary-block { border-left: none; border-right: 4px solid var(--accent); }
 
 /* =========================================================
    Responsive Grid Helpers
