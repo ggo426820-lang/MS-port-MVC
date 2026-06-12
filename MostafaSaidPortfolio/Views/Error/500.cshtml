@@ -1,7 +1,41 @@
-﻿@{
-    ViewData["Title"] = "500";
+@{
+    ViewData["Title"] = EL["Error_500_Title"].ToString();
 }
-<div class="max-w-4xl mx-auto mt-10">
-    <h1 class="text-4xl font-bold text-gray-800">@ViewData["Title"]</h1>
-    <p class="mt-4 text-gray-600">This is the 500 page inside Error.</p>
-</div>
+
+<section class="min-h-[60vh] flex items-center justify-center px-4 py-24">
+    <div class="max-w-lg text-center">
+
+        <!-- Icon -->
+        <div class="w-24 h-24 mx-auto mb-8 rounded-2xl flex items-center justify-center"
+             style="background:var(--accent-bg)">
+            <svg class="w-12 h-12" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+        </div>
+
+        <div class="font-heading font-bold text-6xl mb-4" style="color:var(--text-muted)">500</div>
+        <h1 class="font-heading text-3xl sm:text-4xl font-bold mb-4" style="color:var(--text-primary)">
+            @EL["Error_500_Title"]
+        </h1>
+        <p class="text-lg mb-10 leading-relaxed" style="color:var(--text-secondary)">
+            @EL["Error_500_Description"]
+        </p>
+
+        <div class="flex flex-wrap justify-center gap-4">
+            <a asp-controller="Home" asp-action="Index"
+               class="inline-flex items-center gap-2 px-7 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-all duration-200 hover:-translate-y-0.5 shadow-lg shadow-indigo-500/25">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                </svg>
+                @EL["Error_404_GoHome"]
+            </a>
+            <a asp-controller="Contact" asp-action="Index"
+               class="inline-flex items-center gap-2 px-7 py-3.5 font-semibold rounded-xl border transition-all duration-200 hover:-translate-y-0.5"
+               style="border-color:var(--border);color:var(--text-secondary)">
+                @EL["Error_500_Support"]
+            </a>
+        </div>
+    </div>
+</section>

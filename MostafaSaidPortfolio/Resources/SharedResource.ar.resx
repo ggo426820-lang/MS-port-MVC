@@ -87,8 +87,74 @@
   <data name="Contact_Send"            xml:space="preserve"><value>إرسال الرسالة</value></data>
   <data name="Contact_Error"           xml:space="preserve"><value>يرجى تصحيح الأخطاء أدناه.</value></data>
 
+  <!-- Contact success / error pages -->
+  <data name="Contact_Success_Title"   xml:space="preserve"><value>تم استلام رسالتك!</value></data>
+  <data name="Contact_Success_Desc"    xml:space="preserve"><value>شكراً على تواصلك. سأراجع رسالتك وأرد عليك خلال 24 ساعة.</value></data>
+  <data name="Contact_Success_BackHome" xml:space="preserve"><value>العودة إلى الرئيسية</value></data>
+  <data name="Contact_Error_Title"     xml:space="preserve"><value>حدث خطأ ما</value></data>
+  <data name="Contact_Error_Desc"      xml:space="preserve"><value>تعذّر إرسال رسالتك. يرجى المحاولة مرة أخرى أو مراسلتي مباشرةً على mostafa@example.com.</value></data>
+  <data name="Contact_Error_TryAgain"  xml:space="preserve"><value>حاول مجدداً</value></data>
+
   <!-- Common -->
   <data name="Common_Featured" xml:space="preserve"><value>★ مميز</value></data>
   <data name="Common_GitHub"   xml:space="preserve"><value>GitHub</value></data>
   <data name="Common_LiveDemo" xml:space="preserve"><value>عرض حي</value></data>
+
+  <!-- Events page -->
+  <data name="Nav_Events"                  xml:space="preserve"><value>الفعاليات</value></data>
+  <data name="Events_Label"                xml:space="preserve"><value>مجتمع وتعلّم</value></data>
+  <data name="Events_Title"                xml:space="preserve"><value>الفعاليات</value></data>
+  <data name="Events_Description"          xml:space="preserve"><value>ورش عمل ومؤتمرات ولقاءات — ابقَ على تواصل مع مجتمع المطورين.</value></data>
+  <data name="Events_Upcoming"             xml:space="preserve"><value>الفعاليات القادمة</value></data>
+  <data name="Events_Past"                 xml:space="preserve"><value>الفعاليات السابقة</value></data>
+  <data name="Events_Spots"                xml:space="preserve"><value>مقعد محجوز</value></data>
+  <data name="Events_Details"              xml:space="preserve"><value>عرض التفاصيل</value></data>
+  <data name="Events_Register"             xml:space="preserve"><value>سجّل الآن</value></data>
+  <data name="Events_Full"                 xml:space="preserve"><value>مكتمل العدد</value></data>
+  <data name="Events_NoUpcoming"           xml:space="preserve"><value>لا توجد فعاليات قادمة حالياً</value></data>
+  <data name="Events_CheckBack"            xml:space="preserve"><value>تابعنا — فعاليات جديدة قيد التخطيط!</value></data>
+  <data name="Events_BackToEvents"         xml:space="preserve"><value>العودة إلى الفعاليات</value></data>
+  <data name="Events_BackToEvent"          xml:space="preserve"><value>العودة إلى الفعالية</value></data>
+  <data name="Events_UpcomingBadge"        xml:space="preserve"><value>قادمة</value></data>
+  <data name="Events_PastBadge"            xml:space="preserve"><value>فعالية سابقة</value></data>
+  <data name="Events_AboutEvent"           xml:space="preserve"><value>عن هذه الفعالية</value></data>
+  <data name="Events_Registration"         xml:space="preserve"><value>التسجيل</value></data>
+  <data name="Events_Date"                 xml:space="preserve"><value>التاريخ</value></data>
+  <data name="Events_Time"                 xml:space="preserve"><value>الوقت</value></data>
+  <data name="Events_Location"             xml:space="preserve"><value>الموقع</value></data>
+  <data name="Events_Capacity"             xml:space="preserve"><value>الطاقة الاستيعابية</value></data>
+  <data name="Events_EventEnded"           xml:space="preserve"><value>انتهت هذه الفعالية</value></data>
+  <data name="Events_VisitLink"            xml:space="preserve"><value>زيارة صفحة الفعالية</value></data>
+  <data name="Events_RegisterFor"          xml:space="preserve"><value>التسجيل في</value></data>
+  <data name="Events_FirstName"            xml:space="preserve"><value>الاسم الأول</value></data>
+  <data name="Events_LastName"             xml:space="preserve"><value>اسم العائلة</value></data>
+  <data name="Events_Email"                xml:space="preserve"><value>البريد الإلكتروني</value></data>
+  <data name="Events_Company"              xml:space="preserve"><value>الشركة / المؤسسة</value></data>
+  <data name="Events_Notes"                xml:space="preserve"><value>ملاحظات (اختياري)</value></data>
+  <data name="Events_SpotsLeft"            xml:space="preserve"><value>مقعد متبقٍ</value></data>
+  <data name="Events_ConfirmRegistration"  xml:space="preserve"><value>تأكيد التسجيل</value></data>
+  <data name="Events_FullDesc"             xml:space="preserve"><value>وصل عدد المسجلين إلى الحد الأقصى. تابعنا للفعاليات القادمة.</value></data>
+
+  <!-- Testimonials page -->
+  <data name="Testimonials_Label"          xml:space="preserve"><value>آراء العملاء</value></data>
+  <data name="Testimonials_Title"          xml:space="preserve"><value>التوصيات</value></data>
+  <data name="Testimonials_Description"    xml:space="preserve"><value>آراء صادقة من أشخاص سعدت بالعمل معهم.</value></data>
+  <data name="Testimonials_Total"          xml:space="preserve"><value>تقييم</value></data>
+  <data name="Testimonials_AvgRating"      xml:space="preserve"><value>متوسط التقييم</value></data>
+  <data name="Testimonials_FiveStar"       xml:space="preserve"><value>خمس نجوم</value></data>
+  <data name="Testimonials_Empty"          xml:space="preserve"><value>لا توجد توصيات بعد</value></data>
+  <data name="Testimonials_EmptyDesc"      xml:space="preserve"><value>كن أول من يشارك تجربته في العمل معنا.</value></data>
+  <data name="Testimonials_CtaTitle"       xml:space="preserve"><value>عملنا معاً؟</value></data>
+  <data name="Testimonials_CtaDesc"        xml:space="preserve"><value>يسعدني سماع رأيك. شارك تجربتك الصادقة — هذا يعني لي الكثير.</value></data>
+  <data name="Testimonials_Submit"         xml:space="preserve"><value>اترك تقييماً</value></data>
+  <data name="Testimonials_BackToAll"      xml:space="preserve"><value>العودة إلى التوصيات</value></data>
+  <data name="Testimonials_SubmitDesc"     xml:space="preserve"><value>شارك تجربتك — رأيك يساعد الآخرين على معرفة ما يشبه العمل معي.</value></data>
+  <data name="Testimonials_YourName"       xml:space="preserve"><value>اسمك</value></data>
+  <data name="Testimonials_Rating"         xml:space="preserve"><value>التقييم</value></data>
+  <data name="Testimonials_Position"       xml:space="preserve"><value>منصبك / دورك</value></data>
+  <data name="Testimonials_Company"        xml:space="preserve"><value>الشركة (اختياري)</value></data>
+  <data name="Testimonials_YourReview"     xml:space="preserve"><value>مراجعتك</value></data>
+  <data name="Testimonials_ReviewPlaceholder" xml:space="preserve"><value>كيف كانت تجربة العمل معاً؟ ما الذي لفت انتباهك أكثر؟</value></data>
+  <data name="Testimonials_ReviewNote"     xml:space="preserve"><value>تُراجَع التوصيات قبل نشرها. شكراً لاهتمامك!</value></data>
+  <data name="Testimonials_SubmitBtn"      xml:space="preserve"><value>إرسال التقييم</value></data>
 </root>

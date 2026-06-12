@@ -11,6 +11,7 @@ namespace MostafaSaidPortfolio.Data.UnitOfWork
         IEventRepository Events { get; }
         IContactMessageRepository ContactMessages { get; }
         ICategoryRepository Categories { get; }
+        ISkillRepository Skills { get; }
 
         Task BeginTransactionAsync();
         Task CommitAsync();

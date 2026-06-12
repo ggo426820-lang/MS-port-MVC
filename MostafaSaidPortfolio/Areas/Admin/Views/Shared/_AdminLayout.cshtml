@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>@ViewData["Title"] — Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        heading: ['Inter', 'system-ui', 'sans-serif']
+                    },
+                    colors: {
+                        admin: {
+                            bg:       '#0f172a',
+                            sidebar:  '#1e293b',
+                            card:     '#1e293b',
+                            border:   '#334155',
+                            muted:    '#94a3b8',
+                            text:     '#f1f5f9',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0f172a; color: #f1f5f9; font-family: 'Inter', sans-serif; }
+        .admin-sidebar { width: 256px; min-height: 100vh; background: #1e293b; border-right: 1px solid #334155; flex-shrink: 0; }
+        .admin-content { flex: 1; min-width: 0; }
+        .nav-link { display:flex; align-items:center; gap:10px; padding:9px 16px; border-radius:8px; font-size:14px; font-weight:500; color:#94a3b8; transition:all .15s; }
+        .nav-link:hover { background:#334155; color:#f1f5f9; }
+        .nav-link.active { background:#4f46e5; color:#fff; }
+        .nav-link svg { width:18px; height:18px; flex-shrink:0; }
+        .stat-card { background:#1e293b; border:1px solid #334155; border-radius:12px; padding:20px; }
+        .badge { display:inline-flex; align-items:center; padding:2px 10px; border-radius:9999px; font-size:12px; font-weight:600; }
+        .badge-green  { background:#064e3b; color:#6ee7b7; }
+        .badge-yellow { background:#451a03; color:#fcd34d; }
+        .badge-red    { background:#450a0a; color:#fca5a5; }
+        .badge-blue   { background:#1e3a5f; color:#93c5fd; }
+        .btn-primary { background:#4f46e5; color:#fff; padding:8px 16px; border-radius:8px; font-size:14px; font-weight:600; transition:background .15s; display:inline-flex; align-items:center; gap:6px; }
+        .btn-primary:hover { background:#4338ca; }
+        .btn-danger  { background:#991b1b; color:#fff; padding:8px 16px; border-radius:8px; font-size:14px; font-weight:600; transition:background .15s; display:inline-flex; align-items:center; gap:6px; }
+        .btn-danger:hover { background:#7f1d1d; }
+        .btn-ghost   { color:#94a3b8; padding:8px 16px; border-radius:8px; font-size:14px; font-weight:500; border:1px solid #334155; transition:all .15s; display:inline-flex; align-items:center; gap:6px; }
+        .btn-ghost:hover { background:#334155; color:#f1f5f9; }
+        .data-table  { width:100%; border-collapse:collapse; }
+        .data-table th { padding:12px 16px; text-align:left; font-size:12px; font-weight:600; color:#64748b; text-transform:uppercase; letter-spacing:.05em; border-bottom:1px solid #334155; }
+        .data-table td { padding:12px 16px; font-size:14px; color:#cbd5e1; border-bottom:1px solid #1e293b; }
+        .data-table tr:hover td { background:#1e2d45; }
+        .form-label { display:block; font-size:14px; font-weight:500; color:#94a3b8; margin-bottom:6px; }
+        .form-input { width:100%; background:#0f172a; border:1px solid #334155; border-radius:8px; padding:10px 14px; font-size:14px; color:#f1f5f9; transition:border-color .15s; }
+        .form-input:focus { outline:none; border-color:#4f46e5; box-shadow:0 0 0 3px rgba(79,70,229,.15); }
+        .form-input::placeholder { color:#475569; }
+        select.form-input option { background:#1e293b; }
+    </style>
+</head>
+<body class="flex">
+    @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_AdminSidebar.cshtml")
+
+    <div class="admin-content flex flex-col min-h-screen">
+        @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_AdminNavbar.cshtml")
+
+        <main class="flex-1 p-6 lg:p-8">
+            @if (TempData["Success"] != null)
+            {
+                <div class="mb-5 flex items-center gap-3 bg-emerald-900/40 border border-emerald-700/50 text-emerald-300 px-4 py-3 rounded-xl text-sm">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    @TempData["Success"]
+                </div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="mb-5 flex items-center gap-3 bg-red-900/40 border border-red-700/50 text-red-300 px-4 py-3 rounded-xl text-sm">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    @TempData["Error"]
+                </div>
+            }
+
+            @RenderBody()
+        </main>
+
+        @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_AdminFooter.cshtml")
+    </div>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -88,12 +88,20 @@ public class Project : BaseEntity
     public ICollection<Tag> Tags { get; set; } = new List<Tag>();
 
     /// <summary>
-    /// Get technology stack as array
+    /// Computed category name (populated by repositories via JOIN queries)
     /// </summary>
-    public string[] GetTechStackList()
-    {
-        return string.IsNullOrWhiteSpace(TechnologyStack)
+    public string? CategoryName { get; set; }
+
+    /// <summary>
+    /// Technology stack as array (computed from TechnologyStack string)
+    /// </summary>
+    public string[] TechStackList =>
+        string.IsNullOrWhiteSpace(TechnologyStack)
             ? Array.Empty<string>()
             : TechnologyStack.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-    }
+
+    /// <summary>
+    /// Get technology stack as array
+    /// </summary>
+    public string[] GetTechStackList() => TechStackList;
 }

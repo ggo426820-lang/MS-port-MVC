@@ -1,4 +1,3 @@
-namespace MostafaSaidPortfolio
-{
-    public class SharedResource { }
-}
+namespace MostafaSaidPortfolio;
+
+public class SharedResource { }

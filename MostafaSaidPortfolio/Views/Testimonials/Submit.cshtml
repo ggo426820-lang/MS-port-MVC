@@ -1,7 +1,113 @@
-﻿@{
-    ViewData["Title"] = "Submit";
+@{
+    ViewData["Title"] = L["Testimonials_Submit"].ToString();
 }
-<div class="max-w-4xl mx-auto mt-10">
-    <h1 class="text-4xl font-bold text-gray-800">@ViewData["Title"]</h1>
-    <p class="mt-4 text-gray-600">This is the Submit page inside Testimonials.</p>
+
+<!-- Page Header -->
+<section class="page-header">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <a asp-controller="Testimonials" asp-action="Index"
+           class="inline-flex items-center gap-1 text-indigo-400 hover:text-indigo-300 text-sm font-medium mb-4 transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            @L["Testimonials_BackToAll"]
+        </a>
+        <h1 class="font-heading text-3xl sm:text-4xl font-bold text-white mb-3">@L["Testimonials_Submit"]</h1>
+        <p class="text-slate-400 text-lg">@L["Testimonials_SubmitDesc"]</p>
+    </div>
+</section>
+
+<div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="content-card p-8">
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-3 text-emerald-700 text-sm">
+                <svg class="w-5 h-5 shrink-0 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                @TempData["Success"]
+            </div>
+        }
+
+        <form method="post" asp-controller="Testimonials" asp-action="Submit" class="space-y-5">
+            @Html.AntiForgeryToken()
+
+            <div class="grid sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-1.5" style="color:var(--text-primary)">@L["Testimonials_YourName"] *</label>
+                    <input type="text" name="authorName" required
+                           class="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-shadow"
+                           style="background:var(--bg-subtle);border-color:var(--border);color:var(--text-primary)" />
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-1.5" style="color:var(--text-primary)">@L["Testimonials_Rating"] *</label>
+                    <div class="flex items-center gap-2 mt-1" id="star-rating">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <button type="button" data-star="@i"
+                                    class="star-btn text-3xl text-slate-300 hover:text-amber-400 transition-colors leading-none focus:outline-none">
+                                ★
+                            </button>
+                        }
+                        <input type="hidden" name="rating" id="ratingInput" value="5" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-1.5" style="color:var(--text-primary)">@L["Testimonials_Position"] *</label>
+                    <input type="text" name="position" required placeholder="e.g. Senior Developer"
+                           class="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-shadow"
+                           style="background:var(--bg-subtle);border-color:var(--border);color:var(--text-primary)" />
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-1.5" style="color:var(--text-primary)">@L["Testimonials_Company"]</label>
+                    <input type="text" name="company" placeholder="e.g. Acme Corp"
+                           class="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-shadow"
+                           style="background:var(--bg-subtle);border-color:var(--border);color:var(--text-primary)" />
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold mb-1.5" style="color:var(--text-primary)">@L["Testimonials_YourReview"] *</label>
+                <textarea name="content" rows="5" required maxlength="500"
+                          placeholder="@L["Testimonials_ReviewPlaceholder"]"
+                          class="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-shadow resize-none"
+                          style="background:var(--bg-subtle);border-color:var(--border);color:var(--text-primary)"></textarea>
+            </div>
+
+            <div class="pt-2">
+                <p class="text-xs mb-4" style="color:var(--text-muted)">@L["Testimonials_ReviewNote"]</p>
+                <button type="submit"
+                        class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-sm transition-colors shadow-lg shadow-indigo-500/25">
+                    @L["Testimonials_SubmitBtn"]
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
+
+@section Scripts {
+<script>
+(function () {
+    var stars = document.querySelectorAll('.star-btn');
+    var input = document.getElementById('ratingInput');
+    function paint(n) {
+        stars.forEach(function(s, i) {
+            s.style.color = i < n ? '#fbbf24' : '';
+        });
+    }
+    paint(5);
+    stars.forEach(function(s) {
+        s.addEventListener('click', function() {
+            input.value = s.dataset.star;
+            paint(parseInt(s.dataset.star));
+        });
+        s.addEventListener('mouseenter', function() { paint(parseInt(s.dataset.star)); });
+        s.addEventListener('mouseleave', function() { paint(parseInt(input.value)); });
+    });
+}());
+</script>
+}

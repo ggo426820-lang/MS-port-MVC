@@ -1,5 +1,4 @@
 using MostafaSaidPortfolio.Domain.Entities;
-using MostafaSaidPortfolio.Domain.Enums;
 
 namespace MostafaSaidPortfolio.Data.Repositories.Interfaces
 {
@@ -11,8 +10,7 @@ namespace MostafaSaidPortfolio.Data.Repositories.Interfaces
         Task<BlogPost?> GetBySlugAsync(string slug);
         Task<IEnumerable<BlogPost>> GetByCategoryAsync(int categoryId);
         Task<IEnumerable<BlogPost>> SearchAsync(string query);
-        Task<bool> IncrementViewCountAsync(int id);
+        Task<bool> IncrementViewCountAsync(Guid id);
         Task<int> CountPublishedAsync();
     }
 }
-

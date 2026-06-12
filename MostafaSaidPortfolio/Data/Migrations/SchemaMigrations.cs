@@ -1,3 +1,4 @@
+using Dapper;
 using Npgsql;
 
 namespace MostafaSaidPortfolio.Data.Migrations;
@@ -24,6 +25,8 @@ public static class SchemaMigrations
         await CreateNewsletterSubscribersTableAsync(connection);
         await CreateTestimonialsTableAsync(connection);
         await CreateContactMessagesTableAsync(connection);
+        await CreateSkillsTableAsync(connection);
+        await CreatePerformanceIndexesAsync(connection);
     }
 
     private static async Task CreateCategoriesTableAsync(NpgsqlConnection conn)
@@ -297,6 +300,83 @@ public static class SchemaMigrations
                 ""DeletedAt"" TIMESTAMP,
                 ""DeletedBy"" VARCHAR(100)
             );
+        ");
+    }
+
+    private static async Task CreateSkillsTableAsync(NpgsqlConnection conn)
+    {
+        await conn.ExecuteAsync(@"
+            CREATE TABLE IF NOT EXISTS ""Skills"" (
+                ""Id"" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                ""Name"" VARCHAR(100) NOT NULL,
+                ""Category"" VARCHAR(50) NOT NULL DEFAULT 'Other',
+                ""Proficiency"" INT NOT NULL DEFAULT 80 CHECK (""Proficiency"" BETWEEN 0 AND 100),
+                ""IconName"" VARCHAR(100) NOT NULL DEFAULT '',
+                ""Description"" TEXT NOT NULL DEFAULT '',
+                ""DisplayOrder"" INT NOT NULL DEFAULT 0,
+                ""IsActive"" BOOLEAN NOT NULL DEFAULT TRUE,
+                ""IsDeleted"" BOOLEAN NOT NULL DEFAULT FALSE,
+                ""CreatedAt"" TIMESTAMP NOT NULL DEFAULT NOW(),
+                ""UpdatedAt"" TIMESTAMP NOT NULL DEFAULT NOW()
+            );
+
+            CREATE INDEX IF NOT EXISTS ""IX_Skills_Category"" ON ""Skills""(""Category"") WHERE NOT ""IsDeleted"";
+            CREATE INDEX IF NOT EXISTS ""IX_Skills_IsActive"" ON ""Skills""(""IsActive"", ""IsDeleted"", ""DisplayOrder"");
+        ");
+    }
+
+    private static async Task CreatePerformanceIndexesAsync(NpgsqlConnection conn)
+    {
+        await conn.ExecuteAsync(@"
+            -- BlogPosts: FK indexes
+            CREATE INDEX IF NOT EXISTS ""IX_BlogPosts_CategoryId""
+                ON ""BlogPosts""(""CategoryId"") WHERE NOT ""IsDeleted"";
+            CREATE INDEX IF NOT EXISTS ""IX_BlogPosts_AuthorId""
+                ON ""BlogPosts""(""AuthorId"") WHERE NOT ""IsDeleted"";
+
+            -- BlogPosts: composite for published-post listing (GetPublishedAsync, GetRecentAsync)
+            CREATE INDEX IF NOT EXISTS ""IX_BlogPosts_Status_IsDeleted_CreatedAt""
+                ON ""BlogPosts""(""Status"", ""IsDeleted"", ""CreatedAt"" DESC);
+
+            -- BlogPosts: featured filter
+            CREATE INDEX IF NOT EXISTS ""IX_BlogPosts_IsFeatured_Status""
+                ON ""BlogPosts""(""IsFeatured"", ""Status"") WHERE NOT ""IsDeleted"";
+
+            -- Projects: FK + filter indexes
+            CREATE INDEX IF NOT EXISTS ""IX_Projects_CategoryId""
+                ON ""Projects""(""CategoryId"") WHERE NOT ""IsDeleted"";
+            CREATE INDEX IF NOT EXISTS ""IX_Projects_IsFeatured_IsDeleted""
+                ON ""Projects""(""IsFeatured"", ""IsDeleted"");
+            CREATE INDEX IF NOT EXISTS ""IX_Projects_DisplayOrder""
+                ON ""Projects""(""DisplayOrder"") WHERE NOT ""IsDeleted"";
+
+            -- Comments: FK index (critical for blog detail page)
+            CREATE INDEX IF NOT EXISTS ""IX_Comments_BlogPostId""
+                ON ""Comments""(""BlogPostId"") WHERE NOT ""IsDeleted"";
+            CREATE INDEX IF NOT EXISTS ""IX_Comments_IsApproved""
+                ON ""Comments""(""BlogPostId"", ""IsApproved"") WHERE NOT ""IsDeleted"";
+
+            -- Events: date-range queries
+            CREATE INDEX IF NOT EXISTS ""IX_Events_EventDate_IsDeleted""
+                ON ""Events""(""EventDate"", ""IsDeleted"");
+
+            -- Testimonials: approved filter
+            CREATE INDEX IF NOT EXISTS ""IX_Testimonials_IsApproved_IsDeleted""
+                ON ""Testimonials""(""IsApproved"", ""IsDeleted"");
+
+            -- Categories: self-referencing FK
+            CREATE INDEX IF NOT EXISTS ""IX_Categories_ParentId""
+                ON ""Categories""(""ParentId"");
+
+            -- Junction tables: reverse FK indexes (not created by PK)
+            CREATE INDEX IF NOT EXISTS ""IX_BlogPostTags_TagsId""
+                ON ""BlogPostTags""(""TagsId"");
+            CREATE INDEX IF NOT EXISTS ""IX_ProjectTags_TagsId""
+                ON ""ProjectTags""(""TagsId"");
+
+            -- ContactMessages: unread inbox query
+            CREATE INDEX IF NOT EXISTS ""IX_ContactMessages_IsRead_IsDeleted""
+                ON ""ContactMessages""(""IsRead"", ""IsDeleted"", ""CreatedAt"" DESC);
         ");
     }
 }

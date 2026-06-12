@@ -1,5 +1,3 @@
-namespace MostafaSaidPortfolio.Resources;
+namespace MostafaSaidPortfolio;
 
-public class AuthResource
-{
-}
+public class AuthResource { }

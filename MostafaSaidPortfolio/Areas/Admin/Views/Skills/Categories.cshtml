@@ -1,0 +1,38 @@
+@model IEnumerable<string>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Skill Categories";
+    var allCats = MostafaSaidPortfolio.Domain.Entities.Skill.ValidCategories;
+}
+
+<div class="flex items-center justify-between mb-6">
+    <h2 class="text-xl font-bold text-white">Skill Categories</h2>
+    <a href="/Admin/Skills" class="btn-ghost">← Back to Skills</a>
+</div>
+
+<div class="max-w-lg stat-card">
+    <p class="text-slate-400 text-sm mb-5">
+        Categories are predefined. Skills in your database are shown with their usage counts.
+    </p>
+
+    <div class="space-y-3">
+        @foreach (var cat in allCats)
+        {
+            var used = Model.Contains(cat);
+            <div class="flex items-center justify-between p-3 rounded-xl border @(used ? "border-indigo-600/40 bg-indigo-600/10" : "border-slate-700")">
+                <div class="flex items-center gap-3">
+                    <div class="w-2 h-2 rounded-full @(used ? "bg-indigo-400" : "bg-slate-600")"></div>
+                    <span class="text-sm font-medium @(used ? "text-white" : "text-slate-500")">@cat</span>
+                </div>
+                @if (used)
+                {
+                    <span class="badge badge-blue">In use</span>
+                }
+                else
+                {
+                    <span class="text-xs text-slate-600">No skills</span>
+                }
+            </div>
+        }
+    </div>
+</div>

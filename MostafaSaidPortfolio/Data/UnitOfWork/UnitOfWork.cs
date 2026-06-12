@@ -16,6 +16,7 @@ namespace MostafaSaidPortfolio.Data.UnitOfWork
         private readonly EventRepository _events;
         private readonly ContactMessageRepository _contactMessages;
         private readonly CategoryRepository _categories;
+        private readonly SkillRepository _skills;
 
         public IBlogRepository Blogs => _blogs;
         public IProjectRepository Projects => _projects;
@@ -24,11 +25,12 @@ namespace MostafaSaidPortfolio.Data.UnitOfWork
         public IEventRepository Events => _events;
         public IContactMessageRepository ContactMessages => _contactMessages;
         public ICategoryRepository Categories => _categories;
+        public ISkillRepository Skills => _skills;
 
         private IReadOnlyList<dynamic> AllRepositories => new dynamic[]
         {
             _blogs, _projects, _testimonials, _newsletter,
-            _events, _contactMessages, _categories
+            _events, _contactMessages, _categories, _skills
         };
 
         public UnitOfWork(DbConnectionFactory factory)
@@ -43,6 +45,7 @@ namespace MostafaSaidPortfolio.Data.UnitOfWork
             _events = new EventRepository(_connection);
             _contactMessages = new ContactMessageRepository(_connection);
             _categories = new CategoryRepository(_connection);
+            _skills = new SkillRepository(_connection);
         }
 
         public async Task BeginTransactionAsync()
@@ -55,6 +58,7 @@ namespace MostafaSaidPortfolio.Data.UnitOfWork
             _events.SetTransaction(_transaction);
             _contactMessages.SetTransaction(_transaction);
             _categories.SetTransaction(_transaction);
+            _skills.SetTransaction(_transaction);
         }
 
         public async Task CommitAsync()
@@ -88,6 +92,7 @@ namespace MostafaSaidPortfolio.Data.UnitOfWork
             _events.SetTransaction(null);
             _contactMessages.SetTransaction(null);
             _categories.SetTransaction(null);
+            _skills.SetTransaction(null);
         }
 
         public async ValueTask DisposeAsync()

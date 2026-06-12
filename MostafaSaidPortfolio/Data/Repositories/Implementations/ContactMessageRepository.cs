@@ -1,7 +1,6 @@
 using Dapper;
 using MostafaSaidPortfolio.Data.Repositories.Interfaces;
 using MostafaSaidPortfolio.Domain.Entities;
-using MostafaSaidPortfolio.Domain.Enums;
 using Npgsql;
 
 namespace MostafaSaidPortfolio.Data.Repositories.Implementations
@@ -27,7 +26,7 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
                 transaction: _transaction);
         }
 
-        public async Task<bool> MarkAsReadAsync(int id)
+        public async Task<bool> MarkAsReadAsync(Guid id)
         {
             var rows = await _connection.ExecuteAsync(
                 @"UPDATE ""ContactMessages"" SET ""IsRead"" = TRUE WHERE ""Id"" = @id",
@@ -50,12 +49,12 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
                 transaction: _transaction);
         }
 
-        public override async Task<int> AddAsync(ContactMessage entity)
+        public override async Task AddAsync(ContactMessage entity)
         {
-            return await _connection.ExecuteScalarAsync<int>(@"
-                INSERT INTO ""ContactMessages"" (""Name"", ""Email"", ""Subject"", ""Message"")
-                VALUES (@Name, @Email, @Subject, @Message)
-                RETURNING ""Id""", entity, _transaction);
+            await _connection.ExecuteAsync(@"
+                INSERT INTO ""ContactMessages"" (""Id"", ""Name"", ""Email"", ""Subject"", ""Message"")
+                VALUES (@Id, @Name, @Email, @Subject, @Message)",
+                entity, _transaction);
         }
 
         public override async Task<bool> UpdateAsync(ContactMessage entity)
@@ -67,4 +66,3 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
         }
     }
 }
-

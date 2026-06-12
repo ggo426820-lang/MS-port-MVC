@@ -1,0 +1,38 @@
+@{
+    var pageTitle = ViewData["Title"]?.ToString() ?? "Admin";
+    var breadcrumb = ViewData["Breadcrumb"]?.ToString() ?? "";
+}
+<header class="sticky top-0 z-30 flex items-center justify-between px-6 py-3 bg-slate-900/95 backdrop-blur border-b border-slate-700/60">
+    <div>
+        <h1 class="text-lg font-semibold text-white leading-tight">@pageTitle</h1>
+        @if (!string.IsNullOrEmpty(breadcrumb))
+        {
+            <p class="text-xs text-slate-500">@breadcrumb</p>
+        }
+    </div>
+
+    <div class="flex items-center gap-3">
+        <!-- Clock -->
+        <span id="admin-clock" class="hidden sm:block text-xs text-slate-500 tabular-nums"></span>
+
+        <!-- User avatar -->
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs font-bold">
+                @(User.Identity?.Name?[0] ?? 'A')
+            </div>
+            <span class="hidden sm:block text-sm text-slate-300 font-medium">@User.Identity?.Name</span>
+        </div>
+    </div>
+</header>
+
+<script>
+    (function () {
+        var el = document.getElementById('admin-clock');
+        if (!el) return;
+        function tick() {
+            el.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+        tick();
+        setInterval(tick, 1000);
+    })();
+</script>

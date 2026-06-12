@@ -1,0 +1,121 @@
+@using MostafaSaidPortfolio.Domain.Entities
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Dashboard";
+
+    var blogCount        = (int)(ViewData["BlogCount"] ?? 0);
+    var projectCount     = (int)(ViewData["ProjectCount"] ?? 0);
+    var msgCount         = (int)(ViewData["MessageCount"] ?? 0);
+    var subCount         = (int)(ViewData["SubscriberCount"] ?? 0);
+    var eventCount       = (int)(ViewData["EventCount"] ?? 0);
+    var testimonialCount = (int)(ViewData["TestimonialCount"] ?? 0);
+    var skillCount       = (int)(ViewData["SkillCount"] ?? 0);
+    var recentPosts      = ViewData["RecentPosts"] as IEnumerable<BlogPost> ?? Enumerable.Empty<BlogPost>();
+    var recentMessages   = ViewData["RecentMessages"] as IEnumerable<ContactMessage> ?? Enumerable.Empty<ContactMessage>();
+}
+
+<!-- Stat Cards -->
+<div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
+    @{
+        var stats = new[]
+        {
+            new { Label="Blog Posts",    Value=blogCount,        Icon="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 12h6",  Color="bg-indigo-600" },
+            new { Label="Projects",      Value=projectCount,     Icon="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4",                                                                                                   Color="bg-purple-600" },
+            new { Label="Messages",      Value=msgCount,         Icon="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",                                  Color="bg-sky-600"    },
+            new { Label="Subscribers",   Value=subCount,         Icon="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z", Color="bg-emerald-600" },
+            new { Label="Skills",        Value=skillCount,       Icon="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z", Color="bg-amber-600" },
+            new { Label="Events",        Value=eventCount,       Icon="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",                                                Color="bg-rose-600"   },
+            new { Label="Testimonials",  Value=testimonialCount, Icon="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z",                             Color="bg-teal-600"   },
+        };
+    }
+    @foreach (var s in stats)
+    {
+        <div class="stat-card flex items-center gap-4">
+            <div class="w-11 h-11 rounded-xl @s.Color flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="@s.Icon"/>
+                </svg>
+            </div>
+            <div>
+                <div class="text-2xl font-bold text-white">@s.Value</div>
+                <div class="text-xs text-slate-400">@s.Label</div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Recent activity grid -->
+<div class="grid lg:grid-cols-2 gap-6">
+
+    <!-- Recent Blog Posts -->
+    <div class="stat-card">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="font-semibold text-white">Recent Posts</h2>
+            <a href="/Admin/Blog" class="text-xs text-indigo-400 hover:text-indigo-300">View all →</a>
+        </div>
+        @if (!recentPosts.Any())
+        {
+            <p class="text-slate-500 text-sm py-4 text-center">No blog posts yet.</p>
+        }
+        else
+        {
+            <div class="space-y-3">
+                @foreach (var post in recentPosts)
+                {
+                    <div class="flex items-start justify-between gap-3">
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm text-slate-200 font-medium truncate">@post.Title</p>
+                            <p class="text-xs text-slate-500">@post.CreatedAt.ToString("MMM d, yyyy") · @post.ViewCount views</p>
+                        </div>
+                        <span class="badge @(post.Status == MostafaSaidPortfolio.Domain.Enums.PostStatus.Published ? "badge-green" : "badge-yellow") flex-shrink-0">
+                            @post.Status
+                        </span>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <!-- Recent Contact Messages -->
+    <div class="stat-card">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="font-semibold text-white">Recent Messages</h2>
+            <a href="/Admin/ContactMessages" class="text-xs text-indigo-400 hover:text-indigo-300">View all →</a>
+        </div>
+        @if (!recentMessages.Any())
+        {
+            <p class="text-slate-500 text-sm py-4 text-center">No messages yet.</p>
+        }
+        else
+        {
+            <div class="space-y-3">
+                @foreach (var msg in recentMessages)
+                {
+                    <div class="flex items-start justify-between gap-3">
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm text-slate-200 font-medium truncate">@msg.Name — @msg.Subject</p>
+                            <p class="text-xs text-slate-500 truncate">@msg.Email · @msg.CreatedAt.ToString("MMM d")</p>
+                        </div>
+                        @if (!msg.IsRead)
+                        {
+                            <span class="w-2 h-2 rounded-full bg-indigo-400 flex-shrink-0 mt-1.5"></span>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="mt-6 stat-card">
+    <h2 class="font-semibold text-white mb-4">Quick Actions</h2>
+    <div class="flex flex-wrap gap-3">
+        <a href="/Admin/Skills/Create"       class="btn-primary">+ Add Skill</a>
+        <a href="/Admin/Blog/Create"         class="btn-primary">+ New Post</a>
+        <a href="/Admin/SystemSettings"      class="btn-ghost">System Settings</a>
+        <a href="/Admin/Dashboard/SystemStatus" class="btn-ghost">System Status</a>
+        <a href="/Admin/Security"            class="btn-ghost">Security</a>
+        <a href="/Admin/Backup"              class="btn-ghost">Backup</a>
+    </div>
+</div>

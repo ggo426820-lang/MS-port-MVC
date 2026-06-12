@@ -1,2 +1,3 @@
 - [PostgreSQL URI conversion](postgres-uri-conversion.md) — Replit DATABASE_URL is a URI; EF Core Npgsql can't parse it directly — must convert with ConnectionHelper.ToNpgsqlConnectionString().
 - [DatabaseInitializer seed safety](seed-data-safety.md) — Never embed markdown code fences or raw SQL backtick strings in C# verbatim literals; use parameterized inserts for blog post content.
+- [ASP.NET Core localization resource resolution](localization-resource-resolution.md) — Resource marker classes must be in the root namespace (e.g. MostafaSaidPortfolio) NOT the Resources sub-namespace; use ResourcesPath = "" so the localizer looks for {Namespace}.{ClassName} matching the embedded resource name derived from the marker class.

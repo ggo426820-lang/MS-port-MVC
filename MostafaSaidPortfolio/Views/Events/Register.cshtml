@@ -1,7 +1,92 @@
-﻿@{
-    ViewData["Title"] = "Register";
+@model MostafaSaidPortfolio.Domain.Entities.Event
+@{
+    ViewData["Title"] = L["Events_RegisterFor"].ToString() + " " + Model.Title;
 }
-<div class="max-w-4xl mx-auto mt-10">
-    <h1 class="text-4xl font-bold text-gray-800">@ViewData["Title"]</h1>
-    <p class="mt-4 text-gray-600">This is the Register page inside Events.</p>
+
+<!-- Page Header -->
+<section class="page-header">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <a asp-controller="Events" asp-action="Details" asp-route-id="@Model.Id"
+           class="inline-flex items-center gap-1 text-indigo-400 hover:text-indigo-300 text-sm font-medium mb-4 transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            @L["Events_BackToEvent"]
+        </a>
+        <h1 class="font-heading text-3xl sm:text-4xl font-bold text-white mb-2">@L["Events_Register"]</h1>
+        <p class="text-slate-400 text-lg">@Model.Title</p>
+        <p class="text-slate-500 text-sm mt-1">@Model.EventDate.ToString("dddd, MMMM d, yyyy") · @Model.Location</p>
+    </div>
+</section>
+
+<div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="content-card p-8">
+
+        @if (!Model.HasAvailableSpots)
+        {
+            <div class="text-center py-8">
+                <svg class="w-12 h-12 mx-auto mb-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+                <h3 class="font-heading font-bold text-lg mb-2" style="color:var(--text-primary)">@L["Events_Full"]</h3>
+                <p class="text-sm" style="color:var(--text-muted)">@L["Events_FullDesc"]</p>
+            </div>
+        }
+        else
+        {
+            <form method="post" class="space-y-5">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="eventId" value="@Model.Id" />
+
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-1.5" style="color:var(--text-primary)">@L["Events_FirstName"] *</label>
+                        <input type="text" name="firstName" required
+                               class="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-shadow"
+                               style="background:var(--bg-subtle);border-color:var(--border);color:var(--text-primary)" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-1.5" style="color:var(--text-primary)">@L["Events_LastName"] *</label>
+                        <input type="text" name="lastName" required
+                               class="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-shadow"
+                               style="background:var(--bg-subtle);border-color:var(--border);color:var(--text-primary)" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-1.5" style="color:var(--text-primary)">@L["Events_Email"] *</label>
+                    <input type="email" name="email" required
+                           class="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-shadow"
+                           style="background:var(--bg-subtle);border-color:var(--border);color:var(--text-primary)" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-1.5" style="color:var(--text-primary)">@L["Events_Company"]</label>
+                    <input type="text" name="company"
+                           class="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-shadow"
+                           style="background:var(--bg-subtle);border-color:var(--border);color:var(--text-primary)" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-1.5" style="color:var(--text-primary)">@L["Events_Notes"]</label>
+                    <textarea name="notes" rows="3"
+                              class="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-shadow resize-none"
+                              style="background:var(--bg-subtle);border-color:var(--border);color:var(--text-primary)"></textarea>
+                </div>
+
+                <div class="pt-2">
+                    @if (Model.MaxAttendees.HasValue)
+                    {
+                        <p class="text-xs mb-4" style="color:var(--text-muted)">
+                            @Model.RegisteredCount / @Model.MaxAttendees @L["Events_SpotsLeft"]
+                        </p>
+                    }
+                    <button type="submit"
+                            class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-sm transition-colors shadow-lg shadow-indigo-500/25">
+                        @L["Events_ConfirmRegistration"]
+                    </button>
+                </div>
+            </form>
+        }
+    </div>
 </div>

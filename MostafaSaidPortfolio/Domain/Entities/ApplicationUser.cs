@@ -13,6 +13,11 @@ public class ApplicationUser : IdentityUser
     public string? FullName { get; set; }
 
     /// <summary>
+    /// Display name (alias for FullName for view compatibility)
+    /// </summary>
+    public string? Name => FullName ?? UserName;
+
+    /// <summary>
     /// User bio/about section
     /// </summary>
     public string? Bio { get; set; }

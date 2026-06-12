@@ -1,0 +1,90 @@
+@model IEnumerable<MostafaSaidPortfolio.Domain.Entities.Skill>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Skills";
+    var grouped = Model.GroupBy(s => s.Category).OrderBy(g => g.Key);
+}
+
+<div class="flex items-center justify-between mb-6">
+    <div>
+        <h2 class="text-xl font-bold text-white">Skills</h2>
+        <p class="text-slate-400 text-sm mt-1">@Model.Count() skills across @grouped.Count() categories</p>
+    </div>
+    <div class="flex gap-2">
+        <a href="/Admin/Skills/Categories" class="btn-ghost">Categories</a>
+        <a href="/Admin/Skills/Create"     class="btn-primary">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            Add Skill
+        </a>
+    </div>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="stat-card text-center py-16">
+        <svg class="w-12 h-12 text-slate-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+        <p class="text-slate-400 text-sm">No skills yet. <a href="/Admin/Skills/Create" class="text-indigo-400 hover:underline">Add your first skill</a>.</p>
+    </div>
+}
+else
+{
+    @foreach (var group in grouped)
+    {
+        <div class="mb-6">
+            <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-widest mb-3 px-1">@group.Key</h3>
+            <div class="stat-card overflow-hidden">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Skill</th>
+                            <th>Proficiency</th>
+                            <th>Order</th>
+                            <th>Status</th>
+                            <th class="text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var skill in group.OrderBy(s => s.DisplayOrder).ThenBy(s => s.Name))
+                        {
+                            <tr>
+                                <td>
+                                    <div class="flex items-center gap-2">
+                                        @if (!string.IsNullOrEmpty(skill.IconName))
+                                        {
+                                            <span class="text-base">@skill.IconName</span>
+                                        }
+                                        <span class="font-medium text-slate-200">@skill.Name</span>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(skill.Description))
+                                    {
+                                        <p class="text-xs text-slate-500 mt-0.5 truncate max-w-xs">@skill.Description</p>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-24 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                                            <div class="h-full rounded-full bg-indigo-500" style="width:@skill.Proficiency%"></div>
+                                        </div>
+                                        <span class="text-xs text-slate-400">@skill.Proficiency%</span>
+                                    </div>
+                                </td>
+                                <td class="text-slate-400">@skill.DisplayOrder</td>
+                                <td>
+                                    <span class="badge @(skill.IsActive ? "badge-green" : "badge-yellow")">
+                                        @(skill.IsActive ? "Active" : "Hidden")
+                                    </span>
+                                </td>
+                                <td class="text-right">
+                                    <div class="flex items-center justify-end gap-2">
+                                        <a href="/Admin/Skills/Edit/@skill.Id" class="btn-ghost py-1.5 px-3 text-xs">Edit</a>
+                                        <a href="/Admin/Skills/Delete/@skill.Id" class="btn-danger py-1.5 px-3 text-xs">Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+}

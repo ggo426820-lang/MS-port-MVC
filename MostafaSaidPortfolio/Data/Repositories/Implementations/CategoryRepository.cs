@@ -1,7 +1,6 @@
 using Dapper;
 using MostafaSaidPortfolio.Data.Repositories.Interfaces;
 using MostafaSaidPortfolio.Domain.Entities;
-using MostafaSaidPortfolio.Domain.Enums;
 using Npgsql;
 
 namespace MostafaSaidPortfolio.Data.Repositories.Implementations
@@ -27,12 +26,12 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
                 new { slug }, _transaction);
         }
 
-        public override async Task<int> AddAsync(Category entity)
+        public override async Task AddAsync(Category entity)
         {
-            return await _connection.ExecuteScalarAsync<int>(@"
-                INSERT INTO ""Categories"" (""Name"", ""Description"", ""Slug"", ""Icon"", ""Color"", ""BackgroundColor"", ""DisplayOrder"", ""IsActive"", ""ParentId"")
-                VALUES (@Name, @Description, @Slug, @Icon, @Color, @BackgroundColor, @DisplayOrder, @IsActive, @ParentId)
-                RETURNING ""Id""", entity, _transaction);
+            await _connection.ExecuteAsync(@"
+                INSERT INTO ""Categories"" (""Id"", ""Name"", ""Description"", ""Slug"", ""Icon"", ""Color"", ""BackgroundColor"", ""DisplayOrder"", ""IsActive"", ""ParentId"")
+                VALUES (@Id, @Name, @Description, @Slug, @Icon, @Color, @BackgroundColor, @DisplayOrder, @IsActive, @ParentId)",
+                entity, _transaction);
         }
 
         public override async Task<bool> UpdateAsync(Category entity)
@@ -47,4 +46,3 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
         }
     }
 }
-

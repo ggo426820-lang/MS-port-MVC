@@ -15,7 +15,7 @@ namespace MostafaSaidPortfolio.Controllers
             return View(projects);
         }
 
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(Guid id)
         {
             var project = await _projectService.GetByIdAsync(id);
             if (project == null) return NotFound();

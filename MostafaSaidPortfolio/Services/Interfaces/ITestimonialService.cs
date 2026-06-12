@@ -1,5 +1,4 @@
 using MostafaSaidPortfolio.Domain.Entities;
-using MostafaSaidPortfolio.Domain.Enums;
 
 namespace MostafaSaidPortfolio.Services.Interfaces
 {
@@ -7,9 +6,8 @@ namespace MostafaSaidPortfolio.Services.Interfaces
     {
         Task<IEnumerable<Testimonial>> GetApprovedAsync();
         Task<IEnumerable<Testimonial>> GetAllAsync();
-        Task<Testimonial?> GetByIdAsync(int id);
+        Task<Testimonial?> GetByIdAsync(Guid id);
         Task<Testimonial> AddAsync(Testimonial entity);
-        Task<bool> DeleteAsync(int id);
+        Task<bool> DeleteAsync(Guid id);
     }
 }
-

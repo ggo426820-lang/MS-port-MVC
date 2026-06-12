@@ -1,7 +1,6 @@
 using Dapper;
 using MostafaSaidPortfolio.Data.Repositories.Interfaces;
 using MostafaSaidPortfolio.Domain.Entities;
-using MostafaSaidPortfolio.Domain.Enums;
 using Npgsql;
 
 namespace MostafaSaidPortfolio.Data.Repositories.Implementations
@@ -9,7 +8,7 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
     public class NewsletterRepository : BaseRepository<NewsletterSubscriber>, INewsletterRepository
     {
         protected override string TableName => "NewsletterSubscribers";
-        protected override string Columns => @"""Id"", ""Email"", ""SubscribedAt"", ""IsActive""";
+        protected override string Columns => @"""Id"", ""Email"", ""Name"", ""IsActive"", ""IsConfirmed"", ""CreatedAt""";
 
         public NewsletterRepository(NpgsqlConnection connection) : base(connection) { }
 
@@ -18,8 +17,8 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
             try
             {
                 await _connection.ExecuteAsync(@"
-                    INSERT INTO ""NewsletterSubscribers"" (""Email"", ""IsActive"")
-                    VALUES (@email, TRUE)
+                    INSERT INTO ""NewsletterSubscribers"" (""Id"", ""Email"", ""IsActive"")
+                    VALUES (gen_random_uuid(), @email, TRUE)
                     ON CONFLICT (""Email"") DO UPDATE SET ""IsActive"" = TRUE",
                     new { email }, _transaction);
                 return true;
@@ -48,7 +47,7 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
         public async Task<IEnumerable<NewsletterSubscriber>> GetActiveAsync()
         {
             return await _connection.QueryAsync<NewsletterSubscriber>(
-                $@"SELECT {Columns} FROM ""NewsletterSubscribers"" WHERE ""IsActive"" = TRUE ORDER BY ""SubscribedAt"" DESC",
+                $@"SELECT {Columns} FROM ""NewsletterSubscribers"" WHERE ""IsActive"" = TRUE ORDER BY ""CreatedAt"" DESC",
                 transaction: _transaction);
         }
 
@@ -59,13 +58,13 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
                 transaction: _transaction);
         }
 
-        public override async Task<int> AddAsync(NewsletterSubscriber entity)
+        public override async Task AddAsync(NewsletterSubscriber entity)
         {
-            return await _connection.ExecuteScalarAsync<int>(@"
-                INSERT INTO ""NewsletterSubscribers"" (""Email"", ""IsActive"")
-                VALUES (@Email, @IsActive)
-                ON CONFLICT (""Email"") DO UPDATE SET ""IsActive"" = TRUE
-                RETURNING ""Id""", entity, _transaction);
+            await _connection.ExecuteAsync(@"
+                INSERT INTO ""NewsletterSubscribers"" (""Id"", ""Email"", ""Name"", ""IsActive"")
+                VALUES (@Id, @Email, @Name, @IsActive)
+                ON CONFLICT (""Email"") DO UPDATE SET ""IsActive"" = TRUE",
+                entity, _transaction);
         }
 
         public override async Task<bool> UpdateAsync(NewsletterSubscriber entity)
@@ -77,4 +76,3 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
         }
     }
 }
-

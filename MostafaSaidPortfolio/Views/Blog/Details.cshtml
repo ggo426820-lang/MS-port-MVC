@@ -1,5 +1,4 @@
-@using MostafaSaidPortfolio.Models
-@model MostafaSaidPortfolio.Models.BlogPost
+@model BlogPost
 @{
     ViewData["Title"] = Model.Title;
     ViewData["Description"] = Model.MetaDescription.Length > 0 ? Model.MetaDescription : Model.Summary;

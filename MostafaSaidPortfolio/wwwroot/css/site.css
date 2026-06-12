@@ -96,7 +96,7 @@ body {
    ========================================================= */
 [dir="rtl"],
 [dir="rtl"] body {
-  font-family: 'Noto Sans Arabic', 'Inter', system-ui, sans-serif;
+  font-family: 'Noto Sans Arabic', 'Almendra', Georgia, serif;
   letter-spacing: 0;
 }
 [dir="rtl"] .font-heading,
@@ -104,7 +104,7 @@ body {
 [dir="rtl"] h2,
 [dir="rtl"] h3,
 [dir="rtl"] h4 {
-  font-family: 'Noto Sans Arabic', 'Poppins', system-ui, sans-serif;
+  font-family: 'Noto Sans Arabic', 'Quintessential', Georgia, serif;
 }
 
 /* =========================================================

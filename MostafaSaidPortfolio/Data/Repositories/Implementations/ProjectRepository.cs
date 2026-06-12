@@ -23,7 +23,7 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
 
         public ProjectRepository(NpgsqlConnection connection) : base(connection) { }
 
-        public override async Task<Project?> GetByIdAsync(int id)
+        public override async Task<Project?> GetByIdAsync(Guid id)
         {
             return await _connection.QueryFirstOrDefaultAsync<Project>(
                 $"SELECT {Columns} {Joins} WHERE p.\"Id\" = @id AND p.\"IsDeleted\" = FALSE",
@@ -61,15 +61,15 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
         public async Task<IEnumerable<Project>> GetByCategoryAsync(int categoryId)
         {
             return await _connection.QueryAsync<Project>(
-                $"SELECT {Columns} {Joins} WHERE p.\"CategoryId\" = @categoryId AND p.\"IsDeleted\" = FALSE ORDER BY p.\"DisplayOrder\"",
+                $"SELECT {Columns} {Joins} WHERE p.\"CategoryId\" = @categoryId AND p.\"IsDeleted\" = FALSE ORDER BY p.\"DisplayOrder\", p.\"CreatedAt\" DESC",
                 new { categoryId }, _transaction);
         }
 
-        public async Task<IEnumerable<Project>> SearchAsync(string query)
+        public async Task<IEnumerable<Project>> SearchAsync(string query, int limit = 50)
         {
             return await _connection.QueryAsync<Project>(
-                $"SELECT {Columns} {Joins} WHERE p.\"IsDeleted\" = FALSE AND (p.\"Title\" ILIKE @q OR p.\"Description\" ILIKE @q OR p.\"TechnologyStack\" ILIKE @q) ORDER BY p.\"DisplayOrder\"",
-                new { q = $"%{query}%" }, _transaction);
+                $"SELECT {Columns} {Joins} WHERE p.\"IsDeleted\" = FALSE AND (p.\"Title\" ILIKE @q OR p.\"Description\" ILIKE @q OR p.\"TechnologyStack\" ILIKE @q) ORDER BY p.\"DisplayOrder\", p.\"CreatedAt\" DESC LIMIT @limit",
+                new { q = $"%{query}%", limit }, _transaction);
         }
 
         public async Task<int> CountActiveAsync()
@@ -79,18 +79,18 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
                 transaction: _transaction);
         }
 
-        public override async Task<int> AddAsync(Project entity)
+        public override async Task AddAsync(Project entity)
         {
-            return await _connection.ExecuteScalarAsync<int>(@"
+            await _connection.ExecuteAsync(@"
                 INSERT INTO ""Projects""
-                    (""Title"", ""Description"", ""LongDescription"", ""TechnologyStack"",
+                    (""Id"", ""Title"", ""Description"", ""LongDescription"", ""Slug"", ""TechnologyStack"",
                      ""GitHubUrl"", ""LiveUrl"", ""ImageUrl"", ""ThumbnailUrl"",
                      ""CategoryId"", ""Status"", ""DisplayOrder"", ""IsFeatured"", ""CreatedAt"", ""UpdatedAt"")
                 VALUES
-                    (@Title, @Description, @LongDescription, @TechnologyStack,
+                    (@Id, @Title, @Description, @LongDescription, @Slug, @TechnologyStack,
                      @GitHubUrl, @LiveUrl, @ImageUrl, @ThumbnailUrl,
-                     @CategoryId, @Status, @DisplayOrder, @IsFeatured, NOW(), NOW())
-                RETURNING ""Id""", entity, _transaction);
+                     @CategoryId, @Status, @DisplayOrder, @IsFeatured, NOW(), NOW())",
+                entity, _transaction);
         }
 
         public override async Task<bool> UpdateAsync(Project entity)
@@ -107,7 +107,7 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
             return rows > 0;
         }
 
-        public override async Task<bool> DeleteAsync(int id)
+        public override async Task<bool> DeleteAsync(Guid id)
         {
             var rows = await _connection.ExecuteAsync(
                 @"UPDATE ""Projects"" SET ""IsDeleted"" = TRUE WHERE ""Id"" = @id",
@@ -116,4 +116,3 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
         }
     }
 }
-

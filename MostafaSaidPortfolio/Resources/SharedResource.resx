@@ -87,8 +87,74 @@
   <data name="Contact_Send"            xml:space="preserve"><value>Send Message</value></data>
   <data name="Contact_Error"           xml:space="preserve"><value>Please correct the errors below.</value></data>
 
+  <!-- Contact success / error pages -->
+  <data name="Contact_Success_Title"   xml:space="preserve"><value>Message Received!</value></data>
+  <data name="Contact_Success_Desc"    xml:space="preserve"><value>Thank you for reaching out. I'll review your message and get back to you within 24 hours.</value></data>
+  <data name="Contact_Success_BackHome" xml:space="preserve"><value>Back to Home</value></data>
+  <data name="Contact_Error_Title"     xml:space="preserve"><value>Something Went Wrong</value></data>
+  <data name="Contact_Error_Desc"      xml:space="preserve"><value>Your message could not be sent. Please try again or email me directly at mostafa@example.com.</value></data>
+  <data name="Contact_Error_TryAgain"  xml:space="preserve"><value>Try Again</value></data>
+
   <!-- Common -->
   <data name="Common_Featured" xml:space="preserve"><value>★ Featured</value></data>
   <data name="Common_GitHub"   xml:space="preserve"><value>GitHub</value></data>
   <data name="Common_LiveDemo" xml:space="preserve"><value>Live Demo</value></data>
+
+  <!-- Events page -->
+  <data name="Nav_Events"                  xml:space="preserve"><value>Events</value></data>
+  <data name="Events_Label"                xml:space="preserve"><value>Community &amp; Learning</value></data>
+  <data name="Events_Title"                xml:space="preserve"><value>Events</value></data>
+  <data name="Events_Description"          xml:space="preserve"><value>Workshops, conferences, and meetups — stay connected with the developer community.</value></data>
+  <data name="Events_Upcoming"             xml:space="preserve"><value>Upcoming Events</value></data>
+  <data name="Events_Past"                 xml:space="preserve"><value>Past Events</value></data>
+  <data name="Events_Spots"                xml:space="preserve"><value>spots filled</value></data>
+  <data name="Events_Details"              xml:space="preserve"><value>View Details</value></data>
+  <data name="Events_Register"             xml:space="preserve"><value>Register Now</value></data>
+  <data name="Events_Full"                 xml:space="preserve"><value>Fully Booked</value></data>
+  <data name="Events_NoUpcoming"           xml:space="preserve"><value>No upcoming events right now</value></data>
+  <data name="Events_CheckBack"            xml:space="preserve"><value>Check back soon — new events are being planned!</value></data>
+  <data name="Events_BackToEvents"         xml:space="preserve"><value>Back to Events</value></data>
+  <data name="Events_BackToEvent"          xml:space="preserve"><value>Back to Event</value></data>
+  <data name="Events_UpcomingBadge"        xml:space="preserve"><value>Upcoming</value></data>
+  <data name="Events_PastBadge"            xml:space="preserve"><value>Past Event</value></data>
+  <data name="Events_AboutEvent"           xml:space="preserve"><value>About this Event</value></data>
+  <data name="Events_Registration"         xml:space="preserve"><value>Registration</value></data>
+  <data name="Events_Date"                 xml:space="preserve"><value>Date</value></data>
+  <data name="Events_Time"                 xml:space="preserve"><value>Time</value></data>
+  <data name="Events_Location"             xml:space="preserve"><value>Location</value></data>
+  <data name="Events_Capacity"             xml:space="preserve"><value>Capacity</value></data>
+  <data name="Events_EventEnded"           xml:space="preserve"><value>This event has ended</value></data>
+  <data name="Events_VisitLink"            xml:space="preserve"><value>Visit Event Page</value></data>
+  <data name="Events_RegisterFor"          xml:space="preserve"><value>Register for</value></data>
+  <data name="Events_FirstName"            xml:space="preserve"><value>First Name</value></data>
+  <data name="Events_LastName"             xml:space="preserve"><value>Last Name</value></data>
+  <data name="Events_Email"                xml:space="preserve"><value>Email Address</value></data>
+  <data name="Events_Company"              xml:space="preserve"><value>Company / Organization</value></data>
+  <data name="Events_Notes"                xml:space="preserve"><value>Notes (optional)</value></data>
+  <data name="Events_SpotsLeft"            xml:space="preserve"><value>spots remaining</value></data>
+  <data name="Events_ConfirmRegistration"  xml:space="preserve"><value>Confirm Registration</value></data>
+  <data name="Events_FullDesc"             xml:space="preserve"><value>This event has reached full capacity. Please check back for future events.</value></data>
+
+  <!-- Testimonials page -->
+  <data name="Testimonials_Label"          xml:space="preserve"><value>Client Reviews</value></data>
+  <data name="Testimonials_Title"          xml:space="preserve"><value>Testimonials</value></data>
+  <data name="Testimonials_Description"    xml:space="preserve"><value>Honest feedback from people I've had the pleasure to work with.</value></data>
+  <data name="Testimonials_Total"          xml:space="preserve"><value>Reviews</value></data>
+  <data name="Testimonials_AvgRating"      xml:space="preserve"><value>Avg Rating</value></data>
+  <data name="Testimonials_FiveStar"       xml:space="preserve"><value>5-Star</value></data>
+  <data name="Testimonials_Empty"          xml:space="preserve"><value>No testimonials yet</value></data>
+  <data name="Testimonials_EmptyDesc"      xml:space="preserve"><value>Be the first to share your experience working together.</value></data>
+  <data name="Testimonials_CtaTitle"       xml:space="preserve"><value>Worked Together?</value></data>
+  <data name="Testimonials_CtaDesc"        xml:space="preserve"><value>I'd love to hear about your experience. Share your honest feedback — it means a lot.</value></data>
+  <data name="Testimonials_Submit"         xml:space="preserve"><value>Leave a Review</value></data>
+  <data name="Testimonials_BackToAll"      xml:space="preserve"><value>Back to Testimonials</value></data>
+  <data name="Testimonials_SubmitDesc"     xml:space="preserve"><value>Share your experience — your review helps others know what it's like to work with me.</value></data>
+  <data name="Testimonials_YourName"       xml:space="preserve"><value>Your Name</value></data>
+  <data name="Testimonials_Rating"         xml:space="preserve"><value>Rating</value></data>
+  <data name="Testimonials_Position"       xml:space="preserve"><value>Your Position / Role</value></data>
+  <data name="Testimonials_Company"        xml:space="preserve"><value>Company (optional)</value></data>
+  <data name="Testimonials_YourReview"     xml:space="preserve"><value>Your Review</value></data>
+  <data name="Testimonials_ReviewPlaceholder" xml:space="preserve"><value>What was it like working together? What stood out most?</value></data>
+  <data name="Testimonials_ReviewNote"     xml:space="preserve"><value>Reviews are reviewed before being published. Thank you for taking the time!</value></data>
+  <data name="Testimonials_SubmitBtn"      xml:space="preserve"><value>Submit Review</value></data>
 </root>

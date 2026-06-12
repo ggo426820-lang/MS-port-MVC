@@ -1,6 +1,5 @@
 using MostafaSaidPortfolio.Data.UnitOfWork;
 using MostafaSaidPortfolio.Domain.Entities;
-using MostafaSaidPortfolio.Domain.Enums;
 using MostafaSaidPortfolio.Services.Interfaces;
 
 namespace MostafaSaidPortfolio.Services.Implementations
@@ -20,7 +19,7 @@ namespace MostafaSaidPortfolio.Services.Implementations
         public Task<IEnumerable<BlogPost>> GetRecentAsync(int count = 5) =>
             _uow.Blogs.GetRecentAsync(count);
 
-        public Task<BlogPost?> GetByIdAsync(int id) =>
+        public Task<BlogPost?> GetByIdAsync(Guid id) =>
             _uow.Blogs.GetByIdAsync(id);
 
         public Task<BlogPost?> GetBySlugAsync(string slug) =>
@@ -32,12 +31,12 @@ namespace MostafaSaidPortfolio.Services.Implementations
         public Task<IEnumerable<BlogPost>> SearchAsync(string query) =>
             _uow.Blogs.SearchAsync(query);
 
-        public Task IncrementViewCountAsync(int id) =>
+        public Task IncrementViewCountAsync(Guid id) =>
             _uow.Blogs.IncrementViewCountAsync(id);
 
         public async Task<BlogPost> AddAsync(BlogPost entity)
         {
-            entity.Id = await _uow.Blogs.AddAsync(entity);
+            await _uow.Blogs.AddAsync(entity);
             return entity;
         }
 
@@ -47,8 +46,7 @@ namespace MostafaSaidPortfolio.Services.Implementations
             return entity;
         }
 
-        public Task<bool> DeleteAsync(int id) =>
+        public Task<bool> DeleteAsync(Guid id) =>
             _uow.Blogs.DeleteAsync(id);
     }
 }
-
