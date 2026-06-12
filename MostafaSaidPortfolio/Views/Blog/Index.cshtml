@@ -1,20 +1,90 @@
-﻿@model IEnumerable<MostafaSaidPortfolio.Models.BlogPost>
-@{
-    ViewData["Title"] = "Blog";
-}
+@using MostafaSaidPortfolio.Models
+@model IEnumerable<BlogPost>
+@{ ViewData["Title"] = L["Blog_Title"].ToString(); }
 
-<section class="container mx-auto px-6 py-16">
-    <h2 class="text-3xl font-bold mb-8">All Blog Posts</h2>
-    <div class="grid md:grid-cols-3 gap-8">
-        @foreach (var post in Model)
-        {
-            <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition">
-                <h3 class="text-xl font-semibold mb-2">@post.Title</h3>
-                <p class="text-gray-600 mb-4">@post.Summary</p>
-                <a asp-action="Details" asp-route-id="@post.Id" class="text-indigo-600 font-semibold hover:underline">
-                    Read More →
-                </a>
-            </div>
-        }
+<!-- Page Header -->
+<section class="page-header">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p class="text-indigo-400 font-semibold text-xs uppercase tracking-widest mb-3">@L["Blog_Label"]</p>
+        <h1 class="font-heading text-4xl sm:text-5xl font-bold text-white mb-4">@L["Blog_Title"]</h1>
+        <p class="text-slate-400 text-lg max-w-xl">@L["Blog_Description"]</p>
     </div>
+</section>
+
+<!-- Blog Grid -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    @if (Model != null && Model.Any())
+    {
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach (var post in Model)
+            {
+                <a asp-action="Details" asp-route-id="@post.Id" class="content-card group flex flex-col observe-fade" style="display:flex;text-decoration:none">
+
+                    @if (!string.IsNullOrEmpty(post.FeaturedImageUrl))
+                    {
+                        <div class="h-44 overflow-hidden">
+                            <img src="@post.FeaturedImageUrl" alt="@post.Title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="h-32 flex items-center justify-center" style="background:linear-gradient(135deg,var(--accent-bg),#f3e8ff)">
+                            <svg class="w-10 h-10 opacity-40" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                    }
+
+                    <div class="p-6 flex flex-col flex-1">
+                        <div class="flex items-center justify-between mb-3">
+                            @if (!string.IsNullOrEmpty(post.CategoryName ?? post.Category?.Name))
+                            {
+                                <span class="tag-badge">@(post.CategoryName ?? post.Category?.Name)</span>
+                            }
+                            <span class="text-xs flex items-center gap-1" style="color:var(--text-muted)">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                @post.EstimatedReadingTime @L["Blog_MinRead"]
+                            </span>
+                        </div>
+
+                        <h2 class="card-title font-heading font-bold text-lg leading-snug mb-3 group-hover:text-indigo-500 transition-colors">@post.Title</h2>
+
+                        @if (!string.IsNullOrEmpty(post.Summary))
+                        {
+                            <p class="card-text text-sm leading-relaxed mb-4 flex-1">
+                                @(post.Summary.Length > 130 ? post.Summary[..130] + "…" : post.Summary)
+                            </p>
+                        }
+
+                        <div class="flex items-center justify-between pt-4 border-t card-divider text-xs">
+                            <div class="flex items-center gap-2" style="color:var(--text-muted)">
+                                @if (!string.IsNullOrEmpty(post.AuthorName ?? post.Author?.Name))
+                                {
+                                    <div class="w-6 h-6 rounded-full bg-gradient-to-br from-indigo-400 to-purple-400 flex items-center justify-center text-white font-bold shrink-0">
+                                        @((post.AuthorName ?? post.Author?.Name ?? "?")[0])
+                                    </div>
+                                    <span>@(post.AuthorName ?? post.Author?.Name)</span>
+                                }
+                            </div>
+                            <span style="color:var(--text-muted)">@post.CreatedAt.ToString("MMM d, yyyy")</span>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-24">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center" style="background:var(--accent-bg)">
+                <svg class="w-8 h-8" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+            </div>
+            <h3 class="font-heading font-bold text-xl mb-2" style="color:var(--text-primary)">@L["Blog_Empty"]</h3>
+            <p style="color:var(--text-muted)">@L["Blog_EmptySub"]</p>
+        </div>
+    }
 </section>

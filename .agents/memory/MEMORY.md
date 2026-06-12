@@ -1,0 +1,2 @@
+- [PostgreSQL URI conversion](postgres-uri-conversion.md) — Replit DATABASE_URL is a URI; EF Core Npgsql can't parse it directly — must convert with ConnectionHelper.ToNpgsqlConnectionString().
+- [DatabaseInitializer seed safety](seed-data-safety.md) — Never embed markdown code fences or raw SQL backtick strings in C# verbatim literals; use parameterized inserts for blog post content.

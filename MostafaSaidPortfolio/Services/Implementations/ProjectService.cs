@@ -1,53 +1,43 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using MostafaSaidPortfolio.Data.UnitOfWork;
 using MostafaSaidPortfolio.Models;
 using MostafaSaidPortfolio.Services.Interfaces;
-using MostafaSaidPortfolio.Data;
 
 namespace MostafaSaidPortfolio.Services.Implementations
 {
     public class ProjectService : IProjectService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _uow;
 
-        public ProjectService(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public ProjectService(IUnitOfWork uow) => _uow = uow;
 
-        public async Task<IEnumerable<Project>> GetAllAsync()
-        {
-            return await _context.Set<Project>().ToListAsync();
-        }
+        public Task<IEnumerable<Project>> GetAllActiveAsync() =>
+            _uow.Projects.GetActiveAsync();
 
-        public async Task<Project?> GetByIdAsync(int id)
-        {
-            return await _context.Set<Project>().FindAsync(id);
-        }
+        public Task<IEnumerable<Project>> GetFeaturedAsync(int count = 3) =>
+            _uow.Projects.GetFeaturedAsync(count);
+
+        public Task<Project?> GetByIdAsync(int id) =>
+            _uow.Projects.GetByIdAsync(id);
+
+        public Task<IEnumerable<Project>> GetByCategoryAsync(int categoryId) =>
+            _uow.Projects.GetByCategoryAsync(categoryId);
+
+        public Task<IEnumerable<Project>> SearchAsync(string query) =>
+            _uow.Projects.SearchAsync(query);
 
         public async Task<Project> AddAsync(Project entity)
         {
-            _context.Set<Project>().Add(entity);
-            await _context.SaveChangesAsync();
+            entity.Id = await _uow.Projects.AddAsync(entity);
             return entity;
         }
 
         public async Task<Project> UpdateAsync(Project entity)
         {
-            _context.Set<Project>().Update(entity);
-            await _context.SaveChangesAsync();
+            await _uow.Projects.UpdateAsync(entity);
             return entity;
         }
 
-        public async Task<bool> DeleteAsync(int id)
-        {
-            var entity = await GetByIdAsync(id);
-            if (entity == null) return false;
-
-            _context.Set<Project>().Remove(entity);
-            await _context.SaveChangesAsync();
-            return true;
-        }
+        public Task<bool> DeleteAsync(int id) =>
+            _uow.Projects.DeleteAsync(id);
     }
 }

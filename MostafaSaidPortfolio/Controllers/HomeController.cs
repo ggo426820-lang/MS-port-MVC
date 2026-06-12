@@ -1,40 +1,35 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MostafaSaidPortfolio.Data;
-using MostafaSaidPortfolio.Models;
-using System.Linq;
-using System.Threading.Tasks;
+using MostafaSaidPortfolio.Services.Interfaces;
 
 namespace MostafaSaidPortfolio.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IProjectService _projectService;
+        private readonly IBlogService _blogService;
+        private readonly ITestimonialService _testimonialService;
 
-        public HomeController(ApplicationDbContext context)
+        public HomeController(
+            IProjectService projectService,
+            IBlogService blogService,
+            ITestimonialService testimonialService)
         {
-            _context = context;
+            _projectService = projectService;
+            _blogService = blogService;
+            _testimonialService = testimonialService;
         }
 
         public async Task<IActionResult> Index()
         {
-            // Latest 3 projects
-            var projects = await _context.Projects
-                .OrderByDescending(p => p.CreatedAt)
-                .Take(3)
-                .ToListAsync();
-
-            // Latest 3 published blog posts
-            var blogs = await _context.BlogPosts
-                .Where(b => b.IsPublished)
-                .OrderByDescending(b => b.CreatedAt)
-                .Take(3)
-                .ToListAsync();
-
-            ViewBag.Projects = projects;
-            ViewBag.Blogs = blogs;
-
+            ViewBag.Projects = await _projectService.GetFeaturedAsync(3);
+            ViewBag.Blogs = await _blogService.GetRecentAsync(3);
+            ViewBag.Testimonials = await _testimonialService.GetApprovedAsync();
             return View();
         }
+
+        public IActionResult Privacy() => View();
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error() => View();
     }
 }

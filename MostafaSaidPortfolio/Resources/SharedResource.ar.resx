@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+
+  <!-- Navigation -->
+  <data name="Nav_Home"     xml:space="preserve"><value>الرئيسية</value></data>
+  <data name="Nav_Projects" xml:space="preserve"><value>المشاريع</value></data>
+  <data name="Nav_Blog"     xml:space="preserve"><value>المدونة</value></data>
+  <data name="Nav_Contact"  xml:space="preserve"><value>اتصل</value></data>
+  <data name="Nav_HireMe"   xml:space="preserve"><value>وظّفني</value></data>
+
+  <!-- Footer -->
+  <data name="Footer_QuickLinks"  xml:space="preserve"><value>روابط سريعة</value></data>
+  <data name="Footer_GetInTouch"  xml:space="preserve"><value>تواصل معي</value></data>
+  <data name="Footer_Available"   xml:space="preserve"><value>متاح للعمل المستقل</value></data>
+  <data name="Footer_Rights"      xml:space="preserve"><value>جميع الحقوق محفوظة.</value></data>
+  <data name="Footer_BuiltWith"   xml:space="preserve"><value>بُني بـ ASP.NET Core + PostgreSQL + Dapper</value></data>
+  <data name="Footer_Bio"         xml:space="preserve"><value>مطور فول ستاك شغوف ببناء تطبيقات ويب أنيقة بكود نظيف وسهل الصيانة.</value></data>
+
+  <!-- Hero -->
+  <data name="Hero_Badge"       xml:space="preserve"><value>متاح للمشاريع الجديدة</value></data>
+  <data name="Hero_Hello"       xml:space="preserve"><value>مرحباً، أنا</value></data>
+  <data name="Hero_Description" xml:space="preserve"><value>مطور فول ستاك متخصص في ASP.NET Core وقواعد بيانات PostgreSQL وتقنيات الويب الحديثة. أبني تطبيقات سريعة ونظيفة وقابلة للتوسع.</value></data>
+  <data name="Hero_ViewWork"    xml:space="preserve"><value>عرض أعمالي</value></data>
+  <data name="Hero_Contact"     xml:space="preserve"><value>تواصل معي</value></data>
+
+  <!-- Stats -->
+  <data name="Stats_Projects"     xml:space="preserve"><value>مشروع منجز</value></data>
+  <data name="Stats_Years"        xml:space="preserve"><value>سنوات خبرة</value></data>
+  <data name="Stats_Tech"         xml:space="preserve"><value>تقنية</value></data>
+  <data name="Stats_Satisfaction" xml:space="preserve"><value>رضا العملاء</value></data>
+
+  <!-- Home sections -->
+  <data name="Home_PortfolioLabel"    xml:space="preserve"><value>محفظة الأعمال</value></data>
+  <data name="Home_FeaturedProjects"  xml:space="preserve"><value>مشاريع مميزة</value></data>
+  <data name="Home_WritingLabel"      xml:space="preserve"><value>مقالاتي</value></data>
+  <data name="Home_LatestArticles"    xml:space="preserve"><value>أحدث المقالات</value></data>
+  <data name="Home_ViewAll"           xml:space="preserve"><value>عرض الكل</value></data>
+  <data name="Home_TechTitle"         xml:space="preserve"><value>التقنيات التي أعمل بها</value></data>
+  <data name="Home_TestimonialsLabel" xml:space="preserve"><value>آراء العملاء</value></data>
+  <data name="Home_WhatClientsSay"    xml:space="preserve"><value>ماذا يقول العملاء</value></data>
+  <data name="Home_NewsletterTitle"   xml:space="preserve"><value>ابق على اطلاع</value></data>
+  <data name="Home_NewsletterDesc"    xml:space="preserve"><value>احصل على مقالات حول .NET وقواعد البيانات وتطوير الويب الحديث مباشرة في صندوق بريدك.</value></data>
+  <data name="Home_Subscribe"         xml:space="preserve"><value>اشترك</value></data>
+  <data name="Home_EmailPlaceholder"  xml:space="preserve"><value>أدخل بريدك الإلكتروني</value></data>
+  <data name="Home_ReadMore"          xml:space="preserve"><value>اقرأ المزيد</value></data>
+  <data name="Home_NoProjects"        xml:space="preserve"><value>لا توجد مشاريع بعد. ترقّب!</value></data>
+  <data name="Home_NoArticles"        xml:space="preserve"><value>لا توجد مقالات بعد. قريباً!</value></data>
+
+  <!-- Blog page -->
+  <data name="Blog_Label"       xml:space="preserve"><value>كتابة وأفكار</value></data>
+  <data name="Blog_Title"       xml:space="preserve"><value>المدونة</value></data>
+  <data name="Blog_Description" xml:space="preserve"><value>مقالات حول .NET وقواعد البيانات وتطوير الويب وأفضل ممارسات هندسة البرمجيات.</value></data>
+  <data name="Blog_MinRead"     xml:space="preserve"><value>دقيقة للقراءة</value></data>
+  <data name="Blog_Empty"       xml:space="preserve"><value>لا توجد مقالات بعد</value></data>
+  <data name="Blog_EmptySub"    xml:space="preserve"><value>تابعنا — المقالات قادمة قريباً!</value></data>
+
+  <!-- Projects page -->
+  <data name="Projects_Label"       xml:space="preserve"><value>محفظة الأعمال</value></data>
+  <data name="Projects_Title"       xml:space="preserve"><value>المشاريع</value></data>
+  <data name="Projects_Description" xml:space="preserve"><value>مجموعة من التطبيقات التي بنيتها — من تطبيقات الويب الكاملة إلى تكاملات API.</value></data>
+  <data name="Projects_Featured"    xml:space="preserve"><value>مميز</value></data>
+  <data name="Projects_Details"     xml:space="preserve"><value>التفاصيل</value></data>
+  <data name="Projects_LiveDemo"    xml:space="preserve"><value>عرض حي</value></data>
+  <data name="Projects_Empty"       xml:space="preserve"><value>لا توجد مشاريع بعد</value></data>
+  <data name="Projects_EmptySub"    xml:space="preserve"><value>تابعنا قريباً!</value></data>
+
+  <!-- Contact page -->
+  <data name="Contact_Label"           xml:space="preserve"><value>تواصل معي</value></data>
+  <data name="Contact_Title"           xml:space="preserve"><value>اتصل بي</value></data>
+  <data name="Contact_Description"     xml:space="preserve"><value>هل لديك مشروع في ذهنك أو تريد التعاون؟ يسعدني أن أسمع منك.</value></data>
+  <data name="Contact_WorkTogether"    xml:space="preserve"><value>لنعمل معاً</value></data>
+  <data name="Contact_BodyText"        xml:space="preserve"><value>أنا متاح للمشاريع المستقلة والفرص الكاملة والاستشارات. لا تتردد في التواصل — أرد عادةً خلال 24 ساعة.</value></data>
+  <data name="Contact_EmailLabel"      xml:space="preserve"><value>البريد الإلكتروني</value></data>
+  <data name="Contact_LocationLabel"   xml:space="preserve"><value>الموقع</value></data>
+  <data name="Contact_AvailLabel"      xml:space="preserve"><value>التوفر</value></data>
+  <data name="Contact_AvailValue"      xml:space="preserve"><value>متاح للمشاريع المستقلة</value></data>
+  <data name="Contact_FormTitle"       xml:space="preserve"><value>أرسل رسالة</value></data>
+  <data name="Contact_FullName"        xml:space="preserve"><value>الاسم الكامل</value></data>
+  <data name="Contact_EmailAddress"    xml:space="preserve"><value>البريد الإلكتروني</value></data>
+  <data name="Contact_Subject"         xml:space="preserve"><value>الموضوع</value></data>
+  <data name="Contact_SubjectOptional" xml:space="preserve"><value>اختياري</value></data>
+  <data name="Contact_Message"         xml:space="preserve"><value>الرسالة</value></data>
+  <data name="Contact_Send"            xml:space="preserve"><value>إرسال الرسالة</value></data>
+  <data name="Contact_Error"           xml:space="preserve"><value>يرجى تصحيح الأخطاء أدناه.</value></data>
+
+  <!-- Common -->
+  <data name="Common_Featured" xml:space="preserve"><value>★ مميز</value></data>
+  <data name="Common_GitHub"   xml:space="preserve"><value>GitHub</value></data>
+  <data name="Common_LiveDemo" xml:space="preserve"><value>عرض حي</value></data>
+</root>

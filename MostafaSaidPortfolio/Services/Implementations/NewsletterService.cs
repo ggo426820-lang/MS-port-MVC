@@ -1,54 +1,22 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using MostafaSaidPortfolio.Data.UnitOfWork;
 using MostafaSaidPortfolio.Models;
 using MostafaSaidPortfolio.Services.Interfaces;
-using MostafaSaidPortfolio.Data;
-
 
 namespace MostafaSaidPortfolio.Services.Implementations
 {
     public class NewsletterService : INewsletterService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _uow;
 
-        public NewsletterService(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public NewsletterService(IUnitOfWork uow) => _uow = uow;
 
-        public async Task<IEnumerable<NewsletterSubscriber>> GetAllAsync()
-        {
-            return await _context.Set<NewsletterSubscriber>().ToListAsync();
-        }
+        public Task<bool> SubscribeAsync(string email) =>
+            _uow.Newsletter.SubscribeAsync(email.Trim().ToLowerInvariant());
 
-        public async Task<NewsletterSubscriber?> GetByIdAsync(int id)
-        {
-            return await _context.Set<NewsletterSubscriber>().FindAsync(id);
-        }
+        public Task<bool> UnsubscribeAsync(string email) =>
+            _uow.Newsletter.UnsubscribeAsync(email.Trim().ToLowerInvariant());
 
-        public async Task<NewsletterSubscriber> AddAsync(NewsletterSubscriber entity)
-        {
-            _context.Set<NewsletterSubscriber>().Add(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task<NewsletterSubscriber> UpdateAsync(NewsletterSubscriber entity)
-        {
-            _context.Set<NewsletterSubscriber>().Update(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task<bool> DeleteAsync(int id)
-        {
-            var entity = await GetByIdAsync(id);
-            if (entity == null) return false;
-
-            _context.Set<NewsletterSubscriber>().Remove(entity);
-            await _context.SaveChangesAsync();
-            return true;
-        }
+        public Task<IEnumerable<NewsletterSubscriber>> GetAllAsync() =>
+            _uow.Newsletter.GetAllAsync();
     }
 }

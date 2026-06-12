@@ -1,53 +1,23 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using MostafaSaidPortfolio.Models;
 using MostafaSaidPortfolio.Services.Interfaces;
-using MostafaSaidPortfolio.Data;
 
 namespace MostafaSaidPortfolio.Services.Implementations
 {
     public class AccountService : IAccountService
     {
-        private readonly ApplicationDbContext _context;
+        public Task<IEnumerable<Account>> GetAllAsync() =>
+            Task.FromResult<IEnumerable<Account>>(Array.Empty<Account>());
 
-        public AccountService(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public Task<Account?> GetByIdAsync(int id) =>
+            Task.FromResult<Account?>(null);
 
-        public async Task<IEnumerable<Account>> GetAllAsync()
-        {
-            return await _context.Set<Account>().ToListAsync();
-        }
+        public Task<Account> AddAsync(Account entity) =>
+            Task.FromResult(entity);
 
-        public async Task<Account?> GetByIdAsync(int id)
-        {
-            return await _context.Set<Account>().FindAsync(id);
-        }
+        public Task<Account> UpdateAsync(Account entity) =>
+            Task.FromResult(entity);
 
-        public async Task<Account> AddAsync(Account entity)
-        {
-            _context.Set<Account>().Add(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task<Account> UpdateAsync(Account entity)
-        {
-            _context.Set<Account>().Update(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task<bool> DeleteAsync(int id)
-        {
-            var entity = await GetByIdAsync(id);
-            if (entity == null) return false;
-
-            _context.Set<Account>().Remove(entity);
-            await _context.SaveChangesAsync();
-            return true;
-        }
+        public Task<bool> DeleteAsync(int id) =>
+            Task.FromResult(false);
     }
 }

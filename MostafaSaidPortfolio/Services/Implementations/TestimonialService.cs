@@ -1,58 +1,31 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using MostafaSaidPortfolio.Data.UnitOfWork;
 using MostafaSaidPortfolio.Models;
 using MostafaSaidPortfolio.Services.Interfaces;
-using MostafaSaidPortfolio.Data; // ✅ This is required for AppDbContext
 
 namespace MostafaSaidPortfolio.Services.Implementations
 {
     public class TestimonialService : ITestimonialService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _uow;
 
-        public TestimonialService(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public TestimonialService(IUnitOfWork uow) => _uow = uow;
 
-        // Get all testimonials
-        public async Task<IEnumerable<Testimonial>> GetAllAsync()
-        {
-            return await _context.Set<Testimonial>().ToListAsync();
-        }
+        public Task<IEnumerable<Testimonial>> GetApprovedAsync() =>
+            _uow.Testimonials.GetApprovedAsync();
 
-        // Get testimonial by Id
-        public async Task<Testimonial?> GetByIdAsync(int id)
-        {
-            return await _context.Set<Testimonial>().FindAsync(id);
-        }
+        public Task<IEnumerable<Testimonial>> GetAllAsync() =>
+            _uow.Testimonials.GetAllAsync();
 
-        // Add new testimonial
+        public Task<Testimonial?> GetByIdAsync(int id) =>
+            _uow.Testimonials.GetByIdAsync(id);
+
         public async Task<Testimonial> AddAsync(Testimonial entity)
         {
-            _context.Set<Testimonial>().Add(entity);
-            await _context.SaveChangesAsync();
+            entity.Id = await _uow.Testimonials.AddAsync(entity);
             return entity;
         }
 
-        // Update testimonial
-        public async Task<Testimonial> UpdateAsync(Testimonial entity)
-        {
-            _context.Set<Testimonial>().Update(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        // Delete testimonial
-        public async Task<bool> DeleteAsync(int id)
-        {
-            var entity = await GetByIdAsync(id);
-            if (entity == null) return false;
-
-            _context.Set<Testimonial>().Remove(entity);
-            await _context.SaveChangesAsync();
-            return true;
-        }
+        public Task<bool> DeleteAsync(int id) =>
+            _uow.Testimonials.DeleteAsync(id);
     }
 }

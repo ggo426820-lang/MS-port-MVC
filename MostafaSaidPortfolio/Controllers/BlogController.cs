@@ -1,93 +1,43 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MostafaSaidPortfolio.Data;
 using MostafaSaidPortfolio.Models;
-using System.Linq;
+using MostafaSaidPortfolio.Services.Interfaces;
 
 namespace MostafaSaidPortfolio.Controllers
 {
     public class BlogController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IBlogService _blogService;
 
-        public BlogController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public BlogController(IBlogService blogService) => _blogService = blogService;
 
-        // GET: /Blog
         public async Task<IActionResult> Index()
         {
-            var posts = await _context.BlogPosts
-                                      .Where(p => p.IsPublished)
-                                      .OrderByDescending(p => p.CreatedAt)
-                                      .ToListAsync();
+            var posts = await _blogService.GetAllPublishedAsync();
             return View(posts);
         }
 
-        // GET: /Blog/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var post = await _context.BlogPosts
-                                     .Include(p => p.Category)
-                                     .FirstOrDefaultAsync(p => p.Id == id && p.IsPublished);
-
+            var post = await _blogService.GetByIdAsync(id);
             if (post == null) return NotFound();
+            await _blogService.IncrementViewCountAsync(id);
             return View(post);
         }
 
-        // GET: /Blog/Category/development
-        public async Task<IActionResult> Category(string category)
+        public async Task<IActionResult> Category(int categoryId)
         {
-            if (string.IsNullOrEmpty(category)) return NotFound();
-
-            var posts = await _context.BlogPosts
-                                      .Include(p => p.Category)
-                                      .Where(p => p.Category.Name.ToLower() == category.ToLower() && p.IsPublished)
-                                      .OrderByDescending(p => p.CreatedAt)
-                                      .ToListAsync();
-
-            ViewBag.CategoryName = category;
-            return View(posts);
+            var posts = await _blogService.GetByCategoryAsync(categoryId);
+            return View("Index", posts);
         }
 
-        // GET: /Blog/Archive
-        public async Task<IActionResult> Archive()
-        {
-            var posts = await _context.BlogPosts
-                                      .Where(p => p.IsPublished)
-                                      .OrderByDescending(p => p.CreatedAt)
-                                      .ToListAsync();
-            return View(posts);
-        }
-
-        // GET: /Blog/Search?q=aspnet
         public async Task<IActionResult> Search(string q)
         {
-            if (string.IsNullOrEmpty(q)) return View(new List<BlogPost>());
+            if (string.IsNullOrWhiteSpace(q))
+                return View("Index", new List<BlogPost>());
 
-            var posts = await _context.BlogPosts
-                                      .Where(p => p.IsPublished && (p.Name.Contains(q) || p.Content.Contains(q)))
-                                      .OrderByDescending(p => p.CreatedAt)
-                                      .ToListAsync();
-
+            var posts = await _blogService.SearchAsync(q);
             ViewBag.Query = q;
-            return View(posts);
-        }
-
-        // GET: /Blog/Tags/tagname
-        public async Task<IActionResult> Tags(string tag)
-        {
-            if (string.IsNullOrEmpty(tag)) return NotFound();
-
-            var posts = await _context.BlogPosts
-                .Include(p => p.Tags)
-                .Where(p => p.IsPublished && p.Tags.Any(t => t.Name.ToLower() == tag.ToLower()))
-                .OrderByDescending(p => p.CreatedAt)
-                .ToListAsync();
-
-            ViewBag.Tag = tag;
-            return View(posts);
+            return View("Index", posts);
         }
     }
 }
