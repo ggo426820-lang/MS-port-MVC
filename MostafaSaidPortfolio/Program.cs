@@ -6,38 +6,47 @@ using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add DbContext with SQLite
+var rawConnectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
+    ?? builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("DATABASE_URL environment variable not set.");
+
+var connectionString = ConnectionHelper.ToNpgsqlConnectionString(rawConnectionString);
+
+// Identity with PostgreSQL via EF Core
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(connectionString));
 
-// Add Identity
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 6;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
 
-// Add HttpContextAccessor
-builder.Services.AddHttpContextAccessor();
+// Dapper connection factory (singleton)
+builder.Services.AddSingleton<DbConnectionFactory>();
 
-// Add custom services/extensions
+// Register app services (Dapper-based)
 builder.Services.AddCustomServices();
-builder.Services.AddCustomEmail();
-builder.Services.AddCustomLocalization();
-builder.Services.AddCustomNewsletter();
-builder.Services.AddCustomEvents();
 
-// Add MVC
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Create/migrate the database on startup
+// Create Identity schema + initialize custom tables + seed data
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     db.Database.EnsureCreated();
+
+    var factory = scope.ServiceProvider.GetRequiredService<DbConnectionFactory>();
+    await DatabaseInitializer.InitializeAsync(factory);
 }
 
-// Configure Middleware
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -45,9 +54,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
 

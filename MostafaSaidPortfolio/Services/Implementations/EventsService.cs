@@ -1,53 +1,55 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using Dapper;
+using MostafaSaidPortfolio.Data;
 using MostafaSaidPortfolio.Models;
 using MostafaSaidPortfolio.Services.Interfaces;
-using MostafaSaidPortfolio.Data;
 
 namespace MostafaSaidPortfolio.Services.Implementations
 {
     public class EventsService : IEventsService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly DbConnectionFactory _factory;
 
-        public EventsService(ApplicationDbContext context)
+        public EventsService(DbConnectionFactory factory) => _factory = factory;
+
+        public async Task<IEnumerable<Event>> GetUpcomingAsync()
         {
-            _context = context;
+            using var conn = _factory.CreateConnection();
+            return await conn.QueryAsync<Event>(@"
+                SELECT * FROM ""Events""
+                WHERE ""Date"" >= NOW()
+                ORDER BY ""Date"" ASC");
         }
 
         public async Task<IEnumerable<Event>> GetAllAsync()
         {
-            return await _context.Set<Event>().ToListAsync();
+            using var conn = _factory.CreateConnection();
+            return await conn.QueryAsync<Event>(@"
+                SELECT * FROM ""Events"" ORDER BY ""Date"" DESC");
         }
 
         public async Task<Event?> GetByIdAsync(int id)
         {
-            return await _context.Set<Event>().FindAsync(id);
+            using var conn = _factory.CreateConnection();
+            return await conn.QueryFirstOrDefaultAsync<Event>(
+                @"SELECT * FROM ""Events"" WHERE ""Id"" = @id", new { id });
         }
 
         public async Task<Event> AddAsync(Event entity)
         {
-            _context.Set<Event>().Add(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task<Event> UpdateAsync(Event entity)
-        {
-            _context.Set<Event>().Update(entity);
-            await _context.SaveChangesAsync();
+            using var conn = _factory.CreateConnection();
+            entity.Id = await conn.ExecuteScalarAsync<int>(@"
+                INSERT INTO ""Events"" (""Title"", ""Description"", ""Date"", ""EndDate"", ""Location"", ""IsOnline"", ""MaxAttendees"")
+                VALUES (@Title, @Description, @Date, @EndDate, @Location, @IsOnline, @MaxAttendees)
+                RETURNING ""Id""", entity);
             return entity;
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var entity = await GetByIdAsync(id);
-            if (entity == null) return false;
-
-            _context.Set<Event>().Remove(entity);
-            await _context.SaveChangesAsync();
-            return true;
+            using var conn = _factory.CreateConnection();
+            var rows = await conn.ExecuteAsync(
+                @"DELETE FROM ""Events"" WHERE ""Id"" = @id", new { id });
+            return rows > 0;
         }
     }
 }

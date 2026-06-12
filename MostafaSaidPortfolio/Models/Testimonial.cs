@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MostafaSaidPortfolio.Models
 {
@@ -9,11 +8,17 @@ namespace MostafaSaidPortfolio.Models
         public int Id { get; set; }
 
         [Required, MaxLength(100)]
-        public string Author { get; set; }
+        public string Author { get; set; } = string.Empty;
 
-        [MaxLength(500)]
-        public string Content { get; set; }
+        [MaxLength(2000)]
+        public string Content { get; set; } = string.Empty;
 
-        public DateTime SubmittedAt { get; set; } = DateTime.UtcNow;
+        [MaxLength(200)]
+        public string Company { get; set; } = string.Empty;
+
+        public int Rating { get; set; } = 5;
+        public string ImageUrl { get; set; } = string.Empty;
+        public bool IsApproved { get; set; } = false;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

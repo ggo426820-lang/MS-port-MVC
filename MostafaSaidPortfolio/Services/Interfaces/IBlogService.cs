@@ -1,24 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using MostafaSaidPortfolio.Models;
 
 namespace MostafaSaidPortfolio.Services.Interfaces
 {
     public interface IBlogService
     {
-        // Get all blog posts
-        Task<IEnumerable<BlogPost>> GetAllAsync();
-
-        // Get blog post by Id
+        Task<IEnumerable<BlogPost>> GetAllPublishedAsync();
+        Task<IEnumerable<BlogPost>> GetFeaturedAsync(int count = 3);
+        Task<IEnumerable<BlogPost>> GetRecentAsync(int count = 5);
         Task<BlogPost?> GetByIdAsync(int id);
+        Task<BlogPost?> GetBySlugAsync(string slug);
+        Task<IEnumerable<BlogPost>> GetByCategoryAsync(int categoryId);
+        Task<IEnumerable<BlogPost>> SearchAsync(string query);
+        Task IncrementViewCountAsync(int id);
 
-        // Add a new blog post
         Task<BlogPost> AddAsync(BlogPost entity);
-
-        // Update an existing blog post
         Task<BlogPost> UpdateAsync(BlogPost entity);
-
-        // Delete blog post by Id
         Task<bool> DeleteAsync(int id);
     }
 }

@@ -1,8 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using MostafaSaidPortfolio.Data;
-using MostafaSaidPortfolio.Models;
-using System;
-using System.Linq;
 
 namespace MostafaSaidPortfolio.Extensions
 {
@@ -10,8 +7,10 @@ namespace MostafaSaidPortfolio.Extensions
     {
         public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
+            var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
+                ?? configuration.GetConnectionString("DefaultConnection")
+                ?? string.Empty;
+            services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
             return services;
         }
     }

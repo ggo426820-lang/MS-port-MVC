@@ -1,54 +1,47 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using Dapper;
+using MostafaSaidPortfolio.Data;
 using MostafaSaidPortfolio.Models;
 using MostafaSaidPortfolio.Services.Interfaces;
-using MostafaSaidPortfolio.Data;
-
 
 namespace MostafaSaidPortfolio.Services.Implementations
 {
     public class NewsletterService : INewsletterService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly DbConnectionFactory _factory;
 
-        public NewsletterService(ApplicationDbContext context)
+        public NewsletterService(DbConnectionFactory factory) => _factory = factory;
+
+        public async Task<bool> SubscribeAsync(string email)
         {
-            _context = context;
+            if (string.IsNullOrWhiteSpace(email)) return false;
+            using var conn = _factory.CreateConnection();
+            try
+            {
+                await conn.ExecuteAsync(@"
+                    INSERT INTO ""NewsletterSubscribers"" (""Email"", ""IsActive"")
+                    VALUES (@email, TRUE)
+                    ON CONFLICT (""Email"") DO UPDATE SET ""IsActive"" = TRUE", new { email });
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> UnsubscribeAsync(string email)
+        {
+            using var conn = _factory.CreateConnection();
+            var rows = await conn.ExecuteAsync(@"
+                UPDATE ""NewsletterSubscribers"" SET ""IsActive"" = FALSE WHERE ""Email"" = @email", new { email });
+            return rows > 0;
         }
 
         public async Task<IEnumerable<NewsletterSubscriber>> GetAllAsync()
         {
-            return await _context.Set<NewsletterSubscriber>().ToListAsync();
-        }
-
-        public async Task<NewsletterSubscriber?> GetByIdAsync(int id)
-        {
-            return await _context.Set<NewsletterSubscriber>().FindAsync(id);
-        }
-
-        public async Task<NewsletterSubscriber> AddAsync(NewsletterSubscriber entity)
-        {
-            _context.Set<NewsletterSubscriber>().Add(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task<NewsletterSubscriber> UpdateAsync(NewsletterSubscriber entity)
-        {
-            _context.Set<NewsletterSubscriber>().Update(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task<bool> DeleteAsync(int id)
-        {
-            var entity = await GetByIdAsync(id);
-            if (entity == null) return false;
-
-            _context.Set<NewsletterSubscriber>().Remove(entity);
-            await _context.SaveChangesAsync();
-            return true;
+            using var conn = _factory.CreateConnection();
+            return await conn.QueryAsync<NewsletterSubscriber>(
+                @"SELECT * FROM ""NewsletterSubscribers"" ORDER BY ""SubscribedAt"" DESC");
         }
     }
 }

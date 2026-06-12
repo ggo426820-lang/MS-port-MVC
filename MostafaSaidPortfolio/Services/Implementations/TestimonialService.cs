@@ -1,58 +1,55 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using Dapper;
+using MostafaSaidPortfolio.Data;
 using MostafaSaidPortfolio.Models;
 using MostafaSaidPortfolio.Services.Interfaces;
-using MostafaSaidPortfolio.Data; // ✅ This is required for AppDbContext
 
 namespace MostafaSaidPortfolio.Services.Implementations
 {
     public class TestimonialService : ITestimonialService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly DbConnectionFactory _factory;
 
-        public TestimonialService(ApplicationDbContext context)
+        public TestimonialService(DbConnectionFactory factory) => _factory = factory;
+
+        public async Task<IEnumerable<Testimonial>> GetApprovedAsync()
         {
-            _context = context;
+            using var conn = _factory.CreateConnection();
+            return await conn.QueryAsync<Testimonial>(@"
+                SELECT * FROM ""Testimonials""
+                WHERE ""IsApproved"" = TRUE
+                ORDER BY ""CreatedAt"" DESC");
         }
 
-        // Get all testimonials
         public async Task<IEnumerable<Testimonial>> GetAllAsync()
         {
-            return await _context.Set<Testimonial>().ToListAsync();
+            using var conn = _factory.CreateConnection();
+            return await conn.QueryAsync<Testimonial>(@"
+                SELECT * FROM ""Testimonials"" ORDER BY ""CreatedAt"" DESC");
         }
 
-        // Get testimonial by Id
         public async Task<Testimonial?> GetByIdAsync(int id)
         {
-            return await _context.Set<Testimonial>().FindAsync(id);
+            using var conn = _factory.CreateConnection();
+            return await conn.QueryFirstOrDefaultAsync<Testimonial>(
+                @"SELECT * FROM ""Testimonials"" WHERE ""Id"" = @id", new { id });
         }
 
-        // Add new testimonial
         public async Task<Testimonial> AddAsync(Testimonial entity)
         {
-            _context.Set<Testimonial>().Add(entity);
-            await _context.SaveChangesAsync();
+            using var conn = _factory.CreateConnection();
+            entity.Id = await conn.ExecuteScalarAsync<int>(@"
+                INSERT INTO ""Testimonials"" (""Author"", ""Content"", ""Company"", ""Rating"", ""ImageUrl"", ""IsApproved"")
+                VALUES (@Author, @Content, @Company, @Rating, @ImageUrl, FALSE)
+                RETURNING ""Id""", entity);
             return entity;
         }
 
-        // Update testimonial
-        public async Task<Testimonial> UpdateAsync(Testimonial entity)
-        {
-            _context.Set<Testimonial>().Update(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        // Delete testimonial
         public async Task<bool> DeleteAsync(int id)
         {
-            var entity = await GetByIdAsync(id);
-            if (entity == null) return false;
-
-            _context.Set<Testimonial>().Remove(entity);
-            await _context.SaveChangesAsync();
-            return true;
+            using var conn = _factory.CreateConnection();
+            var rows = await conn.ExecuteAsync(
+                @"DELETE FROM ""Testimonials"" WHERE ""Id"" = @id", new { id });
+            return rows > 0;
         }
     }
 }

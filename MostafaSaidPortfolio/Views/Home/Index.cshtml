@@ -1,78 +1,286 @@
-﻿@using MostafaSaidPortfolio.Models
+@using MostafaSaidPortfolio.Models
 @{
     ViewData["Title"] = "Home";
+    var projects = ViewBag.Projects as IEnumerable<Project> ?? new List<Project>();
+    var blogs = ViewBag.Blogs as IEnumerable<BlogPost> ?? new List<BlogPost>();
+    var testimonials = ViewBag.Testimonials as IEnumerable<Testimonial> ?? new List<Testimonial>();
 }
 
 <!-- Hero Section -->
-<section class="relative bg-indigo-600 text-white py-24">
-    <div class="container mx-auto px-6 text-center">
-        <h1 class="text-4xl md:text-6xl font-bold mb-6">Welcome to My Portfolio</h1>
-        <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto">
-            I'm Mostafa Said — a developer passionate about building projects, sharing knowledge, and crafting digital solutions.
-        </p>
-        <div class="space-x-4">
-            <a asp-controller="Projects" asp-action="Index"
-               class="px-6 py-3 bg-white text-indigo-600 font-semibold rounded-lg shadow hover:bg-gray-200">
-                View Projects
-            </a>
-            <a asp-controller="Blog" asp-action="Index"
-               class="px-6 py-3 border border-white font-semibold rounded-lg hover:bg-indigo-700">
-                Read Blog
-            </a>
+<section class="relative overflow-hidden bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 text-white">
+    <div class="absolute inset-0 opacity-20">
+        <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-indigo-500 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500 rounded-full blur-3xl"></div>
+    </div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-28 lg:py-36">
+        <div class="max-w-3xl">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-indigo-500/20 border border-indigo-400/30 rounded-full text-indigo-300 text-sm font-medium mb-6">
+                <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                Available for new projects
+            </div>
+            <h1 class="font-heading text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+                Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Mostafa Said</span>
+            </h1>
+            <p class="text-xl text-slate-300 leading-relaxed mb-10 max-w-2xl">
+                Full Stack Developer specializing in ASP.NET Core, PostgreSQL, and modern web technologies. I build fast, clean, and scalable applications.
+            </p>
+            <div class="flex flex-wrap gap-4">
+                <a asp-controller="Projects" asp-action="Index"
+                   class="inline-flex items-center gap-2 px-7 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:-translate-y-0.5">
+                    View My Work
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
+                <a asp-controller="Contact" asp-action="Index"
+                   class="inline-flex items-center gap-2 px-7 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl border border-white/20 transition-all duration-200 hover:-translate-y-0.5">
+                    Get In Touch
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats bar -->
+    <div class="relative border-t border-white/10 bg-white/5 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-2 sm:grid-cols-4 gap-8">
+            <div class="text-center">
+                <div class="font-heading font-bold text-3xl text-white">5+</div>
+                <div class="text-slate-400 text-sm mt-1">Projects Built</div>
+            </div>
+            <div class="text-center">
+                <div class="font-heading font-bold text-3xl text-white">3+</div>
+                <div class="text-slate-400 text-sm mt-1">Years Experience</div>
+            </div>
+            <div class="text-center">
+                <div class="font-heading font-bold text-3xl text-white">10+</div>
+                <div class="text-slate-400 text-sm mt-1">Technologies</div>
+            </div>
+            <div class="text-center">
+                <div class="font-heading font-bold text-3xl text-white">100%</div>
+                <div class="text-slate-400 text-sm mt-1">Client Satisfaction</div>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- Latest Projects -->
-<section class="container mx-auto px-6 py-16">
-    <h2 class="text-2xl md:text-3xl font-bold text-center mb-12">Latest Projects</h2>
-    <div class="grid md:grid-cols-3 gap-8">
-        @foreach (var project in ViewBag.Projects ?? new List<Project>())
-        {
-            <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-6">
-                <img src="@project.ImageUrl" alt="@project.Title" class="rounded mb-4" />
-                <h3 class="text-xl font-semibold mb-2">@project.Title</h3>
-                <p class="text-sm text-gray-600 mb-4">@project.Description</p>
-                <a href="@project.LiveUrl" target="_blank"
-                   class="inline-block text-indigo-600 font-semibold hover:underline">
-                    Live Demo →
-                </a>
-            </div>
-        }
-    </div>
-    <div class="text-center mt-10">
+<!-- Featured Projects -->
+<section class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-end justify-between mb-12">
+        <div>
+            <p class="text-indigo-600 font-semibold text-sm uppercase tracking-wider mb-2">Portfolio</p>
+            <h2 class="font-heading text-3xl sm:text-4xl font-bold text-slate-900">Featured Projects</h2>
+        </div>
         <a asp-controller="Projects" asp-action="Index"
-           class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
-            View All Projects
+           class="hidden sm:inline-flex items-center gap-1.5 text-indigo-600 font-semibold hover:text-indigo-700 text-sm">
+            View all
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </a>
+    </div>
+
+    @if (projects.Any())
+    {
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach (var project in projects)
+            {
+                <div class="project-card group bg-white rounded-2xl border border-slate-200 hover:border-indigo-200 overflow-hidden shadow-sm hover:shadow-xl hover:shadow-indigo-100/60 transition-all duration-300 hover:-translate-y-1.5 flex flex-col">
+                    <!-- Project Image/Placeholder -->
+                    <div class="relative h-44 bg-gradient-to-br from-indigo-50 to-purple-50 overflow-hidden">
+                        @if (!string.IsNullOrEmpty(project.ImageUrl))
+                        {
+                            <img src="@project.ImageUrl" alt="@project.Title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                        }
+                        else
+                        {
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="w-16 h-16 rounded-2xl bg-white shadow-md flex items-center justify-center">
+                                    <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        }
+                        @if (project.IsFeatured)
+                        {
+                            <div class="absolute top-3 left-3 px-2.5 py-1 bg-amber-400 text-amber-900 text-xs font-bold rounded-full">Featured</div>
+                        }
+                    </div>
+
+                    <div class="p-6 flex flex-col flex-1">
+                        <div class="flex items-start justify-between gap-2 mb-2">
+                            <h3 class="font-heading font-bold text-slate-900 text-lg leading-tight group-hover:text-indigo-600 transition-colors">
+                                @project.Title
+                            </h3>
+                            @if (!string.IsNullOrEmpty(project.CategoryName ?? project.Category?.Name))
+                            {
+                                <span class="shrink-0 px-2.5 py-0.5 bg-indigo-50 text-indigo-700 text-xs font-semibold rounded-full border border-indigo-100">
+                                    @(project.CategoryName ?? project.Category?.Name)
+                                </span>
+                            }
+                        </div>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4 flex-1">@project.Description</p>
+
+                        @if (project.TechStackList.Any())
+                        {
+                            <div class="flex flex-wrap gap-1.5 mb-4">
+                                @foreach (var tech in project.TechStackList.Take(4))
+                                {
+                                    <span class="px-2 py-0.5 bg-slate-100 text-slate-700 text-xs rounded-md font-medium">@tech</span>
+                                }
+                            </div>
+                        }
+
+                        <div class="flex items-center gap-3 pt-4 border-t border-slate-100">
+                            @if (!string.IsNullOrEmpty(project.LiveUrl))
+                            {
+                                <a href="@project.LiveUrl" target="_blank" rel="noopener"
+                                   class="flex-1 text-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-lg transition-colors">
+                                    Live Demo
+                                </a>
+                            }
+                            @if (!string.IsNullOrEmpty(project.GitHubUrl))
+                            {
+                                <a href="@project.GitHubUrl" target="_blank" rel="noopener"
+                                   class="flex items-center gap-1.5 px-4 py-2 border border-slate-200 hover:border-slate-300 text-slate-700 text-xs font-semibold rounded-lg transition-colors">
+                                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                                    GitHub
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-16 text-slate-500">No projects yet. Stay tuned!</div>
+    }
+    <div class="sm:hidden text-center mt-8">
+        <a asp-controller="Projects" asp-action="Index"
+           class="inline-flex items-center gap-1.5 text-indigo-600 font-semibold">All Projects →</a>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section class="py-16 bg-white border-y border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p class="text-center text-slate-400 text-sm font-medium uppercase tracking-widest mb-8">Technologies I Work With</p>
+        <div class="flex flex-wrap justify-center gap-3">
+            @foreach (var skill in new[] { "ASP.NET Core", "C#", "PostgreSQL", "Dapper", "Entity Framework", "JavaScript", "TypeScript", "Tailwind CSS", "Bootstrap", "jQuery", "Git", "Docker", "REST APIs", "SQL", "HTML/CSS" })
+            {
+                <span class="px-4 py-2 bg-slate-50 border border-slate-200 text-slate-700 text-sm font-medium rounded-full hover:border-indigo-300 hover:text-indigo-700 hover:bg-indigo-50 transition-colors cursor-default">
+                    @skill
+                </span>
+            }
+        </div>
     </div>
 </section>
 
 <!-- Latest Blog Posts -->
-<section class="bg-gray-50 py-16">
-    <div class="container mx-auto px-6">
-        <h2 class="text-2xl md:text-3xl font-bold text-center mb-12">Latest Blog Posts</h2>
-        <div class="grid md:grid-cols-3 gap-8">
-            @foreach (var post in ViewBag.Blogs ?? new List<BlogPost>())
-            {
-                <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-6">
-                    <h3 class="text-xl font-semibold mb-2">@post.Title</h3>
-                    <p class="text-sm text-gray-600 mb-4">@post.Content.Substring(0, Math.Min(post.Content.Length, 100))...</p>
-                    <a asp-controller="Blog" asp-action="Details" asp-route-id="@post.Id"
-                       class="inline-block text-indigo-600 font-semibold hover:underline">
-                        Read More →
-                    </a>
-                </div>
-            }
-        </div>
-        <div class="text-center mt-10">
+<section class="py-24 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-end justify-between mb-12">
+            <div>
+                <p class="text-indigo-600 font-semibold text-sm uppercase tracking-wider mb-2">Writing</p>
+                <h2 class="font-heading text-3xl sm:text-4xl font-bold text-slate-900">Latest Articles</h2>
+            </div>
             <a asp-controller="Blog" asp-action="Index"
-               class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
-                View All Blog Posts
+               class="hidden sm:inline-flex items-center gap-1.5 text-indigo-600 font-semibold hover:text-indigo-700 text-sm">
+                View all
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </a>
         </div>
+
+        @if (blogs.Any())
+        {
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach (var post in blogs)
+                {
+                    <a asp-controller="Blog" asp-action="Details" asp-route-id="@post.Id"
+                       class="group bg-white rounded-2xl border border-slate-200 hover:border-indigo-200 p-6 shadow-sm hover:shadow-xl hover:shadow-indigo-100/50 transition-all duration-300 hover:-translate-y-1.5 flex flex-col">
+                        <div class="flex items-center justify-between mb-4">
+                            @if (!string.IsNullOrEmpty(post.CategoryName ?? post.Category?.Name))
+                            {
+                                <span class="px-2.5 py-0.5 bg-indigo-50 text-indigo-700 text-xs font-semibold rounded-full border border-indigo-100">
+                                    @(post.CategoryName ?? post.Category?.Name)
+                                </span>
+                            }
+                            <span class="text-slate-400 text-xs flex items-center gap-1.5">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                @post.EstimatedReadingTime min read
+                            </span>
+                        </div>
+                        <h3 class="font-heading font-bold text-slate-900 text-lg leading-snug mb-3 group-hover:text-indigo-600 transition-colors">
+                            @post.Title
+                        </h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4 flex-1">
+                            @(post.Summary.Length > 120 ? post.Summary.Substring(0, 120) + "…" : post.Summary)
+                        </p>
+                        <div class="flex items-center justify-between pt-4 border-t border-slate-100 text-xs text-slate-400">
+                            <span>@post.CreatedAt.ToString("MMM d, yyyy")</span>
+                            <span class="text-indigo-600 font-semibold group-hover:gap-2 flex items-center gap-1 transition-all">
+                                Read more <span>→</span>
+                            </span>
+                        </div>
+                    </a>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-16 text-slate-500">No articles yet. Coming soon!</div>
+        }
     </div>
 </section>
 
-<!-- Subscribe Section (partial) -->
-<partial name="Partials/_SubscribePartial" />
+<!-- Testimonials -->
+@if (testimonials.Any())
+{
+    <section class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <p class="text-indigo-600 font-semibold text-sm uppercase tracking-wider mb-2">Testimonials</p>
+            <h2 class="font-heading text-3xl sm:text-4xl font-bold text-slate-900">What Clients Say</h2>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach (var t in testimonials)
+            {
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                    <div class="flex items-center gap-1 mb-4">
+                        @for (int i = 0; i < Math.Min(t.Rating, 5); i++)
+                        {
+                            <svg class="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        }
+                    </div>
+                    <p class="text-slate-700 text-sm leading-relaxed mb-5 italic">"@t.Content"</p>
+                    <div class="flex items-center gap-3 pt-4 border-t border-slate-100">
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-400 to-purple-400 flex items-center justify-center text-white font-bold text-sm">
+                            @t.Author.Substring(0, 1).ToUpper()
+                        </div>
+                        <div>
+                            <div class="font-semibold text-slate-900 text-sm">@t.Author</div>
+                            @if (!string.IsNullOrEmpty(t.Company))
+                            {
+                                <div class="text-slate-500 text-xs">@t.Company</div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+}
+
+<!-- Newsletter CTA -->
+<section class="py-20 bg-gradient-to-br from-indigo-600 to-purple-700">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="font-heading text-3xl sm:text-4xl font-bold text-white mb-4">Stay in the Loop</h2>
+        <p class="text-indigo-200 text-lg mb-8">Get articles on .NET, PostgreSQL, and modern web development delivered to your inbox.</p>
+        <form asp-controller="Newsletter" asp-action="Subscribe" method="post" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+            @Html.AntiForgeryToken()
+            <input type="email" name="email" placeholder="Enter your email address"
+                   class="flex-1 px-5 py-3.5 rounded-xl bg-white/10 border border-white/30 text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-white/50 text-sm" required />
+            <button type="submit"
+                    class="px-6 py-3.5 bg-white text-indigo-700 font-bold rounded-xl hover:bg-indigo-50 transition-colors text-sm whitespace-nowrap shadow-lg">
+                Subscribe
+            </button>
+        </form>
+    </div>
+</section>
