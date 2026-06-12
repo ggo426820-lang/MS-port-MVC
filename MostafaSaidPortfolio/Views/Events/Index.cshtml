@@ -1,7 +1,162 @@
-﻿@{
-    ViewData["Title"] = "Index";
+@{
+    ViewData["Title"] = L["Nav_Events"].ToString();
+    var upcoming = ViewBag.Upcoming as List<MostafaSaidPortfolio.Domain.Entities.Event> ?? new();
+    var past     = ViewBag.Past     as List<MostafaSaidPortfolio.Domain.Entities.Event> ?? new();
 }
-<div class="max-w-4xl mx-auto mt-10">
-    <h1 class="text-4xl font-bold text-gray-800">@ViewData["Title"]</h1>
-    <p class="mt-4 text-gray-600">This is the Index page inside Events.</p>
+
+<!-- Page Header -->
+<section class="page-header">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p class="text-indigo-400 font-semibold text-xs uppercase tracking-widest mb-3">@L["Events_Label"]</p>
+        <h1 class="font-heading text-4xl sm:text-5xl font-bold text-white mb-4">@L["Events_Title"]</h1>
+        <p class="text-slate-400 text-lg max-w-xl">@L["Events_Description"]</p>
+    </div>
+</section>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+
+    <!-- ── Upcoming Events ── -->
+    <div class="mb-16">
+        <div class="flex items-center gap-3 mb-8">
+            <span class="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse"></span>
+            <h2 class="font-heading text-2xl font-bold" style="color:var(--text-primary)">@L["Events_Upcoming"]</h2>
+            @if (upcoming.Any())
+            {
+                <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">@upcoming.Count</span>
+            }
+        </div>
+
+        @if (upcoming.Any())
+        {
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach (var ev in upcoming)
+                {
+                    <div class="content-card group flex flex-col observe-fade">
+                        <!-- Date banner -->
+                        <div class="flex items-center gap-4 p-5 border-b card-divider">
+                            <div class="shrink-0 text-center w-14 h-14 rounded-xl flex flex-col items-center justify-center font-bold"
+                                 style="background:var(--accent-bg);color:var(--accent)">
+                                <span class="text-xl leading-none">@ev.EventDate.Day</span>
+                                <span class="text-xs uppercase tracking-wide">@ev.EventDate.ToString("MMM")</span>
+                            </div>
+                            <div class="min-w-0">
+                                <div class="text-xs font-semibold uppercase tracking-widest mb-0.5" style="color:var(--text-muted)">
+                                    @ev.EventDate.ToString("dddd")
+                                </div>
+                                <div class="text-sm font-medium" style="color:var(--text-secondary)">
+                                    @ev.EventDate.ToString("h:mm tt") @(ev.EventEndDate.HasValue ? "– " + ev.EventEndDate.Value.ToString("h:mm tt") : "")
+                                </div>
+                            </div>
+                            @if (ev.IsFeatured)
+                            {
+                                <span class="ml-auto shrink-0 px-2.5 py-1 bg-amber-400 text-amber-900 text-xs font-bold rounded-full">@L["Common_Featured"]</span>
+                            }
+                        </div>
+
+                        <div class="p-5 flex flex-col flex-1">
+                            <h3 class="card-title font-heading font-bold text-lg leading-snug mb-2 group-hover:text-indigo-500 transition-colors">
+                                @ev.Title
+                            </h3>
+                            <p class="card-text text-sm leading-relaxed mb-4 flex-1">
+                                @(ev.Description.Length > 120 ? ev.Description[..120] + "…" : ev.Description)
+                            </p>
+
+                            <div class="space-y-2 mb-4 text-sm" style="color:var(--text-muted)">
+                                @if (!string.IsNullOrEmpty(ev.Location))
+                                {
+                                    <div class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        </svg>
+                                        @ev.Location
+                                    </div>
+                                }
+                                @if (ev.MaxAttendees.HasValue)
+                                {
+                                    <div class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        </svg>
+                                        @ev.RegisteredCount / @ev.MaxAttendees @L["Events_Spots"]
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="flex items-center gap-3 pt-4 border-t card-divider">
+                                <a asp-controller="Events" asp-action="Details" asp-route-id="@ev.Id"
+                                   class="flex-1 text-center px-4 py-2 text-xs font-semibold rounded-lg border transition-colors"
+                                   style="border-color:var(--border);color:var(--text-secondary)">
+                                    @L["Events_Details"]
+                                </a>
+                                @if (ev.HasAvailableSpots)
+                                {
+                                    <a asp-controller="Events" asp-action="Register" asp-route-id="@ev.Id"
+                                       class="flex-1 text-center px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg transition-colors">
+                                        @L["Events_Register"]
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span class="flex-1 text-center px-4 py-2 bg-slate-200 text-slate-400 text-xs font-semibold rounded-lg cursor-not-allowed">
+                                        @L["Events_Full"]
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="content-card p-12 text-center">
+                <svg class="w-12 h-12 mx-auto mb-4" style="color:var(--text-muted)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <p class="font-heading font-semibold text-lg mb-1" style="color:var(--text-primary)">@L["Events_NoUpcoming"]</p>
+                <p class="text-sm" style="color:var(--text-muted)">@L["Events_CheckBack"]</p>
+            </div>
+        }
+    </div>
+
+    <!-- ── Past Events ── -->
+    @if (past.Any())
+    {
+        <div>
+            <h2 class="font-heading text-2xl font-bold mb-8" style="color:var(--text-primary)">@L["Events_Past"]</h2>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 opacity-75">
+                @foreach (var ev in past)
+                {
+                    <div class="content-card flex flex-col observe-fade">
+                        <div class="flex items-center gap-4 p-5 border-b card-divider">
+                            <div class="shrink-0 text-center w-14 h-14 rounded-xl flex flex-col items-center justify-center font-bold"
+                                 style="background:var(--bg-subtle);color:var(--text-muted)">
+                                <span class="text-xl leading-none">@ev.EventDate.Day</span>
+                                <span class="text-xs uppercase tracking-wide">@ev.EventDate.ToString("MMM")</span>
+                            </div>
+                            <div class="min-w-0">
+                                <div class="text-xs font-semibold uppercase tracking-widest mb-0.5" style="color:var(--text-muted)">
+                                    @ev.EventDate.Year
+                                </div>
+                                <div class="text-sm font-medium" style="color:var(--text-muted)">@ev.Location</div>
+                            </div>
+                        </div>
+                        <div class="p-5 flex flex-col flex-1">
+                            <h3 class="font-heading font-bold text-base leading-snug mb-2" style="color:var(--text-secondary)">@ev.Title</h3>
+                            <p class="text-xs leading-relaxed flex-1" style="color:var(--text-muted)">
+                                @(ev.Description.Length > 100 ? ev.Description[..100] + "…" : ev.Description)
+                            </p>
+                            <div class="pt-4 mt-4 border-t card-divider">
+                                <a asp-controller="Events" asp-action="Details" asp-route-id="@ev.Id"
+                                   class="text-xs font-semibold" style="color:var(--accent)">
+                                    @L["Events_Details"] →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
 </div>

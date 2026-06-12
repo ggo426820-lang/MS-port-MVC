@@ -24,10 +24,12 @@
         }());
     </script>
 
-    <!-- Fonts: Inter + Poppins + Noto Sans Arabic -->
+    <!-- Fonts: Almendra (body) + Quintessential (heading) + Noto Sans Arabic (RTL) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quintessential&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS (dark-mode via class) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -37,8 +39,8 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans:    ['Inter', 'Noto Sans Arabic', 'system-ui', 'sans-serif'],
-                        heading: ['Poppins', 'Noto Sans Arabic', 'system-ui', 'sans-serif'],
+                        sans:    ['Almendra', 'Noto Sans Arabic', 'Georgia', 'serif'],
+                        heading: ['Quintessential', 'Almendra', 'Noto Sans Arabic', 'Georgia', 'serif'],
                     },
                     colors: {
                         primary: {
