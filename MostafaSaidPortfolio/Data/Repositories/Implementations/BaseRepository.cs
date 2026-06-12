@@ -22,7 +22,7 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
         protected abstract string TableName { get; }
         protected abstract string Columns { get; }
 
-        public virtual async Task<T?> GetByIdAsync(int id)
+        public virtual async Task<T?> GetByIdAsync(Guid id)
         {
             return await _connection.QueryFirstOrDefaultAsync<T>(
                 $@"SELECT {Columns} FROM ""{TableName}"" WHERE ""Id"" = @id",
@@ -32,7 +32,7 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _connection.QueryAsync<T>(
-                $@"SELECT {Columns} FROM ""{TableName}"" ORDER BY ""Id"" DESC",
+                $@"SELECT {Columns} FROM ""{TableName}"" ORDER BY ""CreatedAt"" DESC",
                 transaction: _transaction);
         }
 
@@ -43,10 +43,10 @@ namespace MostafaSaidPortfolio.Data.Repositories.Implementations
                 transaction: _transaction);
         }
 
-        public abstract Task<int> AddAsync(T entity);
+        public abstract Task AddAsync(T entity);
         public abstract Task<bool> UpdateAsync(T entity);
 
-        public virtual async Task<bool> DeleteAsync(int id)
+        public virtual async Task<bool> DeleteAsync(Guid id)
         {
             var rows = await _connection.ExecuteAsync(
                 $@"DELETE FROM ""{TableName}"" WHERE ""Id"" = @id",

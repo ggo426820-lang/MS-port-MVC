@@ -17,7 +17,7 @@ namespace MostafaSaidPortfolio.Controllers
             return View(posts);
         }
 
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(Guid id)
         {
             var post = await _blogService.GetByIdAsync(id);
             if (post == null) return NotFound();

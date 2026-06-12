@@ -1,5 +1,4 @@
 using MostafaSaidPortfolio.Domain.Entities;
-using MostafaSaidPortfolio.Domain.Enums;
 
 namespace MostafaSaidPortfolio.Services.Interfaces
 {
@@ -7,13 +6,12 @@ namespace MostafaSaidPortfolio.Services.Interfaces
     {
         Task<IEnumerable<Project>> GetAllActiveAsync();
         Task<IEnumerable<Project>> GetFeaturedAsync(int count = 3);
-        Task<Project?> GetByIdAsync(int id);
+        Task<Project?> GetByIdAsync(Guid id);
         Task<IEnumerable<Project>> GetByCategoryAsync(int categoryId);
         Task<IEnumerable<Project>> SearchAsync(string query);
 
         Task<Project> AddAsync(Project entity);
         Task<Project> UpdateAsync(Project entity);
-        Task<bool> DeleteAsync(int id);
+        Task<bool> DeleteAsync(Guid id);
     }
 }
-

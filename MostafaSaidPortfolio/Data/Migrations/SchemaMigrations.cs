@@ -1,3 +1,4 @@
+using Dapper;
 using Npgsql;
 
 namespace MostafaSaidPortfolio.Data.Migrations;

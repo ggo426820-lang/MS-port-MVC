@@ -1,5 +1,4 @@
 using MostafaSaidPortfolio.Domain.Entities;
-using MostafaSaidPortfolio.Domain.Enums;
 
 namespace MostafaSaidPortfolio.Services.Interfaces
 {
@@ -7,9 +6,8 @@ namespace MostafaSaidPortfolio.Services.Interfaces
     {
         Task<IEnumerable<Event>> GetUpcomingAsync();
         Task<IEnumerable<Event>> GetAllAsync();
-        Task<Event?> GetByIdAsync(int id);
+        Task<Event?> GetByIdAsync(Guid id);
         Task<Event> AddAsync(Event entity);
-        Task<bool> DeleteAsync(int id);
+        Task<bool> DeleteAsync(Guid id);
     }
 }
-

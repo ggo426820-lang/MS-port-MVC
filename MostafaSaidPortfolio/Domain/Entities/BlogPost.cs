@@ -90,6 +90,21 @@ public class BlogPost : BaseEntity
     public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
     /// <summary>
+    /// Computed category name (populated by repositories via JOIN queries)
+    /// </summary>
+    public string? CategoryName { get; set; }
+
+    /// <summary>
+    /// Computed author name (populated by repositories via JOIN queries)
+    /// </summary>
+    public string? AuthorName { get; set; }
+
+    /// <summary>
+    /// Estimated reading time (alias for ReadingTime for view compatibility)
+    /// </summary>
+    public int EstimatedReadingTime => ReadingTime > 0 ? ReadingTime : CalculateReadingTime();
+
+    /// <summary>
     /// Calculate estimated reading time (200 words per minute)
     /// </summary>
     public int CalculateReadingTime()

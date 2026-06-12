@@ -1,25 +1,23 @@
 using MostafaSaidPortfolio.Domain.Entities;
-using MostafaSaidPortfolio.Domain.Enums;
 using MostafaSaidPortfolio.Services.Interfaces;
 
 namespace MostafaSaidPortfolio.Services.Implementations
 {
     public class AccountService : IAccountService
     {
-        public Task<IEnumerable<Account>> GetAllAsync() =>
-            Task.FromResult<IEnumerable<Account>>(Array.Empty<Account>());
+        public Task<IEnumerable<ApplicationUser>> GetAllAsync() =>
+            Task.FromResult<IEnumerable<ApplicationUser>>(Array.Empty<ApplicationUser>());
 
-        public Task<Account?> GetByIdAsync(int id) =>
-            Task.FromResult<Account?>(null);
+        public Task<ApplicationUser?> GetByIdAsync(string id) =>
+            Task.FromResult<ApplicationUser?>(null);
 
-        public Task<Account> AddAsync(Account entity) =>
+        public Task<ApplicationUser> AddAsync(ApplicationUser entity) =>
             Task.FromResult(entity);
 
-        public Task<Account> UpdateAsync(Account entity) =>
+        public Task<ApplicationUser> UpdateAsync(ApplicationUser entity) =>
             Task.FromResult(entity);
 
-        public Task<bool> DeleteAsync(int id) =>
+        public Task<bool> DeleteAsync(string id) =>
             Task.FromResult(false);
     }
 }
-

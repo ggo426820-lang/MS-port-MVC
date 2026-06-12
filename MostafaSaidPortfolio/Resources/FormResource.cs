@@ -1,5 +1,3 @@
-namespace MostafaSaidPortfolio.Resources;
+namespace MostafaSaidPortfolio;
 
-public class FormResource
-{
-}
+public class FormResource { }

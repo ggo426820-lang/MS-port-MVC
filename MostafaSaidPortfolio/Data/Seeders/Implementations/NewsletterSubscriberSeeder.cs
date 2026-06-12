@@ -19,16 +19,16 @@ public class NewsletterSubscriberSeeder : ISeeder
 
         await connection.ExecuteAsync(@"
             INSERT INTO ""NewsletterSubscribers"" 
-            (""Id"", ""Email"", ""Name"", ""IsActive"", ""IsConfirmed"", ""ConfirmedAt"", ""CreatedAt"", ""CreatedBy"")
+            (""Id"", ""Email"", ""Name"", ""IsActive"", ""IsConfirmed"", ""ConfirmedAt"", ""IsDeleted"", ""CreatedAt"", ""UpdatedAt"", ""CreatedBy"")
             VALUES
-                (gen_random_uuid(), 'subscriber1@example.com', 'John Developer', TRUE, TRUE, NOW(), NOW(), 'system'),
-                (gen_random_uuid(), 'subscriber2@example.com', 'Jane Coder', TRUE, TRUE, NOW(), NOW(), 'system'),
-                (gen_random_uuid(), 'subscriber3@example.com', 'Ahmed Tech', TRUE, TRUE, NOW(), NOW(), 'system'),
-                (gen_random_uuid(), 'subscriber4@example.com', 'Sara Builder', TRUE, TRUE, NOW(), NOW(), 'system'),
-                (gen_random_uuid(), 'subscriber5@example.com', 'Mohamed Engineer', TRUE, FALSE, NULL, NOW(), 'system'),
-                (gen_random_uuid(), 'subscriber6@example.com', 'Noor Designer', TRUE, TRUE, NOW(), NOW(), 'system'),
-                (gen_random_uuid(), 'subscriber7@example.com', 'Ali Architect', TRUE, TRUE, NOW(), NOW(), 'system'),
-                (gen_random_uuid(), 'subscriber8@example.com', 'Fatima Developer', TRUE, TRUE, NOW(), NOW(), 'system')
+                (gen_random_uuid(), 'subscriber1@example.com', 'John Developer', TRUE, TRUE, NOW(), FALSE, NOW(), NOW(), 'system'),
+                (gen_random_uuid(), 'subscriber2@example.com', 'Jane Coder', TRUE, TRUE, NOW(), FALSE, NOW(), NOW(), 'system'),
+                (gen_random_uuid(), 'subscriber3@example.com', 'Ahmed Tech', TRUE, TRUE, NOW(), FALSE, NOW(), NOW(), 'system'),
+                (gen_random_uuid(), 'subscriber4@example.com', 'Sara Builder', TRUE, TRUE, NOW(), FALSE, NOW(), NOW(), 'system'),
+                (gen_random_uuid(), 'subscriber5@example.com', 'Mohamed Engineer', TRUE, FALSE, NULL, FALSE, NOW(), NOW(), 'system'),
+                (gen_random_uuid(), 'subscriber6@example.com', 'Noor Designer', TRUE, TRUE, NOW(), FALSE, NOW(), NOW(), 'system'),
+                (gen_random_uuid(), 'subscriber7@example.com', 'Ali Architect', TRUE, TRUE, NOW(), FALSE, NOW(), NOW(), 'system'),
+                (gen_random_uuid(), 'subscriber8@example.com', 'Fatima Developer', TRUE, TRUE, NOW(), FALSE, NOW(), NOW(), 'system')
         ");
     }
 }

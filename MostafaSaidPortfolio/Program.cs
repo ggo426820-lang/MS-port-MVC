@@ -4,7 +4,6 @@ using Microsoft.Extensions.Options;
 using MostafaSaidPortfolio.Data;
 using MostafaSaidPortfolio.Extensions;
 using MostafaSaidPortfolio.Domain.Entities;
-using MostafaSaidPortfolio.Domain.Enums;
 using Microsoft.AspNetCore.Identity;
 using System.Globalization;
 
@@ -36,20 +35,9 @@ builder.Services.AddSingleton<DbConnectionFactory>();
 // Register app services (Dapper-based via UoW)
 builder.Services.AddCustomServices();
 
-// Localization — resource files live in Resources/
-builder.Services.AddLocalization(opts => opts.ResourcesPath = "Resources");
-
-// Register all resource types for dependency injection
-builder.Services.AddScoped<IStringLocalizer<SharedResource>>(sp =>
-    sp.GetRequiredService<IStringLocalizerFactory>().Create("SharedResource", null));
-builder.Services.AddScoped<IStringLocalizer<FormResource>>(sp =>
-    sp.GetRequiredService<IStringLocalizerFactory>().Create("FormResource", null));
-builder.Services.AddScoped<IStringLocalizer<AuthResource>>(sp =>
-    sp.GetRequiredService<IStringLocalizerFactory>().Create("AuthResource", null));
-builder.Services.AddScoped<IStringLocalizer<ValidationResource>>(sp =>
-    sp.GetRequiredService<IStringLocalizerFactory>().Create("ValidationResource", null));
-builder.Services.AddScoped<IStringLocalizer<ErrorResource>>(sp =>
-    sp.GetRequiredService<IStringLocalizerFactory>().Create("ErrorResource", null));
+// Localization — empty ResourcesPath so localizer looks for {Namespace}.{ClassName}
+// matching the embedded resource logical name derived from the marker class namespace
+builder.Services.AddLocalization(opts => opts.ResourcesPath = "");
 
 // Supported cultures
 var supportedCultures = new[] { new CultureInfo("en"), new CultureInfo("ar") };

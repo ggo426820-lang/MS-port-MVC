@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MostafaSaidPortfolio.ViewModels
+namespace MostafaSaidPortfolio.Domain.ViewModels
 {
     public class ContactViewModel
     {

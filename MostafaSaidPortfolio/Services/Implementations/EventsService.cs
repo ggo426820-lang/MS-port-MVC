@@ -1,6 +1,5 @@
 using MostafaSaidPortfolio.Data.UnitOfWork;
 using MostafaSaidPortfolio.Domain.Entities;
-using MostafaSaidPortfolio.Domain.Enums;
 using MostafaSaidPortfolio.Services.Interfaces;
 
 namespace MostafaSaidPortfolio.Services.Implementations
@@ -17,17 +16,16 @@ namespace MostafaSaidPortfolio.Services.Implementations
         public Task<IEnumerable<Event>> GetAllAsync() =>
             _uow.Events.GetAllAsync();
 
-        public Task<Event?> GetByIdAsync(int id) =>
+        public Task<Event?> GetByIdAsync(Guid id) =>
             _uow.Events.GetByIdAsync(id);
 
         public async Task<Event> AddAsync(Event entity)
         {
-            entity.Id = await _uow.Events.AddAsync(entity);
+            await _uow.Events.AddAsync(entity);
             return entity;
         }
 
-        public Task<bool> DeleteAsync(int id) =>
+        public Task<bool> DeleteAsync(Guid id) =>
             _uow.Events.DeleteAsync(id);
     }
 }
-

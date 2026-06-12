@@ -1,6 +1,5 @@
 using MostafaSaidPortfolio.Data.UnitOfWork;
 using MostafaSaidPortfolio.Domain.Entities;
-using MostafaSaidPortfolio.Domain.Enums;
 using MostafaSaidPortfolio.Services.Interfaces;
 
 namespace MostafaSaidPortfolio.Services.Implementations
@@ -17,7 +16,7 @@ namespace MostafaSaidPortfolio.Services.Implementations
         public Task<IEnumerable<Project>> GetFeaturedAsync(int count = 3) =>
             _uow.Projects.GetFeaturedAsync(count);
 
-        public Task<Project?> GetByIdAsync(int id) =>
+        public Task<Project?> GetByIdAsync(Guid id) =>
             _uow.Projects.GetByIdAsync(id);
 
         public Task<IEnumerable<Project>> GetByCategoryAsync(int categoryId) =>
@@ -28,7 +27,7 @@ namespace MostafaSaidPortfolio.Services.Implementations
 
         public async Task<Project> AddAsync(Project entity)
         {
-            entity.Id = await _uow.Projects.AddAsync(entity);
+            await _uow.Projects.AddAsync(entity);
             return entity;
         }
 
@@ -38,8 +37,7 @@ namespace MostafaSaidPortfolio.Services.Implementations
             return entity;
         }
 
-        public Task<bool> DeleteAsync(int id) =>
+        public Task<bool> DeleteAsync(Guid id) =>
             _uow.Projects.DeleteAsync(id);
     }
 }
-

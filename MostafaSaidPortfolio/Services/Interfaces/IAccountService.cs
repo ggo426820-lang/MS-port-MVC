@@ -1,17 +1,13 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using MostafaSaidPortfolio.Domain.Entities;
-using MostafaSaidPortfolio.Domain.Enums;
 
 namespace MostafaSaidPortfolio.Services.Interfaces
 {
     public interface IAccountService
     {
-        Task<IEnumerable<Account>> GetAllAsync();
-        Task<Account?> GetByIdAsync(int id);
-        Task<Account> AddAsync(Account entity);
-        Task<Account> UpdateAsync(Account entity);
-        Task<bool> DeleteAsync(int id);
+        Task<IEnumerable<ApplicationUser>> GetAllAsync();
+        Task<ApplicationUser?> GetByIdAsync(string id);
+        Task<ApplicationUser> AddAsync(ApplicationUser entity);
+        Task<ApplicationUser> UpdateAsync(ApplicationUser entity);
+        Task<bool> DeleteAsync(string id);
     }
 }
-
